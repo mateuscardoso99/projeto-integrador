@@ -3,6 +3,8 @@ package com.example.api.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.api.models.Partida;
+
 public class PartidaDTO {
     private Long id;
     private LocalDateTime horaInicio;
@@ -34,5 +36,12 @@ public class PartidaDTO {
         this.respostas = respostas;
     }
 
-    
+    public static PartidaDTO convert(Partida partida){
+        PartidaDTO partidaDTO = new PartidaDTO();
+        partidaDTO.setCategoria(CategoriaDTO.convert(partida.getCategoria()));
+        partidaDTO.setHoraInicio(partida.getHoraInicio());
+        partidaDTO.setId(partida.getId());
+        partidaDTO.setRespostas(null);
+        return partidaDTO;
+    }
 }

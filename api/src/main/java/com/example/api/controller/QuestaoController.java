@@ -1,0 +1,61 @@
+package com.example.api.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.api.dto.QuestaoDTO;
+import com.example.api.request.CadastroQuestao;
+import com.example.api.service.QuestaoService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping(value = "questao")
+public class QuestaoController {
+    private final QuestaoService questaoService;
+
+    public QuestaoController(QuestaoService questaoService){
+        this.questaoService = questaoService;
+    }
+
+    @GetMapping(value = "/")
+    public ResponseEntity<List<QuestaoDTO>> findAll(){
+        return ResponseEntity.ok(this.questaoService.getAll());
+    }
+
+    @PostMapping(value = "/")
+    public ResponseEntity<?> cadastro(@RequestBody @Valid CadastroQuestao questao) throws Exception{
+        try{
+            QuestaoDTO questaoDTO = this.questaoService.save(questao);
+            return new ResponseEntity<>(questaoDTO, HttpStatus.CREATED);
+        }catch(Exception ex){
+            return new ResponseEntity<>("erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> update(@RequestBody @Valid CadastroQuestao questao, @PathVariable Long id){
+        try{
+            QuestaoDTO questaoDTO = this.questaoService.update(id, questao);
+            return new ResponseEntity<>(questaoDTO, HttpStatus.OK);
+        }catch(Exception ex){
+            return new ResponseEntity<>("erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) throws Exception{
+        this.questaoService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+}

@@ -11,6 +11,8 @@ public record CadastroQuestao (
 
     @Positive
     Long idCategoria,
+    
+    Boolean ativo,
 
     @NotBlank(message = "informe as respostas")
     List<CadastroResposta> respostas

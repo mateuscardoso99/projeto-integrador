@@ -1,5 +1,7 @@
 package com.example.api.dto;
 
+import com.example.api.models.Usuario;
+
 public class UsuarioDTO {
     private String token;
     private String email;
@@ -17,4 +19,10 @@ public class UsuarioDTO {
         this.email = email;
     }
     
+    public static UsuarioDTO convert(Usuario usuario, String token){
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setEmail(usuario.getEmail());
+        usuarioDTO.setToken(token);
+        return usuarioDTO;
+    }
 }

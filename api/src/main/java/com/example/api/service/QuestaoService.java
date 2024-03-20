@@ -7,10 +7,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.QuestaoDTO;
+import com.example.api.exception.DataNotFoundException;
 import com.example.api.models.Questao;
+import com.example.api.models.Resposta;
 import com.example.api.repository.CategoriaRepository;
 import com.example.api.repository.QuestaoRepository;
 import com.example.api.request.CadastroQuestao;
+import com.example.api.request.CadastroResposta;
 
 @Service
 public class QuestaoService {
@@ -28,17 +31,47 @@ public class QuestaoService {
         return questoes;
     }
 
-    public QuestaoDTO find(Long id){
-        return Optional.ofNullable(this.questaoRepository.findById(id)).map(r -> new QuestaoDTO().convert(r.get())).orElseThrow(() -> new IllegalArgumentException("não encontrado"));
+    public QuestaoDTO find(Long id) throws Exception{
+        return Optional.ofNullable(this.questaoRepository.findById(id)).map(r -> new QuestaoDTO().convert(r.get())).orElseThrow(() -> new DataNotFoundException("não encontrado"));
     }
 
-    public QuestaoDTO save(CadastroQuestao cadastroQuestao){
+    public QuestaoDTO save(CadastroQuestao cadastroQuestao) throws Exception{
         Questao questao = new Questao();
         questao.setAtivo(Boolean.TRUE);
-        questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new IllegalArgumentException("null")));
+        questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("N encontrado")));
         questao.setDescricao(cadastroQuestao.descricao());
-        //questao.setRespostas(cadastroQuestao.respostas());
+
+        List<Resposta> respostas = this.toRespostas(questao, cadastroQuestao.respostas());
+
+        questao.setRespostas(respostas);
         questao = this.questaoRepository.save(questao);
         return new QuestaoDTO().convert(questao);
     }
+
+    public QuestaoDTO update(Long id, CadastroQuestao cadastroQuestao) throws DataNotFoundException{
+        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("n encontrado"));
+        questao.setAtivo(cadastroQuestao.ativo());
+        questao.setDescricao(cadastroQuestao.descricao());
+        questao.setRespostas(this.toRespostas(questao, cadastroQuestao.respostas()));
+        questaoRepository.save(questao);
+        return new QuestaoDTO().convert(questao);
+    }
+
+    public void delete(Long id) throws DataNotFoundException{
+        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("n encontrado"));
+        this.questaoRepository.delete(questao);
+    }
+
+    private List<Resposta> toRespostas(Questao questao, List<CadastroResposta> cadastroResposta){
+        List<Resposta> respostas = new ArrayList<>();
+        for(CadastroResposta cad : cadastroResposta){
+            Resposta resp = new Resposta();
+            resp.setCerta(cad.certa());
+            resp.setDescricao(cad.descricao());
+            resp.setQuestao(questao);
+            respostas.add(resp);
+        }
+        return respostas;
+    }
+
 }

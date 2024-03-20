@@ -1,5 +1,7 @@
 package com.example.api.dto;
 
+import com.example.api.models.Resposta;
+
 public class RespostaDTO {
     private Long id;
     private String descricao;
@@ -24,5 +26,11 @@ public class RespostaDTO {
         this.certa = certa;
     }
     
-    
+    public static RespostaDTO convert(Resposta resposta){
+        RespostaDTO respostaDTO = new RespostaDTO();
+        respostaDTO.setCerta(resposta.getCerta());
+        respostaDTO.setDescricao(resposta.getDescricao());
+        respostaDTO.setId(resposta.getId());
+        return respostaDTO;
+    }
 }

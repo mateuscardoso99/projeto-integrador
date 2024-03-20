@@ -46,6 +46,7 @@ public class QuestaoDTO {
         this.ativo = questao.getAtivo();
         this.categoria = CategoriaDTO.convert(questao.getCategoria());
         this.descricao = questao.getDescricao();
+        this.respostas = questao.getRespostas().stream().map(RespostaDTO::convert).toList();
         this.id = questao.getId();
         return this;
     }
