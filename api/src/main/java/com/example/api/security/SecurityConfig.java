@@ -2,6 +2,7 @@ package com.example.api.security;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private AuthService authService;
     
     @Bean
     public TokenFilter authenticationJwtTokenFilter() {
@@ -36,7 +40,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider getDaoAuthProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		//daoAuthenticationProvider.setUserDetailsService(userDetailsServiceImpl);
+		daoAuthenticationProvider.setUserDetailsService(authService);
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 		return daoAuthenticationProvider;
     }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @ControllerAdvice
@@ -43,6 +44,12 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         return new ResponseEntity<>(Map.of("errors", List.of("erro ao processar solicitação")), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(JWTDecodeException.class)
+    private final ResponseEntity<String> jwtException(JWTDecodeException ex){
+        LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        return new ResponseEntity<>("erro interno", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(JWTVerificationException.class)

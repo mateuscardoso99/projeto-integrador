@@ -1,5 +1,6 @@
 package com.example.api.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class GetUserFromJwt {
-    private final UsuarioRepository usuarioRepository;
-    private final Jwt jwtService;
-    
-    public GetUserFromJwt(UsuarioRepository usuarioRepository, Jwt jwt){
-        this.usuarioRepository = usuarioRepository;
-        this.jwtService = jwt;
-    }
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private Jwt jwtService;
 
     public Usuario load(HttpServletRequest request) throws UsernameNotFoundException{
         String jwt = GetTokenRequest.getToken(request);

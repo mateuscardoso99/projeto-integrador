@@ -33,9 +33,10 @@ public class TokenFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            Usuario usuario = this.userFromJwt.load(request);
+            String token = GetTokenRequest.getToken(request);
 
-            if (usuario != null) {
+            if (token != null ) {
+                Usuario usuario = this.userFromJwt.load(request);
                 UserDetails userDetails = this.authService.loadUserByUsername(usuario.getEmail());
 
                 //pra autenticar o usuário precisa ter uma instância de userDetails que é uma classe do spring

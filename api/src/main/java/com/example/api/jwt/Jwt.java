@@ -12,6 +12,7 @@ import java.util.UUID;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
@@ -37,9 +38,12 @@ public class Jwt {
             JWTVerifier verifier = JWT.require(algoritmo).withIssuer("api").build();
             DecodedJWT decodedJWT = verifier.verify(jwt);
             return decodedJWT;
-        } catch (JWTVerificationException e) {
+        } catch (JWTDecodeException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return null;
+            throw e;
+        } catch(JWTVerificationException e){
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            throw e;
         }
     }
 }
