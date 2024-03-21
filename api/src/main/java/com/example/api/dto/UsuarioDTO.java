@@ -3,14 +3,14 @@ package com.example.api.dto;
 import com.example.api.models.Usuario;
 
 public class UsuarioDTO {
-    private String token;
+    private Long id;
     private String email;
-    
-    public String getToken() {
-        return token;
+
+    public Long getId() {
+        return id;
     }
-    public void setToken(String token) {
-        this.token = token;
+    public void setId(Long id) {
+        this.id = id;
     }
     public String getEmail() {
         return email;
@@ -19,10 +19,10 @@ public class UsuarioDTO {
         this.email = email;
     }
     
-    public static UsuarioDTO convert(Usuario usuario, String token){
+    public static UsuarioDTO convert(Usuario usuario){
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setToken(token);
+        usuarioDTO.setId(usuario.getId());
         return usuarioDTO;
     }
 }

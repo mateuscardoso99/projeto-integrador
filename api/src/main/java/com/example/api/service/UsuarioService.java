@@ -1,5 +1,8 @@
 package com.example.api.service;
 
+import java.util.Optional;
+
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -7,15 +10,24 @@ import com.example.api.dto.UsuarioDTO;
 import com.example.api.models.Usuario;
 import com.example.api.repository.UsuarioRepository;
 import com.example.api.request.CadastroUsuario;
+import com.example.api.security.GetUserFromJwt;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GetUserFromJwt userFromJwt;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, GetUserFromJwt userFromJwt){
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userFromJwt = userFromJwt;
+    }
+
+    public UsuarioDTO findByEmail(String email) throws UsernameNotFoundException{
+        return Optional.ofNullable(this.usuarioRepository.findByEmail(email)).map(u -> UsuarioDTO.convert(u.get())).orElseThrow(() -> new UsernameNotFoundException("usuário não encontrado"));
     }
 
     public UsuarioDTO save(CadastroUsuario cadastroUsuario){
@@ -23,11 +35,19 @@ public class UsuarioService {
         u.setEmail(cadastroUsuario.email());
         u.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
         u = this.usuarioRepository.save(u);
-        return UsuarioDTO.convert(u, null);
+        return UsuarioDTO.convert(u);
     }
 
-    public void delete(){
-        Usuario usuario = null;
-        this.usuarioRepository.delete(usuario);
+    public UsuarioDTO update(CadastroUsuario cadastroUsuario, HttpServletRequest request){
+        final Usuario usuario = this.userFromJwt.load(request);
+        usuario.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
+        this.usuarioRepository.save(usuario);
+        return UsuarioDTO.convert(usuario);
+    }
+
+    public void delete(HttpServletRequest request){
+        final Usuario usuario = this.userFromJwt.load(request);
+        usuario.setAtivo(false);
+        this.usuarioRepository.save(usuario);
     }
 }

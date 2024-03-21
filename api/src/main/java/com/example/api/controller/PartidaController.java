@@ -7,6 +7,7 @@ import com.example.api.dto.PartidaDTO;
 import com.example.api.request.EncerramentoPartida;
 import com.example.api.service.PartidaService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -37,9 +38,9 @@ public class PartidaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPartida(@PathVariable Long idPartida) {
+    public ResponseEntity<?> getPartida(@PathVariable Long idPartida, HttpServletRequest request) {
         try{
-            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida);
+            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request);
             return ResponseEntity.ok(partidaDTO);
         }catch(Exception ex){
             return new ResponseEntity<>("erro", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,8 +48,8 @@ public class PartidaController {
     }
     
     @PostMapping("/encerrar-partida/{id}")
-    public ResponseEntity<PartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, @PathVariable Long id) throws Exception{
-        PartidaDTO partidaDTO = this.partidaService.encerrarPartida(encerramentoPartida);
+    public ResponseEntity<PartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, @PathVariable Long id, HttpServletRequest request) throws Exception{
+        PartidaDTO partidaDTO = this.partidaService.encerrarPartida(encerramentoPartida, request);
         return ResponseEntity.ok(partidaDTO);
     }
     

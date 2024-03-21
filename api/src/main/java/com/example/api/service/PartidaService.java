@@ -18,23 +18,35 @@ import com.example.api.repository.QuestaoRepository;
 import com.example.api.repository.RespostaRepository;
 import com.example.api.request.EncerramentoPartida;
 import com.example.api.request.RespostasPartida;
+import com.example.api.security.GetUserFromJwt;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class PartidaService {
     private final PartidaRepository partidaRepository;
     private final CategoriaRepository categoriaRepository;
-        private final QuestaoRepository questaoRepository;
+    private final QuestaoRepository questaoRepository;
     private final RespostaRepository respostaRepository;
+    private final GetUserFromJwt userFromJwt;
 
-    public PartidaService(PartidaRepository partidaRepository, CategoriaRepository categoriaRepository, QuestaoRepository questaoRepository, RespostaRepository respostaRepository){
+    public PartidaService(
+        PartidaRepository partidaRepository, 
+        CategoriaRepository categoriaRepository, 
+        QuestaoRepository questaoRepository, 
+        RespostaRepository respostaRepository,
+        GetUserFromJwt userFromJwt
+    ){
         this.partidaRepository = partidaRepository;
         this.categoriaRepository = categoriaRepository;
         this.questaoRepository = questaoRepository;
         this.respostaRepository = respostaRepository;
+        this.userFromJwt = userFromJwt;
     }
 
-    public PartidaDTO getPartida(Long id) throws DataNotFoundException{
-        Partida partida = this.partidaRepository.findById(id).orElseThrow(() -> new DataNotFoundException("n encontrado"));
+    public PartidaDTO getPartida(Long id, HttpServletRequest request) throws DataNotFoundException{
+        Usuario usuario = this.userFromJwt.load(request);
+        Partida partida = this.partidaRepository.findPartida(id, usuario.getId()).orElseThrow(() -> new DataNotFoundException("n encontrado"));
         return PartidaDTO.convert(partida);
     }
 
@@ -48,8 +60,9 @@ public class PartidaService {
         return PartidaDTO.convert(partida);
     }
 
-    public PartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida) throws Exception{
-        Partida partida = this.partidaRepository.findById(encerramentoPartida.idPartida()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
+    public PartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
+        Usuario usuario = this.userFromJwt.load(request);
+        Partida partida = this.partidaRepository.findPartida(encerramentoPartida.idPartida(), usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
         
         List<PartidaRespostas> respostasDaPartida = new LinkedList<>();
 

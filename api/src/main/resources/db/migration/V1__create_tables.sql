@@ -9,6 +9,8 @@ create table if not exists usuario(
     id serial,
     email varchar(50) unique not null,
     senha varchar(255) not null,
+    admin boolean not null default false,
+    ativo boolean not null default true,
     primary key(id)
 );
 
