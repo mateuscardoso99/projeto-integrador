@@ -28,7 +28,7 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
     
-    @GetMapping(value = "/")
+    @GetMapping
     public List<CategoriaDTO> getAll(){
         return this.categoriaService.getAll();
     }
@@ -38,7 +38,7 @@ public class CategoriaController {
         return this.categoriaService.findById(id);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public CategoriaDTO save(@RequestBody @Valid CadastroCategoria categoria){
         return this.categoriaService.save(categoria);
     }

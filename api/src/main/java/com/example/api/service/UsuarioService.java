@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.UsuarioDTO;
+import com.example.api.exception.ErrorRuntimeException;
 import com.example.api.models.Usuario;
 import com.example.api.repository.UsuarioRepository;
 import com.example.api.request.CadastroUsuario;
@@ -30,7 +31,10 @@ public class UsuarioService {
         return Optional.ofNullable(this.usuarioRepository.findByEmail(email)).map(u -> UsuarioDTO.convert(u.get())).orElseThrow(() -> new UsernameNotFoundException("usuário não encontrado"));
     }
 
-    public UsuarioDTO save(CadastroUsuario cadastroUsuario){
+    public UsuarioDTO save(CadastroUsuario cadastroUsuario) throws ErrorRuntimeException{
+        this.usuarioRepository.findByEmail(cadastroUsuario.email()).ifPresent(u -> {
+            throw new ErrorRuntimeException("email inválido");
+        });
         Usuario u = new Usuario();
         u.setEmail(cadastroUsuario.email());
         u.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
@@ -40,6 +44,12 @@ public class UsuarioService {
 
     public UsuarioDTO update(CadastroUsuario cadastroUsuario, HttpServletRequest request){
         final Usuario usuario = this.userFromJwt.load(request);
+        if(!cadastroUsuario.email().equals(usuario.getEmail())){
+            this.usuarioRepository.findByEmail(cadastroUsuario.email()).ifPresent(u -> {
+                throw new ErrorRuntimeException("email inválido");
+            });
+        }
+        usuario.setEmail(cadastroUsuario.email());
         usuario.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
         this.usuarioRepository.save(usuario);
         return UsuarioDTO.convert(usuario);

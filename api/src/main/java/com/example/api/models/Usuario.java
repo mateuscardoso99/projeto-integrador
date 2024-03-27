@@ -26,6 +26,11 @@ public class Usuario {
     @Column
     private Boolean ativo;
 
+    public Usuario(){
+        this.admin = false;
+        this.ativo = true;
+    }
+
     public Long getId() {
         return id;
     }

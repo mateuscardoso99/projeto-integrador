@@ -11,6 +11,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,6 +41,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ErrorRuntimeException.class)
+    public final ResponseEntity<Map<String, List<String>>> handleErrorRuntimeExceptions(ErrorRuntimeException ex) {
+        LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        return new ResponseEntity<>(Map.of("errors", List.of(ex.getMessage())), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
@@ -52,6 +59,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("erro interno", HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    private final ResponseEntity<Map<String, List<String>>> badCredentialsException(BadCredentialsException ex){
+        LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        return new ResponseEntity<>(Map.of("errors", List.of("email ou senha incorretos")), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(JWTVerificationException.class)
     private final ResponseEntity<String> jwtException(JWTVerificationException ex){
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
@@ -59,9 +72,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataNotFoundException.class)
-    public final ResponseEntity<String> DataNotFoundException(DataNotFoundException ex) {
+    public final ResponseEntity<Map<String, List<String>>> DataNotFoundException(DataNotFoundException ex) {
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
@@ -78,8 +91,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public final ResponseEntity<?> handleBadRequest(BadRequestException ex){
+    public final ResponseEntity<Map<String, List<String>>> handleBadRequest(BadRequestException ex){
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        return new ResponseEntity<>(ex.getMessage(),new HttpHeaders(),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())),new HttpHeaders(),HttpStatus.BAD_REQUEST);
     }
 }
