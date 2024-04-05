@@ -10,6 +10,9 @@ import com.example.api.service.PartidaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(value = "/partida")
 public class PartidaController {
     private final PartidaService partidaService;
+    private static final Logger LOGGER = Logger.getLogger(PartidaController.class.getName());
 
     public PartidaController(PartidaService partidaService){
         this.partidaService = partidaService;
@@ -33,6 +37,7 @@ public class PartidaController {
             PartidaDTO partidaDTO = this.partidaService.iniciarPartida(idCategoria);       
             return new ResponseEntity<>(partidaDTO, HttpStatus.CREATED);
         }catch(Exception ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             return new ResponseEntity<>("erro", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

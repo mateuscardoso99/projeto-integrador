@@ -1,6 +1,7 @@
 package com.example.api.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +23,7 @@ public class AuthService implements UserDetailsService{
         Usuario findUsuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
         return User.withUsername(findUsuario.getEmail())
                     .password(findUsuario.getSenha())
-                    .authorities(findUsuario.getAdmin() ? "ADMIN" : "")
+                    .authorities(findUsuario.getAdmin() ? new SimpleGrantedAuthority("ADMIN") : new SimpleGrantedAuthority("USER"))
                     .build();
     }
 }

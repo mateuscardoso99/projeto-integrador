@@ -1,6 +1,8 @@
 package com.example.api.controller;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +25,24 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "questao")
 public class QuestaoController {
     private final QuestaoService questaoService;
+    private final Logger logger = Logger.getLogger(QuestaoController.class.getName());
 
     public QuestaoController(QuestaoService questaoService){
         this.questaoService = questaoService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping
     public ResponseEntity<List<QuestaoDTO>> findAll(){
         return ResponseEntity.ok(this.questaoService.getAll());
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public ResponseEntity<?> cadastro(@RequestBody @Valid CadastroQuestao questao) throws Exception{
         try{
             QuestaoDTO questaoDTO = this.questaoService.save(questao);
             return new ResponseEntity<>(questaoDTO, HttpStatus.CREATED);
         }catch(Exception ex){
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             return new ResponseEntity<>("erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -49,6 +53,7 @@ public class QuestaoController {
             QuestaoDTO questaoDTO = this.questaoService.update(id, questao);
             return new ResponseEntity<>(questaoDTO, HttpStatus.OK);
         }catch(Exception ex){
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             return new ResponseEntity<>("erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

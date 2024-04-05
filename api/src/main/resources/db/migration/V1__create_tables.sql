@@ -9,8 +9,8 @@ create table if not exists usuario(
     id serial,
     email varchar(50) unique not null,
     senha varchar(255) not null,
-    admin boolean not null default false,
-    ativo boolean not null default true,
+    admin boolean default false,
+    ativo boolean default true,
     primary key(id)
 );
 
@@ -52,3 +52,5 @@ create table if not exists partida_respostas(
     foreign key(questao_id) references questao(id),
     foreign key(resposta_id) references resposta(id)
 );
+
+insert into usuario values(1,'adm@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true'),(2,'adm2@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true');
