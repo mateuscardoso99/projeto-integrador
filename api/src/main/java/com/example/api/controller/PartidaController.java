@@ -32,23 +32,23 @@ public class PartidaController {
     }
 
     @PostMapping("/{idCategoria}")
-    public ResponseEntity<?> iniciarPartida(@PathVariable Long idCategoria) {
+    public ResponseEntity<?> iniciarPartida(@PathVariable Long idCategoria, HttpServletRequest request) throws Exception{
         try{
-            PartidaDTO partidaDTO = this.partidaService.iniciarPartida(idCategoria);       
+            PartidaDTO partidaDTO = this.partidaService.iniciarPartida(idCategoria, request);       
             return new ResponseEntity<>(partidaDTO, HttpStatus.CREATED);
         }catch(Exception ex){
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            return new ResponseEntity<>("erro", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw ex;
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getPartida(@PathVariable Long idPartida, HttpServletRequest request) {
+    @GetMapping("/{idPartida}")
+    public ResponseEntity<?> getPartida(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
         try{
             PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request);
             return ResponseEntity.ok(partidaDTO);
         }catch(Exception ex){
-            return new ResponseEntity<>("erro", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw ex;
         }
     }
     

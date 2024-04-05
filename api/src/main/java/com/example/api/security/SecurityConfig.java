@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -58,8 +59,12 @@ public class SecurityConfig {
             .authorizeHttpRequests((request) -> {
                     request.requestMatchers("/usuario/login").permitAll()
                             .requestMatchers("/usuario/cadastro").permitAll()
-                            .requestMatchers("/categoria/**").hasAuthority("ADMIN")
-                            .requestMatchers("/questao/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/categoria/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/categoria/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/categoria/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/questao/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/questao/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/questao/**").hasAuthority("ADMIN")
                             .anyRequest().authenticated();
                 }
             )

@@ -34,6 +34,10 @@ public class Questao {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "questao")
     private Collection<Resposta> respostas;
 
+    public Questao() {
+        this.ativo = true;
+    }
+
     public Long getId() {
         return id;
     }

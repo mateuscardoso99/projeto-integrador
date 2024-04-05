@@ -23,9 +23,16 @@ public class Resposta {
     @Column
     private Boolean certa;
 
+    @Column
+    private Boolean ativo;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "questao_id", nullable = false) 
     private Questao questao;
+
+    public Resposta() {
+        this.ativo = true;
+    }
 
     public Long getId() {
         return id;
@@ -49,6 +56,14 @@ public class Resposta {
 
     public void setCerta(Boolean certa) {
         this.certa = certa;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     public Questao getQuestao() {

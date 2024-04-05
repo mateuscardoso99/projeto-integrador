@@ -50,11 +50,11 @@ public class PartidaService {
         return PartidaDTO.convert(partida);
     }
 
-    public PartidaDTO iniciarPartida(Long idCategoria) throws DataNotFoundException{
+    public PartidaDTO iniciarPartida(Long idCategoria, HttpServletRequest request) throws DataNotFoundException{
         Categoria categoria = this.categoriaRepository.findById(idCategoria).orElseThrow(() -> new DataNotFoundException("categoria não encontrada"));
         Partida partida = new Partida();
         partida.setHoraInicio(LocalDateTime.now());
-        partida.setUsuario(new Usuario());
+        partida.setUsuario(this.userFromJwt.load(request));
         partida.setCategoria(categoria);
         partida = this.partidaRepository.save(partida);
         return PartidaDTO.convert(partida);

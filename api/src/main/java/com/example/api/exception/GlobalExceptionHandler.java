@@ -29,13 +29,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException ex) {
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
 
-        List<String> errors = ex.getBindingResult()
-                                .getFieldErrors()
-                                .stream()
-                                .map(FieldError::getDefaultMessage)
-                                .collect(Collectors.toList());
+        Map<String, List<String>> errors = ex.getBindingResult()
+                                          .getFieldErrors()
+                                          .stream()
+                                          .collect(Collectors.groupingBy(FieldError::getField))
+                                          .entrySet()
+                                          .stream()
+                                          .collect(
+                                            Collectors.toMap(
+                                                Map.Entry::getKey, 
+                                                value -> value.getValue()
+                                                    .stream()
+                                                    .map(FieldError::getDefaultMessage)
+                                                    .collect(Collectors.toList())
+                                            )
+                                          );
         return new ResponseEntity<>(
-            Map.of("errors", errors),
+            errors,
             new HttpHeaders(), 
             HttpStatus.BAD_REQUEST
         );

@@ -36,6 +36,11 @@ public class QuestaoController {
         return ResponseEntity.ok(this.questaoService.getAll());
     }
 
+    @GetMapping(value = "/{id}")
+    public QuestaoDTO find(@PathVariable Long id) throws Exception{
+        return this.questaoService.find(id);
+    }
+
     @PostMapping
     public ResponseEntity<?> cadastro(@RequestBody @Valid CadastroQuestao questao) throws Exception{
         try{
@@ -43,18 +48,18 @@ public class QuestaoController {
             return new ResponseEntity<>(questaoDTO, HttpStatus.CREATED);
         }catch(Exception ex){
             logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            return new ResponseEntity<>("erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw ex;
         }
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid CadastroQuestao questao, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody @Valid CadastroQuestao questao, @PathVariable Long id) throws Exception{
         try{
             QuestaoDTO questaoDTO = this.questaoService.update(id, questao);
             return new ResponseEntity<>(questaoDTO, HttpStatus.OK);
         }catch(Exception ex){
             logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            return new ResponseEntity<>("erro interno", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw ex;
         }
     }
 

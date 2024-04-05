@@ -21,7 +21,7 @@ public class Partida {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "hora_inicio")
     private LocalDateTime horaInicio;
 
     @ManyToOne(cascade = CascadeType.ALL)

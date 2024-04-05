@@ -24,7 +24,11 @@ public class CategoriaService {
     }
 
     public CategoriaDTO findById(Long id) throws DataNotFoundException{
-        return Optional.ofNullable(this.categoriaRepository.findById(id)).map(cat -> CategoriaDTO.convert(cat.get())).orElseThrow(() -> new DataNotFoundException("N encontrado"));
+        Optional<Categoria> c = this.categoriaRepository.findById(id);
+        if(c.isPresent()){
+            return CategoriaDTO.convert(c.get());
+        }
+        throw new DataNotFoundException("categoria não encontrada");
     }
 
     public CategoriaDTO save(CadastroCategoria cadastroCategoria){
@@ -36,12 +40,12 @@ public class CategoriaService {
     }
 
     public void delete(Long id) throws DataNotFoundException{
-        Categoria categoria = this.categoriaRepository.findById(id).orElseThrow(() -> new DataNotFoundException("N encontrado"));
+        Categoria categoria = this.categoriaRepository.findById(id).orElseThrow(() -> new DataNotFoundException("categoria não encontrada"));
         this.categoriaRepository.delete(categoria);
     }
 
     public CategoriaDTO update(Long id, CadastroCategoria cadastroCategoria) throws DataNotFoundException{
-        Categoria categoria = this.categoriaRepository.findById(id).orElseThrow(() -> new DataNotFoundException("n encontrado"));
+        Categoria categoria = this.categoriaRepository.findById(id).orElseThrow(() -> new DataNotFoundException("categoria não encontrada"));
         categoria.setCodigo(cadastroCategoria.codigo());
         categoria.setNome(cadastroCategoria.nome());
         categoriaRepository.save(categoria);

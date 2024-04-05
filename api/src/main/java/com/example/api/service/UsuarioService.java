@@ -36,6 +36,7 @@ public class UsuarioService {
             throw new ErrorRuntimeException("email inválido");
         });
         Usuario u = new Usuario();
+        u.setNome(cadastroUsuario.nome());
         u.setEmail(cadastroUsuario.email());
         u.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
         u = this.usuarioRepository.save(u);
@@ -49,6 +50,7 @@ public class UsuarioService {
                 throw new ErrorRuntimeException("email inválido");
             });
         }
+        usuario.setNome(cadastroUsuario.nome());
         usuario.setEmail(cadastroUsuario.email());
         usuario.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
         this.usuarioRepository.save(usuario);
