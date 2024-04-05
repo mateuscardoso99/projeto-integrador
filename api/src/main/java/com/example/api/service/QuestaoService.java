@@ -32,13 +32,13 @@ public class QuestaoService {
     }
 
     public QuestaoDTO find(Long id) throws Exception{
-        return Optional.ofNullable(this.questaoRepository.findById(id)).map(r -> new QuestaoDTO().convert(r.get())).orElseThrow(() -> new DataNotFoundException("não encontrado"));
+        return Optional.ofNullable(this.questaoRepository.findById(id)).map(r -> new QuestaoDTO().convert(r.get())).orElseThrow(() -> new DataNotFoundException("questão não encontrada"));
     }
 
     public QuestaoDTO save(CadastroQuestao cadastroQuestao) throws Exception{
         Questao questao = new Questao();
         questao.setAtivo(Boolean.TRUE);
-        questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("N encontrado")));
+        questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));
         questao.setDescricao(cadastroQuestao.descricao());
 
         List<Resposta> respostas = this.toRespostas(questao, cadastroQuestao.respostas());
@@ -49,7 +49,7 @@ public class QuestaoService {
     }
 
     public QuestaoDTO update(Long id, CadastroQuestao cadastroQuestao) throws DataNotFoundException{
-        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("n encontrado"));
+        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("questão não encontrada"));
         questao.setAtivo(cadastroQuestao.ativo());
         questao.setDescricao(cadastroQuestao.descricao());
         questao.setRespostas(this.toRespostas(questao, cadastroQuestao.respostas()));
@@ -58,7 +58,7 @@ public class QuestaoService {
     }
 
     public void delete(Long id) throws DataNotFoundException{
-        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("n encontrado"));
+        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("questão não encontrada"));
         this.questaoRepository.delete(questao);
     }
 

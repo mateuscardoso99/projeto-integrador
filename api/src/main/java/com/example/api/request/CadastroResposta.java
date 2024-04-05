@@ -10,6 +10,6 @@ public record CadastroResposta(
     @Positive(message = "parametro inválido")
     Long idQuestao,
 
-    @NotBlank(message = "informe se é a resposta certa ou N")
+    @NotBlank(message = "informe se é a resposta certa ou não")
     Boolean certa  
 ){}
