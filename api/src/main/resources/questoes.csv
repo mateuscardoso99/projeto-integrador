@@ -1,16 +1,14 @@
-descricao;cod_categoria,is_categoria
-cat1;001;true
-cat2;002;true
-cat2;003;true
-q1;001;
-r1;;
-r2;;
-r3;;
-r4;;
-r5;;
-q1;002;
-r1;;
-r2;;
-r3;;
-r4;;
-r5;;
+descricao;cod_categoria;cod_questao;is_categoria;is_certa
+Geografia;001;;true;
+Qual é o maior país do mundo em extensão territorial?;001;001;
+Canadá;;001;;false
+China;;001;;false
+Rússia;;001;;true
+Brasil;;001;;false
+Estados Unidos;;001;;false
+Qual é o rio mais extenso do mundo?;001;002;
+Nilo;;002;;false
+Yangtzé;;002;;false
+Amazonas;;002;;true
+Mississipi;;002;;false
+Ganges;;002;;false

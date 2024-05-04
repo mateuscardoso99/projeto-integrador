@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.api.dto.QuestaoDTO;
 import com.example.api.exception.DataNotFoundException;
-import com.example.api.exception.ErrorRuntimeException;
 import com.example.api.models.Questao;
 import com.example.api.models.Resposta;
 import com.example.api.repository.CategoriaRepository;
@@ -50,6 +49,7 @@ public class QuestaoService {
         Questao questao = new Questao();
         questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));
         questao.setDescricao(cadastroQuestao.descricao());
+        questao.setCodigo(cadastroQuestao.codigo());
 
         validateQtdRespostasCertas(cadastroQuestao);
 
@@ -66,6 +66,7 @@ public class QuestaoService {
         Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("questão não encontrada"));
         questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));
         questao.setDescricao(cadastroQuestao.descricao());
+        questao.setCodigo(cadastroQuestao.codigo());
 
         validateQtdRespostasCertas(cadastroQuestao);
 

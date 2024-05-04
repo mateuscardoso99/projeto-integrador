@@ -22,6 +22,9 @@ public class Questao {
     private Long id;
 
     @Column
+    private String codigo;
+
+    @Column
     private String descricao;
 
     @Column
@@ -52,6 +55,14 @@ public class Questao {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public Boolean getAtivo() {
