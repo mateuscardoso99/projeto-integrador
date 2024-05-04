@@ -22,15 +22,12 @@ public class Questao {
     private Long id;
 
     @Column
-    private String codigo;
-
-    @Column
     private String descricao;
 
     @Column
     private Boolean ativo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
@@ -55,14 +52,6 @@ public class Questao {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public Boolean getAtivo() {

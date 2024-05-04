@@ -7,7 +7,6 @@ import com.example.api.models.Questao;
 public class QuestaoDTO {
     private Long id;
     private String descricao;
-    private String codigo;
     private Boolean ativo;
     private CategoriaDTO categoria;
     private List<RespostaDTO> respostas;
@@ -23,12 +22,6 @@ public class QuestaoDTO {
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-    public String getCodigo() {
-        return codigo;
-    }
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
     public Boolean getAtivo() {
         return ativo;
@@ -53,7 +46,6 @@ public class QuestaoDTO {
         this.ativo = questao.getAtivo();
         this.categoria = CategoriaDTO.convert(questao.getCategoria());
         this.descricao = questao.getDescricao();
-        this.codigo = questao.getCodigo();
         this.respostas = questao.getRespostas().stream().map(RespostaDTO::convert).toList();
         this.id = questao.getId();
         return this;

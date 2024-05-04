@@ -1,6 +1,5 @@
 package com.example.api.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +25,7 @@ public class Resposta {
     @Column
     private Boolean ativo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "questao_id", nullable = false) 
     private Questao questao;
 

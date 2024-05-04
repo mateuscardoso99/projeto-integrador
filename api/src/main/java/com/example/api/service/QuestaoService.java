@@ -6,9 +6,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.coyote.BadRequestException;
+import org.jboss.logging.Logger;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.api.controller.QuestaoController;
 import com.example.api.dto.QuestaoDTO;
 import com.example.api.exception.DataNotFoundException;
 import com.example.api.models.Questao;
@@ -21,6 +29,14 @@ import com.example.api.request.CadastroResposta;
 
 @Service
 public class QuestaoService {
+    private final Logger logger = Logger.getLogger(QuestaoController.class.getName());
+    
+    @Autowired
+    private JobLauncher jobLauncher; 
+
+    @Autowired
+    private Job insertIntoDbFromCsvJob;
+
     private final QuestaoRepository questaoRepository;
     private final CategoriaRepository categoriaRepository;
     private final RespostaRepository respostaRepository;
@@ -49,7 +65,6 @@ public class QuestaoService {
         Questao questao = new Questao();
         questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));
         questao.setDescricao(cadastroQuestao.descricao());
-        questao.setCodigo(cadastroQuestao.codigo());
 
         validateQtdRespostasCertas(cadastroQuestao);
 
@@ -66,7 +81,6 @@ public class QuestaoService {
         Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("questão não encontrada"));
         questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));
         questao.setDescricao(cadastroQuestao.descricao());
-        questao.setCodigo(cadastroQuestao.codigo());
 
         validateQtdRespostasCertas(cadastroQuestao);
 
@@ -128,5 +142,29 @@ public class QuestaoService {
 
         if(qtdCertas == 0 || qtdCertas > 1)
             throw new BadRequestException("Deve haver 1 resposta certa");
+    }
+
+    public void carregarQuestoes(){
+        try{
+            this.respostaRepository.deleteAll();
+            this.questaoRepository.deleteAll();
+
+            /*
+             * Spring Batch utiliza algumas tabelas para armazenar cada JOB executado com seus parâmetros.
+             * Se executar duas vezes a tarefa com os mesmos parâmetros, a segunda falhará, porque a tarefa será 
+             * identificada por jobName e jobParameters.
+             * 
+             * basta passar um horário atual como parâmetro para criar um novo JobInstance. Por exemplo
+             */
+            JobParameters jobParameters = new JobParametersBuilder() 
+                        .addString("carregar questões", insertIntoDbFromCsvJob.getName())
+                        .addLong("time",System.currentTimeMillis()) 
+                        .toJobParameters();
+    
+            JobExecution jobExecution = jobLauncher.run(insertIntoDbFromCsvJob, jobParameters);
+            logger.info("job iniciado id: "+jobExecution.getId());
+        } catch (Exception e) { 
+            logger.error(e);
+        } 
     }
 }

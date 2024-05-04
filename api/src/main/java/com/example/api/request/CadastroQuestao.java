@@ -11,9 +11,6 @@ public record CadastroQuestao (
     @NotBlank(message = "informe a descrição")
     String descricao,
 
-    @NotBlank(message = "informe o código")
-    String codigo,
-
     @Positive
     Long idCategoria,
     

@@ -3,10 +3,10 @@ package com.example.api.job;
 public class CSVData {
     private String descricao;
     private String cod_categoria;
-    private String cod_questao;
-    private Boolean is_categoria;
+    private Boolean is_questao;
+    private Boolean is_resposta;
     private Boolean is_certa;
-
+    
     public String getDescricao() {
         return descricao;
     }
@@ -19,11 +19,17 @@ public class CSVData {
     public void setCod_categoria(String cod_categoria) {
         this.cod_categoria = cod_categoria;
     }
-    public Boolean getIs_categoria() {
-        return is_categoria;
+    public Boolean getIs_questao() {
+        return is_questao;
     }
-    public void setIs_categoria(Boolean is_categoria) {
-        this.is_categoria = is_categoria;
+    public void setIs_questao(Boolean is_questao) {
+        this.is_questao = is_questao;
+    }
+    public Boolean getIs_resposta() {
+        return is_resposta;
+    }
+    public void setIs_resposta(Boolean is_resposta) {
+        this.is_resposta = is_resposta;
     }
     public Boolean getIs_certa() {
         return is_certa;
@@ -31,10 +37,6 @@ public class CSVData {
     public void setIs_certa(Boolean is_certa) {
         this.is_certa = is_certa;
     }
-    public String getCod_questao() {
-        return cod_questao;
-    }
-    public void setCod_questao(String cod_questao) {
-        this.cod_questao = cod_questao;
-    }    
+
+    
 }

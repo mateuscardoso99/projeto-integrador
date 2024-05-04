@@ -28,7 +28,6 @@ create table if not exists partida(
 create table if not exists questao(
     id serial,
     descricao varchar(255) not null,
-    codigo varchar(20) unique not null,
     ativo boolean default true,
     categoria_id bigint not null,
     foreign key(categoria_id) references categoria(id),
