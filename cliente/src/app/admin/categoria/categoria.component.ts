@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-categoria',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './categoria.component.html',
   styleUrl: './categoria.component.scss'
 })

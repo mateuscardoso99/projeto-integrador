@@ -7,6 +7,8 @@ import { QuestaoComponent } from './admin/questao/questao.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { JogarComponent } from './jogar/jogar.component';
 import { HomeComponent } from './admin/home/home.component';
+import { EditComponent as EditCategoriaComponent} from './admin/categoria/edit/edit.component';
+import { EditComponent as EditQuestaoComponent } from './admin/questao/edit/edit.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -16,7 +18,9 @@ export const routes: Routes = [
         children: [
             { path: '', component: HomeComponent, pathMatch: 'full' },
             { path: 'categorias', component: CategoriaComponent },
+            { path: 'categorias/edit', component: EditCategoriaComponent },
             { path: 'questoes', component: QuestaoComponent },
+            { path: 'questoes/edit', component: EditQuestaoComponent },
         ]
     },
     { path: 'ranking', component: RankingComponent },
