@@ -1,1 +1,26 @@
-<p>dashboard works!</p>
+<div class="common-layout">
+    <nav class="sidebar">
+        <ul>
+            <li>
+                <a class="link" routerLink=".">Início</a>
+            </li>
+            <li>
+                <a class="link" routerLink="categorias">Categoria</a>
+            </li>
+            <li>
+                <a class="link" routerLink="questoes">Questão</a>
+            </li>
+            <li>
+                <button type="button">Sair</button>
+            </li>
+        </ul>
+    </nav>
+    <section class="content">
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+    <footer>
+        2024
+    </footer>
+</div>

@@ -1,0 +1,64 @@
+.common-layout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh; //sempre ocupará toda a tela
+
+    @media(min-width: 768px){
+        display: grid;
+        grid-template-columns: 250px 1fr;//2 colunas, uma de 200px pra sidebar e outra com o restante do tamanho da tela pro conteudo
+        grid-template-rows: 1fr auto;//2 linhas na tela, a segunda será "auto" então vai ocupar apenas o espaço necessário, vai ser ocupado pelo footer. o restante terá 1fr que é o espaço restante da tela
+    }
+
+    .sidebar{
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        background-color: #c4c4c4;
+
+        ul{
+            list-style-type: none;
+            padding: 10px;
+
+            li{
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+                .link{
+                    color: #000;
+                    text-decoration: none;
+                }
+
+                button{
+                    cursor: pointer;
+                    padding: 5px 20px;
+                    font-size: 1rem;
+                    border: none;
+                    background: #000;
+                    color: #fff;
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        flex: 1;//junto com o min-height: 100vh o flex 1 faz com que ocupe toda a tela e sempre deixe o footer embaixo
+
+        & > div{ //todos os filhos
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    footer{
+        padding: 30px;
+        background-color: #212121;
+        color: #fff;
+        font-size: 1.5rem;
+        text-align: center;
+        grid-column: span 2;
+    }
+}
