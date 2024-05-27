@@ -41,7 +41,8 @@ public class CategoriaService {
 
     public void delete(Long id) throws DataNotFoundException{
         Categoria categoria = this.categoriaRepository.findById(id).orElseThrow(() -> new DataNotFoundException("categoria não encontrada"));
-        this.categoriaRepository.delete(categoria);
+        categoria.setAtivo(false);
+        this.categoriaRepository.save(categoria);
     }
 
     public CategoriaDTO update(Long id, CadastroCategoria cadastroCategoria) throws DataNotFoundException{

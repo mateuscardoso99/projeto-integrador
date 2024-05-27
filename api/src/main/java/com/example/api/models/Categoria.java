@@ -20,6 +20,13 @@ public class Categoria {
     @Column
     private String nome;
 
+    @Column
+    private Boolean ativo;
+
+    public Categoria(){
+        this.ativo = true;
+    }
+
     public Long getId() {
         return id;
     }
@@ -44,6 +51,14 @@ public class Categoria {
         this.nome = nome;
     }
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -51,6 +66,7 @@ public class Categoria {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        result = prime * result + ((ativo == null) ? 0 : ativo.hashCode());
         return result;
     }
 
@@ -78,8 +94,15 @@ public class Categoria {
                 return false;
         } else if (!nome.equals(other.nome))
             return false;
+        if (ativo == null) {
+            if (other.ativo != null)
+                return false;
+        } else if (!ativo.equals(other.ativo))
+            return false;
         return true;
     }
+
+    
 
     
 }
