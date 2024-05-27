@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet, UrlSegment } from '@angular/router';
+import { Observable, filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +9,17 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
+  path: string = '';
 
+  constructor(private router: Router, private activatedRoute: ActivatedRoute){}
+  ngOnInit(): void {
+    this.path = this.activatedRoute.snapshot.url[0].path;
+    
+    this.router.events.subscribe(e => {      
+      if(e instanceof NavigationEnd){
+        this.path = e.url        
+      }
+    });
+  }
 }

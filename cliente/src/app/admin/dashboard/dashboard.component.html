@@ -1,13 +1,13 @@
 <div class="common-layout">
     <nav class="sidebar">
         <ul>
-            <li>
+            <li [class.active]="path.endsWith('admin')">
                 <a class="link" routerLink=".">Início</a>
             </li>
-            <li>
+            <li [class.active]="path.includes('/categorias')">
                 <a class="link" routerLink="categorias">Categoria</a>
             </li>
-            <li>
+            <li [class.active]="path.includes('/questoes')">
                 <a class="link" routerLink="questoes">Questão</a>
             </li>
             <li>
