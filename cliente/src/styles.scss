@@ -68,6 +68,16 @@ body{
         font-weight: bold;
         text-align: center;
     }
+
+    .is-invalid{
+        border: 2px solid #b53e3e;
+    }
+
+    .invalid-feedback{
+        margin-top: 5px;
+        font-size: 1rem;
+        color: #b53e3e;
+    }
 }
 
 .list-data{

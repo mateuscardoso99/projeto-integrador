@@ -1,12 +1,55 @@
 <div class="auth-card">
-    <form action="">
+    <!--Template-Driven Forms-->
+    <form name="userForm" #userForm="ngForm" (ngSubmit)="userForm.form.valid && login()" novalidate>
         <div class="input-group">
             <label for="email">E-mail</label>
-            <input type="email" id="email">
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                [(ngModel)]="loginRequest.email" 
+                required 
+                email
+                #email="ngModel"
+                [ngClass]="{ 'is-invalid': userForm.submitted && email.errors }"
+            >
+            @if (userForm.submitted && email.errors) {
+                <div class="invalid-feedback">
+                  @if (email.errors['required']) {
+                  <span>Email é obrigatório</span>
+                  }
+                  @if (email.errors['email']) {
+                  <span>Email inválido</span>
+                  }
+                </div>
+            }
         </div>
         <div class="input-group">
             <label for="senha">Senha</label>
-            <input type="password" id="senha">
+            <input 
+                type="password" 
+                id="senha" 
+                name="senha" 
+                [(ngModel)]="loginRequest.senha" 
+                required
+                minlength="4"
+                maxlength="40"
+                #senha="ngModel" 
+                [ngClass]="{ 'is-invalid': userForm.submitted && senha.errors }"
+            >
+            @if (userForm.submitted && senha.errors) {
+                <div class="invalid-feedback">
+                @if (senha.errors['required']) {
+                    <div>Senha é obrigatória</div>
+                }
+                @if (senha.errors['minlength']) {
+                    <div>Senha deve ter pelo menos 4 caracteres</div>
+                }
+                @if (senha.errors['maxlength']) {
+                    <div>Senha deve ter no máximo 40 caracteres</div>
+                }
+                </div>
+            }
         </div>
         <div class="input-group">
             <button type="submit">ENTRAR</button>
