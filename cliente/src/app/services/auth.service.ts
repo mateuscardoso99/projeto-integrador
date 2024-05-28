@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -9,17 +9,19 @@ export class AuthService extends BaseService{
   private readonly PATH = `${environment.urlApi}/usuario/`;
 
   login(request: LoginRequest): Promise<any>{
-    return new Promise(resolve => {
-      this.http.post(this.PATH + 'login', request).subscribe((response: any) => {
-        resolve(response);
+    return new Promise((resolve, reject) => {
+      this.http.post(this.PATH + 'login', request).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
 
   cadastro(request: CadastroRequest): Promise<any>{
-    return new Promise(resolve => {
-      this.http.post(this.PATH + 'cadastro', request).subscribe((response: any) => {
-        resolve(response);
+    return new Promise((resolve, reject) => {
+      this.http.post(this.PATH + 'cadastro', request).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 

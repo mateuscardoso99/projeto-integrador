@@ -1,5 +1,6 @@
 package com.example.api.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,7 +52,7 @@ public class UsuarioController {
     @PostMapping(value = "/cadastro")
     public ResponseEntity<UsuarioDTO> cadastro(@RequestBody @Valid CadastroUsuario usuario){
         UsuarioDTO u = this.usuarioService.save(usuario);
-        return new ResponseEntity<>(u, HttpStatus.CREATED);
+        return new ResponseEntity<>(u, new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/update")

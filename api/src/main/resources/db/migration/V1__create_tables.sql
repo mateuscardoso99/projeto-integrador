@@ -2,6 +2,7 @@ create table if not exists categoria(
     id serial,
     nome varchar(50) not null,
     codigo varchar(20) unique not null,
+    ativo boolean default true,
     primary key(id)
 );
 
