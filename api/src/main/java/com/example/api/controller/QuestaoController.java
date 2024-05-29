@@ -41,6 +41,11 @@ public class QuestaoController {
         return this.questaoService.find(id);
     }
 
+    @GetMapping(value = "/count")
+    public ResponseEntity<Long> count(){
+        return new ResponseEntity<Long>(this.questaoService.count(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> cadastro(@RequestBody @Valid CadastroQuestao questao) throws Exception{
         try{

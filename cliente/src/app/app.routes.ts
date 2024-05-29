@@ -9,11 +9,13 @@ import { JogarComponent } from './jogar/jogar.component';
 import { HomeComponent } from './admin/home/home.component';
 import { EditComponent as EditCategoriaComponent} from './admin/categoria/edit/edit.component';
 import { EditComponent as EditQuestaoComponent } from './admin/questao/edit/edit.component';
+import { authGuard } from './guard/auth.guard';
+import { EscolheCategoriaComponent } from './escolhe-categoria/escolhe-categoria.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
-    { path: 'login', component: LoginComponent },
-    { path: 'criar-conta', component: CriarContaComponent },
+    { path: 'login', component: LoginComponent, canActivate: [authGuard] },
+    { path: 'criar-conta', component: CriarContaComponent, canActivate: [authGuard] },
     { path: 'admin', component: DashboardComponent,
         children: [
             { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -21,8 +23,10 @@ export const routes: Routes = [
             { path: 'categorias/edit', component: EditCategoriaComponent },
             { path: 'questoes', component: QuestaoComponent },
             { path: 'questoes/edit', component: EditQuestaoComponent },
-        ]
+        ],
+        canActivate: [authGuard]
     },
-    { path: 'ranking', component: RankingComponent },
-    { path: 'partida', component: JogarComponent }
+    { path: 'ranking', component: RankingComponent, canActivate: [authGuard] },
+    { path: 'partida', component: JogarComponent, canActivate: [authGuard] },
+    { path: 'escolher-categoria', component: EscolheCategoriaComponent, canActivate: [authGuard] }
 ];

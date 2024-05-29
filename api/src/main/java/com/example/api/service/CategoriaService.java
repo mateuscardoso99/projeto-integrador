@@ -23,6 +23,10 @@ public class CategoriaService {
         return this.categoriaRepository.findAll().stream().map(CategoriaDTO::convert).toList();
     }
 
+    public List<CategoriaDTO> getAtivos(){
+        return this.categoriaRepository.findAtivos().stream().map(CategoriaDTO::convert).toList();
+    }
+
     public CategoriaDTO findById(Long id) throws DataNotFoundException{
         Optional<Categoria> c = this.categoriaRepository.findById(id);
         if(c.isPresent()){
@@ -51,5 +55,9 @@ public class CategoriaService {
         categoria.setNome(cadastroCategoria.nome());
         categoriaRepository.save(categoria);
         return CategoriaDTO.convert(categoria);
+    }
+
+    public Long count(){
+        return this.categoriaRepository.count();
     }
 }

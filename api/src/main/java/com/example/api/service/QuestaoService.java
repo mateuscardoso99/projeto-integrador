@@ -167,4 +167,8 @@ public class QuestaoService {
             logger.error(e);
         } 
     }
+
+    public Long count(){
+        return this.questaoRepository.count();
+    }
 }

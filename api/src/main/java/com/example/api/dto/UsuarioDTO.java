@@ -6,6 +6,7 @@ public class UsuarioDTO {
     private Long id;
     private String email;
     private String nome;
+    private Boolean isAdmin;
 
     public Long getId() {
         return id;
@@ -24,13 +25,20 @@ public class UsuarioDTO {
     }
     public void setNome(String nome) {
         this.nome = nome;
-    }    
+    }
+    public Boolean isAdmin(){
+        return this.isAdmin;
+    }
+    public void setIsAdmin(Boolean isAdmin){
+        this.isAdmin = isAdmin;
+    }
     
     public static UsuarioDTO convert(Usuario usuario){
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setId(usuario.getId());
         usuarioDTO.setNome(usuario.getNome());
+        usuarioDTO.setIsAdmin(usuario.getAdmin());
         return usuarioDTO;
     }
 }

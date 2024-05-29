@@ -1,42 +1,30 @@
-<div>
-    <a routerLink="edit">Adicionar Categoria</a>
+<a routerLink="edit">Adicionar Categoria</a>
 
-    <div class="list-data">
+<div class="list-data">
+    @for(cat of categorias; track cat.id) {
         <div class="row-data">
             <div class="descr">
-                <p>gfhfghfghfgh</p>
+                <p>{{cat.nome}}</p>
             </div>
             <div class="options">
-                <button class="fa fa-close btn-delete"></button>
-                <button class="fa fa-pencil btn-edit"></button>
+                <button class="fa fa-close btn-delete" (click)="openModalDelete(cat.id)"></button>
+                <a class="fa fa-pencil btn-edit" routerLink="edit" [queryParams]="{ idCategoria: cat.id}"></a>
             </div>
         </div>
-        <div class="row-data">
-            <div class="descr">
-                <p>gfhfghfghfgh</p>
-            </div>
-            <div class="options">
-                <button class="fa fa-close btn-delete"></button>
-                <button class="fa fa-pencil btn-edit"></button>
-            </div>
-        </div>
-        <div class="row-data">
-            <div class="descr">
-                <p>gfhfghfghfgh</p>
-            </div>
-            <div class="options">
-                <button class="fa fa-close btn-delete"></button>
-                <button class="fa fa-pencil btn-edit"></button>
-            </div>
-        </div>
-        <div class="row-data">
-            <div class="descr">
-                <p>gfhfghfghfgh</p>
-            </div>
-            <div class="options">
-                <button class="fa fa-close btn-delete"></button>
-                <button class="fa fa-pencil btn-edit"></button>
-            </div>
-        </div>
-    </div>
+    }
+
+    @empty{
+        <p class="italic">Nenhuma categoria cadastrada</p>
+    }
 </div>
+
+@if(modalOpen){
+    <app-modal 
+        [titulo]="'Apagar categoria'" 
+        [texto]="'Deseja apagar esta categoria?'" 
+        [comBotaoCancelar]="'true'" 
+        [textoBotaoConfirmar]="'Apagar'"
+        (cancelarEvent)="closeModal()"
+        (confirmarEvent)="deleteCategoria()"
+    ></app-modal>
+}

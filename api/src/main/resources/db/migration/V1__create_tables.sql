@@ -56,4 +56,7 @@ create table if not exists partida_respostas(
     foreign key(resposta_id) references resposta(id)
 );
 
-insert into usuario values(1,'ADM','adm@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true'),(2,'ADM 2','adm2@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true');
+insert into usuario values
+        (1,'ADM','adm@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true'),
+        (2,'ADM 2','adm2@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true'),
+        (3,'joão','joao@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','false','true');

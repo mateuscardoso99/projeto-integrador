@@ -1,11 +1,59 @@
-<form action="">
+<form name="categoriaForm" #categoriaForm="ngForm" (ngSubmit)="categoriaForm.form.valid && salvar()">
     <div class="input-group">
         <label for="codigo">Código</label>
-        <input type="text" id="codigo">
+        <input 
+            type="text" 
+            id="codigo" 
+            name="codigo"
+            [(ngModel)]="saveCategoria.codigo" 
+            required 
+            #codigo="ngModel"
+            [ngClass]="{ 'is-invalid': categoriaForm.submitted && codigo.errors }"
+        >
+        @if (categoriaForm.submitted && codigo.errors) {
+            <div class="invalid-feedback">
+                @if (codigo.errors['required']) {
+                    <span>Código é obrigatório</span>
+                }
+            </div>
+        }
+
+        <!-- msg de erros da api -->
+        @if (errors.codigo) {
+            <div class="invalid-feedback">
+                @for(erro of errors.codigo; track erro){
+                    <span>{{erro}}</span>
+                }
+            </div>
+        }
     </div>
     <div class="input-group">
         <label for="nome">Nome</label>
-        <input type="text" id="nome">
+        <input 
+            type="text" 
+            id="nome"
+            name="nome"
+            [(ngModel)]="saveCategoria.nome" 
+            required 
+            #nome="ngModel"
+            [ngClass]="{ 'is-invalid': categoriaForm.submitted && nome.errors }"
+        >
+        @if (categoriaForm.submitted && nome.errors) {
+            <div class="invalid-feedback">
+                @if (nome.errors['required']) {
+                    <span>Nome é obrigatório</span>
+                }
+            </div>
+        }
+
+        <!-- msg de erros da api -->
+        @if (errors.nome) {
+            <div class="invalid-feedback">
+                @for(erro of errors.nome; track erro){
+                    <span>{{erro}}</span>
+                }
+            </div>
+        }
     </div>
     <div class="input-group">
         <button type="submit">Salvar</button>

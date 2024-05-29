@@ -1,0 +1,16 @@
+<div class="modal">
+    <div class="content">
+        <div class="title">
+            <h3>{{titulo}}</h3>
+        </div>
+        <div class="texto">
+            <p>{{texto}}</p>
+        </div>
+        <div class="buttons">
+            @if(comBotaoCancelar){
+                <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+            }
+            <button class="btn-confirm" (click)="confirmar()">{{textoBotaoConfirmar}}</button>
+        </div>
+    </div>
+</div>

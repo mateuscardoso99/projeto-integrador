@@ -31,19 +31,21 @@ export class Usuario{
   id: number;
   email: string;
   nome: string;
-  constructor(usuario: Usuario){
+  isAdmin: boolean;
+  constructor(usuario: any){
     this.id = usuario.id;
     this.nome = usuario.nome;
     this.email = usuario.email;
+    this.isAdmin = usuario.admin;
   }
 }
 
 export class UsuarioToken{
   token: string;
   usuario: Usuario;
-  constructor(tk: string, usuario: Usuario){
-    this.token = tk;
-    this.usuario = usuario;
+  constructor(obj: any){
+    this.token = obj.token;
+    this.usuario = new Usuario(obj.usuarioDTO);
   }
 }
 

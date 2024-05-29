@@ -29,6 +29,14 @@ export class QuestaoService extends BaseService{
     });
   }
 
+  count(): Promise<number>{
+    return new Promise(resolve => {
+      this.http.get(this.PATH + 'count').subscribe((response: any) => {
+        resolve(response);
+      });
+    });
+  }
+
   save(request: SaveQuestao): Promise<any>{
     return new Promise(resolve => {
       this.http.post(this.PATH , request).subscribe((response: any) => {

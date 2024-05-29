@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet, UrlSegment } from '@angular/router';
 import { Observable, filter, map } from 'rxjs';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { Observable, filter, map } from 'rxjs';
 export class DashboardComponent implements OnInit{
   path: string = '';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute){}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private storageService: StorageService){}
   ngOnInit(): void {
     this.path = this.activatedRoute.snapshot.url[0].path;
     
@@ -21,5 +22,10 @@ export class DashboardComponent implements OnInit{
         this.path = e.url        
       }
     });
+  }
+
+  logout(){
+    this.storageService.removeItem("user");
+    this.router.navigate(['/login']);
   }
 }

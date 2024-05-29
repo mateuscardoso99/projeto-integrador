@@ -20,6 +20,14 @@ export class CategoriaService extends BaseService{
     });
   }
 
+  count(): Promise<number>{
+    return new Promise(resolve => {
+      this.http.get(this.PATH + 'count').subscribe((response: any) => {
+        resolve(response);
+      });
+    });
+  }
+
   findById(id: number): Promise<Categoria>{
     return new Promise(resolve => {
       this.http.get(this.PATH + id).subscribe((response: any) => {
@@ -28,26 +36,29 @@ export class CategoriaService extends BaseService{
     });
   }
 
-  save(request: SaveCategoria): Promise<Categoria>{
-    return new Promise(resolve => {
-      this.http.post(this.PATH , request).subscribe((response: any) => {
-        resolve(new Categoria(response));
+  save(request: SaveCategoria): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.post(this.PATH , request).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
 
-  update(request: SaveCategoria, id: number): Promise<Categoria>{
-    return new Promise(resolve => {
-      this.http.put(this.PATH + id, request).subscribe((response: any) => {
-        resolve(new Categoria(response));
+  update(request: SaveCategoria, id: number): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.put(this.PATH + id, request).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
 
   delete(id: number): Promise<any>{
-    return new Promise(resolve => {
-      this.http.delete(this.PATH + id).subscribe((response: any) => {
-        resolve(response);
+    return new Promise((resolve, reject)  => {
+      this.http.delete(this.PATH + id).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
@@ -68,11 +79,6 @@ export class Categoria{
 }
 
 export class SaveCategoria{
-  nome: string;
-  codigo: string;
-
-  constructor(obj: any){
-    this.nome = obj.nome;
-    this.codigo = obj.codigo;
-  }
+  nome: string = '';
+  codigo: string = '';
 }

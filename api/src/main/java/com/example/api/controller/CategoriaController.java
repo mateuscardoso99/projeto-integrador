@@ -2,6 +2,8 @@ package com.example.api.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,9 +30,14 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
     
-    @GetMapping
-    public List<CategoriaDTO> getAll(){
-        return this.categoriaService.getAll();
+    @GetMapping(value = {"/", ""})
+    public List<CategoriaDTO> getAtivos(){
+        return this.categoriaService.getAtivos();
+    }
+
+    @GetMapping(value = "/count")
+    public ResponseEntity<Long> count(){
+        return new ResponseEntity<Long>(this.categoriaService.count(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -38,7 +45,7 @@ public class CategoriaController {
         return this.categoriaService.findById(id);
     }
 
-    @PostMapping
+    @PostMapping(value = {"/", ""})
     public CategoriaDTO save(@RequestBody @Valid CadastroCategoria categoria){
         return this.categoriaService.save(categoria);
     }
