@@ -1,5 +1,3 @@
-<a routerLink="edit">Adicionar Categoria</a>
-
 <!--
 @for oferece uma experiência mais concisa e com desempenho seguro em comparação aongFor
 @for (item of items; track item) {}
@@ -75,22 +73,28 @@ total de elementos:
 
 
 -->
-<div class="list-data">
-    @for(cat of categorias; track cat.id) {
-        <div class="row-data">
-            <div class="descr">
-                <p>{{cat.nome}}</p>
+<div class="area-content">
+    <a class="link-add" routerLink="edit">
+        <i class="fa fa-plus"></i>
+        Adicionar Categoria
+    </a>
+    <div class="list-data">
+        @for(cat of categorias; track cat.id) {
+            <div class="row-data">
+                <div class="descr">
+                    <p>{{cat.nome}}</p>
+                </div>
+                <div class="options">
+                    <button class="fa fa-close btn-delete" (click)="openModalDelete(cat.id)"></button>
+                    <a class="fa fa-pencil btn-edit" routerLink="edit" [queryParams]="{ idCategoria: cat.id}"></a>
+                </div>
             </div>
-            <div class="options">
-                <button class="fa fa-close btn-delete" (click)="openModalDelete(cat.id)"></button>
-                <a class="fa fa-pencil btn-edit" routerLink="edit" [queryParams]="{ idCategoria: cat.id}"></a>
-            </div>
-        </div>
-    }
-
-    @empty{
-        <p class="italic">Nenhuma categoria cadastrada</p>
-    }
+        }
+    
+        @empty{
+            <p class="italic">Nenhuma categoria cadastrada</p>
+        }
+    </div>
 </div>
 
 @if(modalOpen){
@@ -102,4 +106,8 @@ total de elementos:
         (cancelarEvent)="closeModal()"
         (confirmarEvent)="deleteCategoria()"
     ></app-modal>
+}
+
+@if(isLoading){
+    <ngx-skeleton-loader class="h-1" count="10" appearance="line"/>
 }

@@ -3,11 +3,12 @@ import { RouterModule } from '@angular/router';
 import { Categoria, CategoriaService } from '../../services/categoria.service';
 import { ModalComponent } from '../../components/modal/modal.component';
 import Swal from 'sweetalert2';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-categoria',
   standalone: true,
-  imports: [RouterModule, ModalComponent],
+  imports: [RouterModule, ModalComponent, NgxSkeletonLoaderModule],
   templateUrl: './categoria.component.html',
   styleUrl: './categoria.component.scss'
 })
@@ -16,6 +17,7 @@ export class CategoriaComponent implements OnInit{
   categoriaService = inject(CategoriaService);
   modalOpen = false;
   categoriaToDelete: number | null = null;
+  isLoading: boolean = true;
 
   ngOnInit(): void {
     this.getCategorias();
@@ -24,7 +26,7 @@ export class CategoriaComponent implements OnInit{
   getCategorias(){
     this.categoriaService.findAll().then(categorias => {
       this.categorias = categorias;
-    });
+    }).finally(() => this.isLoading = false);
   }
 
   closeModal(){

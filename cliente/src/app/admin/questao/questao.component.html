@@ -1,3 +1,16 @@
-<div>
-    <a routerLink="edit">Adicionar Questão</a>
+<div class="area-content">
+    <a class="link-add" routerLink="edit">
+        <i class="fa fa-plus"></i>
+        Adicionar Questão
+    </a>
+    <select (change)="getQuestoes($event)">
+        <option value="" disabled>Selecione uma categoria</option>
+        @for(cat of categorias; track cat.id){
+            <option [value]="cat.id">{{cat.nome}}</option>
+        }
+    </select>
 </div>
+
+@if(isLoading){
+    <app-loader />
+}

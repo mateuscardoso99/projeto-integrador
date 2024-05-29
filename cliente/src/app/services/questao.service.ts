@@ -29,6 +29,18 @@ export class QuestaoService extends BaseService{
     });
   }
 
+  findByCategoria(id: number): Promise<Questao[]>{
+    return new Promise(resolve => {
+      this.http.get(this.PATH + 'categoria/' + id).subscribe((response: any) => {
+        const questoes = [];
+        for(let q of response){
+          questoes.push(new Questao(q));
+        }
+        resolve(questoes);
+      });
+    });
+  }
+
   count(): Promise<number>{
     return new Promise(resolve => {
       this.http.get(this.PATH + 'count').subscribe((response: any) => {

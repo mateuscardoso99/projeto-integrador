@@ -46,6 +46,11 @@ public class QuestaoController {
         return new ResponseEntity<Long>(this.questaoService.count(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/categoria/{idCategoria}")
+    public ResponseEntity<List<QuestaoDTO>> findByCategoria(@PathVariable Long idCategoria){
+        return ResponseEntity.ok(this.questaoService.getByCategoria(idCategoria));
+    }
+
     @PostMapping
     public ResponseEntity<?> cadastro(@RequestBody @Valid CadastroQuestao questao) throws Exception{
         try{

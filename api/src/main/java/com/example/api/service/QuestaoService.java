@@ -61,6 +61,10 @@ public class QuestaoService {
         throw new DataNotFoundException("questão não encontrada");
     }
 
+    public List<QuestaoDTO> getByCategoria(Long idCategoria){
+        return this.questaoRepository.findByCategoria(idCategoria).stream().map(q -> new QuestaoDTO().convert(q)).toList();
+    }
+
     public QuestaoDTO save(CadastroQuestao cadastroQuestao) throws Exception{
         Questao questao = new Questao();
         questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));

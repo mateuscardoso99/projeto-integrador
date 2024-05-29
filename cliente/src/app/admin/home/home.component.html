@@ -1,14 +1,19 @@
-<div class="cards-info">
-    <div class="card">
-        <div class="card-body">
-            <h1>{{totalCategorias}}</h1>
-            <p>Categorias cadastradas</p>
+@if(isLoading){
+    <app-loader/>
+}
+@else{
+    <div class="cards-info">
+        <div class="card">
+            <div class="card-body">
+                <h1>{{totalCategorias}}</h1>
+                <p>Categorias cadastradas</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h1>{{totalQuestoes}}</h1>
+                <p>Questões cadastradas</p>
+            </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <h1>{{totalQuestoes}}</h1>
-            <p>Questões cadastradas</p>
-        </div>
-    </div>
-</div>
+}
