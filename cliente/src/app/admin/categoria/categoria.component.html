@@ -1,5 +1,80 @@
 <a routerLink="edit">Adicionar Categoria</a>
 
+<!--
+@for oferece uma experiência mais concisa e com desempenho seguro em comparação aongFor
+@for (item of items; track item) {}
+
+A instrução track é usada para rastrear os itens por referência. Esta declaração é obrigatória. 
+Ele é usado para otimizar o desempenho, evitando execuções desnecessárias de detecção de alterações quando os dados são alterados. 
+Se esta instrução não for incluída, você receberá um erro de compilação (mais sobre isso mais tarde).
+
+A função de rastreamento criada por meio da trackinstrução é usada para tornar mais fácil para o mecanismo de detecção de alterações Angular 
+saber exatamente quais itens atualizar no DOM após a alteração da matriz de entrada.
+A função de rastreamento informa ao Angular como identificar exclusivamente um elemento da lista.
+
+Por exemplo, se apenas um elemento foi adicionado a uma lista de 100, queremos que o Angular seja capaz de anexar esse novo 
+elemento ao DOM, sem ter que renderizar novamente todos os outros elementos desnecessariamente.
+Esse é apenas um exemplo do tipo de otimizações que a função de rastreamento permite.
+
+Para ser eficaz, a função de rastreamento deve identificar algo único sobre o elemento da lista.
+Se não houver nada exclusivo sobre o elemento, a função de rastreamento deverá retornar o índice do elemento no array
+
+ex: @for (course of courses; track course.id) {
+    <li>{{ course }}</li>
+}
+track by id do curso
+
+
+
+ex: @for (course of courses; track trackCourse) {
+    <li>{{ course }}</li>
+}
+trackCourse(index: number, course: Course) {
+    return course.id;
+}
+usando função personalizada
+
+
+
+
+
+
+com mapa:
+myMap = new Map([
+    ["firstName", "Angular"],
+    ["lastName", "Framework"],
+]);
+
+@for (entry of myMap; track entry) {
+    <li>{{ entry[0] }}: {{ entry[1] }}</li>
+}
+
+
+
+
+Na pior das hipóteses, se não houver nada exclusivo nos elementos da matriz, você sempre poderá voltar com segurança para o 
+$index do elemento, ou seja, a posição do elemento na matriz
+
+track by indice:
+@for (item of items; track item; let index = $index) {
+    <li>{{ index }}: {{ item }}</li>
+}
+
+
+
+acessando primeiro e último:
+@for (item of items; track item; let first = $first, last = $last) {
+    <li>{{ item }}: {{ first }}: {{ last }}</li>
+}
+
+
+total de elementos: 
+@for (item of items; track item; let count = $count) {
+    <li>{{ item }}: {{ count }}</li>
+}
+
+
+-->
 <div class="list-data">
     @for(cat of categorias; track cat.id) {
         <div class="row-data">
