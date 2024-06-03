@@ -25,6 +25,15 @@ export class AuthService extends BaseService{
       });
     });
   } 
+
+  logout(): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.get(this.PATH + 'logout').subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
+      });
+    });
+  } 
 }
 
 export class Usuario{
@@ -37,15 +46,6 @@ export class Usuario{
     this.nome = usuario.nome;
     this.email = usuario.email;
     this.isAdmin = usuario.admin;
-  }
-}
-
-export class UsuarioToken{
-  token: string;
-  usuario: Usuario;
-  constructor(obj: any){
-    this.token = obj.token;
-    this.usuario = new Usuario(obj.usuarioDTO);
   }
 }
 

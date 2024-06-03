@@ -15,10 +15,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.api.utils.TokenExpirationValue;
 
 @Component
 public class Jwt {
-    private static final Long EXPIRE_DURATION = 8 * 60 * 60 * 1000l;
     private static final Logger LOGGER = Logger.getLogger(Jwt.class.getName());
     private static final String SECRET = "PD46W0FdSDNaQ3tAeENQPUhyTWNQMG94USNwWTtoU1hIMFd43JkWktyWWcpdEpSOChkRTVZdzNNNwLVVoYqNZbj0uaHVAen1QKjByS0k7";
     private static final Algorithm algoritmo = Algorithm.HMAC256(SECRET);
@@ -28,7 +28,7 @@ public class Jwt {
                 .withIssuer("api") //issuer identifica a parte que criou o token e o assinou
                 .withSubject(userDetails.getUsername())
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
+                .withExpiresAt(new Date(System.currentTimeMillis() + TokenExpirationValue.COOKIE_EXPIRY))
                 .withJWTId(UUID.randomUUID().toString())
                 .sign(algoritmo);
     }

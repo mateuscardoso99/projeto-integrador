@@ -28,7 +28,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findByEmail(String email) throws UsernameNotFoundException{
-        return Optional.ofNullable(this.usuarioRepository.findByEmail(email)).map(u -> UsuarioDTO.convert(u.get())).orElseThrow(() -> new UsernameNotFoundException("usuário não encontrado"));
+        return Optional.ofNullable(this.usuarioRepository.findByEmail(email)).map(u -> new UsuarioDTO(u.get())).orElseThrow(() -> new UsernameNotFoundException("usuário não encontrado"));
     }
 
     public UsuarioDTO save(CadastroUsuario cadastroUsuario) throws ErrorRuntimeException{
@@ -40,7 +40,7 @@ public class UsuarioService {
         u.setEmail(cadastroUsuario.email());
         u.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
         u = this.usuarioRepository.save(u);
-        return UsuarioDTO.convert(u);
+        return new UsuarioDTO(u);
     }
 
     public UsuarioDTO update(CadastroUsuario cadastroUsuario, HttpServletRequest request){
@@ -54,7 +54,7 @@ public class UsuarioService {
         usuario.setEmail(cadastroUsuario.email());
         usuario.setSenha(passwordEncoder.encode(cadastroUsuario.senha()));
         this.usuarioRepository.save(usuario);
-        return UsuarioDTO.convert(usuario);
+        return new UsuarioDTO(usuario);
     }
 
     public void delete(HttpServletRequest request){

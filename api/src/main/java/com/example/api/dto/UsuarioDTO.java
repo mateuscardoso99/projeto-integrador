@@ -8,6 +8,13 @@ public class UsuarioDTO {
     private String nome;
     private Boolean isAdmin;
 
+    public UsuarioDTO(Usuario usuario){
+        this.setEmail(usuario.getEmail());
+        this.setId(usuario.getId());
+        this.setNome(usuario.getNome());
+        this.setIsAdmin(usuario.getAdmin());
+    }
+
     public Long getId() {
         return id;
     }
@@ -31,14 +38,5 @@ public class UsuarioDTO {
     }
     public void setIsAdmin(Boolean isAdmin){
         this.isAdmin = isAdmin;
-    }
-    
-    public static UsuarioDTO convert(Usuario usuario){
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNome(usuario.getNome());
-        usuarioDTO.setIsAdmin(usuario.getAdmin());
-        return usuarioDTO;
     }
 }

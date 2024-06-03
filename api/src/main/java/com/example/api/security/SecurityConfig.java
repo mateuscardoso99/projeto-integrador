@@ -3,6 +3,7 @@ package com.example.api.security;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,6 +26,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    @Qualifier("delegatedAuthenticationEntryPoint")
+    AuthenticationEntryPoint authEntryPoint;
 
     @Autowired
     private AuthService authService;
@@ -56,14 +61,17 @@ public class SecurityConfig {
         http.cors(v -> v.configurationSource(corsConfigurationSource()))
             .csrf(CsrfConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint)) //classe que trata as exceções de autenticação
             .authorizeHttpRequests((request) -> {
                     request.requestMatchers("/usuario/login").permitAll()
                             .requestMatchers("/usuario/cadastro").permitAll()
                             .requestMatchers("/batch/**").permitAll()
                             .requestMatchers(HttpMethod.POST, "/categoria/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/categoria/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.PUT, "/categoria/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.DELETE, "/categoria/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.POST, "/questao/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/questao/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.PUT, "/questao/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.DELETE, "/questao/**").hasAuthority("ADMIN")
                             .anyRequest().authenticated();

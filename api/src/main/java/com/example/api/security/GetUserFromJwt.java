@@ -23,4 +23,9 @@ public class GetUserFromJwt {
         DecodedJWT decodedJWT = this.jwtService.decodeJwt(jwt);
         return this.usuarioRepository.findByEmail(decodedJWT.getSubject()).orElseThrow(() -> new UsernameNotFoundException("usuário não encontrado no jwt"));
     }
+
+    public Usuario load(String token) throws UsernameNotFoundException{
+        DecodedJWT decodedJWT = this.jwtService.decodeJwt(token);
+        return this.usuarioRepository.findByEmail(decodedJWT.getSubject()).orElseThrow(() -> new UsernameNotFoundException("usuário não encontrado no jwt"));
+    }
 }

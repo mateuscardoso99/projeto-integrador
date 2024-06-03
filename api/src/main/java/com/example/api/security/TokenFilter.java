@@ -27,7 +27,7 @@ public class TokenFilter extends OncePerRequestFilter{
     @Autowired
     private AuthService authService;
 
-    //cada request passa pelo filtro e verifica se o token está na request, se tiver valida com os métodos da biblioteca e busca o email do usuario de dentro
+    //cada request passa pelo filtro e verifica se o token está no cookie enviado na request, se tiver valida com os métodos da biblioteca e busca o email do usuario de dentro
     //do token pra validar, depois busca no bd o usuario e faz uma tentativa de login, caso a tentativa der uma exceção entao houve algum erro
     //e o spring lança uma exceção
     @Override
@@ -35,8 +35,8 @@ public class TokenFilter extends OncePerRequestFilter{
         try {
             String token = GetTokenRequest.getToken(request);
 
-            if (token != null ) {
-                Usuario usuario = this.userFromJwt.load(request);
+            if (token != null) {
+                Usuario usuario = this.userFromJwt.load(token);
                 UserDetails userDetails = this.authService.loadUserByUsername(usuario.getEmail());
 
                 //pra autenticar o usuário precisa ter uma instância de userDetails que é uma classe do spring

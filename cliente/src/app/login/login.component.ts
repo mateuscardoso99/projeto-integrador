@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService, LoginRequest, UsuarioToken } from '../services/auth.service';
+import { AuthService, LoginRequest, Usuario } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
@@ -21,10 +21,10 @@ export class LoginComponent {
   login(){    
     this.authService.login(this.loginRequest)
       .then(resp => {       
-        if(resp.token){
-          const usuarioToken = new UsuarioToken(resp);
-          this.storageService.setItem("user", JSON.stringify(usuarioToken));
-          if(usuarioToken.usuario.isAdmin){
+        if(resp.id){
+          const usuario = new Usuario(resp);
+          this.storageService.setItem("user", JSON.stringify(usuario));
+          if(usuario.isAdmin){
             this.router.navigate(['/admin']);
           }
           else{

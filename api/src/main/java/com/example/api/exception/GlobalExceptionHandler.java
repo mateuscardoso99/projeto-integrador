@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -69,11 +70,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("erro interno", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
+    /*@ExceptionHandler(BadCredentialsException.class)
     private final ResponseEntity<Map<String, List<String>>> badCredentialsException(BadCredentialsException ex){
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         return new ResponseEntity<>(Map.of("errors", List.of("email ou senha incorretos")), HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
     @ExceptionHandler(JWTVerificationException.class)
     private final ResponseEntity<String> jwtException(JWTVerificationException ex){
@@ -84,7 +85,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataNotFoundException.class)
     public final ResponseEntity<Map<String, List<String>>> DataNotFoundException(DataNotFoundException ex) {
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)
@@ -104,5 +105,10 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<Map<String, List<String>>> handleBadRequest(BadRequestException ex){
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())),new HttpHeaders(),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ AuthenticationException.class })
+    public ResponseEntity<?> handleAuthenticationException(Exception ex) {
+        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 }
