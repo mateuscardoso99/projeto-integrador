@@ -2,7 +2,7 @@ package com.example.api.job;
 
 public class CSVData {
     private String descricao;
-    private String cod_categoria;
+    private String categoria;
     private Boolean is_questao;
     private Boolean is_resposta;
     private Boolean is_certa;
@@ -13,11 +13,11 @@ public class CSVData {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public String getCod_categoria() {
-        return cod_categoria;
+    public String getCategoria() {
+        return categoria;
     }
-    public void setCod_categoria(String cod_categoria) {
-        this.cod_categoria = cod_categoria;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
     public Boolean getIs_questao() {
         return is_questao;

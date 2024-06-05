@@ -29,7 +29,6 @@ export class EditComponent implements OnInit{
         this.idEditCategoria = p['params'].idCategoria;
 
         this.categoriaService.findById(p['params'].idCategoria).then(response => {
-          this.saveCategoria.codigo = response.codigo;
           this.saveCategoria.nome = response.nome;
         })
       }

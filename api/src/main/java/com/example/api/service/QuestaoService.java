@@ -53,6 +53,10 @@ public class QuestaoService {
         return questoes;
     }
 
+    public List<QuestaoDTO> getAtivos(){
+        return this.questaoRepository.findAtivos().stream().map(q -> new QuestaoDTO().convert(q)).toList();
+    }
+
     public QuestaoDTO find(Long id) throws Exception{
         Optional<Questao> q = this.questaoRepository.findById(id);
         if(q.isPresent()){

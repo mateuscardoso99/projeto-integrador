@@ -80,5 +80,4 @@ export class Categoria{
 
 export class SaveCategoria{
   nome: string = '';
-  codigo: string = '';
 }

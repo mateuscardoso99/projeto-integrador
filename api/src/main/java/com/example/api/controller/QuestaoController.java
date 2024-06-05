@@ -32,8 +32,8 @@ public class QuestaoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<QuestaoDTO>> findAll(){
-        return ResponseEntity.ok(this.questaoService.getAll());
+    public ResponseEntity<List<QuestaoDTO>> getAtivos(){
+        return ResponseEntity.ok(this.questaoService.getAtivos());
     }
 
     @GetMapping(value = "/{id}")

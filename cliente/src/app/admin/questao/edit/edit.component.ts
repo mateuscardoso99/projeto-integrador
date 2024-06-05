@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SaveQuestao } from '../../../services/questao.service';
 
 @Component({
   selector: 'app-edit',
@@ -9,5 +10,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './edit.component.scss'
 })
 export class EditComponent {
-
+  questao: SaveQuestao = new SaveQuestao();
 }

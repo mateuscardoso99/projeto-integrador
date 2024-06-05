@@ -13,5 +13,7 @@ import com.example.api.models.Categoria;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
     @Query("SELECT c FROM Categoria c WHERE c.ativo = true")
     Collection<Categoria> findAtivos();
-    Optional<Categoria> findByCodigo(String codigo);
+
+    Optional<Categoria> findByNome(String nome);
+    
 }

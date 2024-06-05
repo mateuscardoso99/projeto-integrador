@@ -95,6 +95,10 @@ total de elementos:
             <p class="italic">Nenhuma categoria cadastrada</p>
         }
     </div>
+
+    @if(isLoading){
+        <ngx-skeleton-loader class="h-1" count="10" appearance="line"/>
+    }
 </div>
 
 @if(modalOpen){
@@ -106,8 +110,4 @@ total de elementos:
         (cancelarEvent)="closeModal()"
         (confirmarEvent)="deleteCategoria()"
     ></app-modal>
-}
-
-@if(isLoading){
-    <ngx-skeleton-loader class="h-1" count="10" appearance="line"/>
 }

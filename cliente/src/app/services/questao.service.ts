@@ -50,25 +50,28 @@ export class QuestaoService extends BaseService{
   }
 
   save(request: SaveQuestao): Promise<any>{
-    return new Promise(resolve => {
-      this.http.post(this.PATH , request).subscribe((response: any) => {
-        resolve(response);
+    return new Promise((resolve, reject) => {
+      this.http.post(this.PATH , request).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
 
   update(request: SaveQuestao, id: number): Promise<any>{
-    return new Promise(resolve => {
-      this.http.put(this.PATH + id, request).subscribe((response: any) => {
-        resolve(response);
+    return new Promise((resolve, reject) => {
+      this.http.put(this.PATH + id, request).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
 
   delete(id: number): Promise<any>{
-    return new Promise(resolve => {
-      this.http.delete(this.PATH + id).subscribe((response: any) => {
-        resolve(response);
+    return new Promise((resolve, reject) => {
+      this.http.delete(this.PATH + id).subscribe({
+        next: response => resolve(response),
+        error: err => reject(err)
       });
     });
   } 
@@ -108,27 +111,21 @@ export class Questao{
 }
 
 export class SaveQuestao{
-  descricao: string;
-  categoria: number;
-  ativo: boolean;
-  respostas: SaveResposta[];
+  descricao: string = '';
+  categoria: number | null = null;
+  ativo: boolean = true;
+  respostas: SaveResposta[] = [];
 
-  constructor(obj: any){
-    this.descricao = obj.descricao;
-    this.categoria = obj.categoria;
-    this.ativo = obj.ativo;
-    this.respostas = obj.respostas;
+  constructor(){
+    for(let i=0; i<5; i++){
+      this.respostas.push(new SaveResposta());
+    }
   }
+
 }
 
 export class SaveResposta{
-  descricao: string;
-  categoria: number;
-  ativo: boolean;
-
-  constructor(obj: any){
-    this.descricao = obj.descricao;
-    this.categoria = obj.categoria;
-    this.ativo = obj.ativo;
-  }
+  descricao: string = '';
+  questao: number | null = null;
+  certa: boolean = false;
 }

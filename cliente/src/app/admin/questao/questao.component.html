@@ -3,14 +3,42 @@
         <i class="fa fa-plus"></i>
         Adicionar Questão
     </a>
-    <select (change)="getQuestoes($event)">
-        <option value="" disabled>Selecione uma categoria</option>
+    <select (change)="changeCategoria($event)">
+        <option value="" disabled selected>Selecione uma categoria</option>
         @for(cat of categorias; track cat.id){
             <option [value]="cat.id">{{cat.nome}}</option>
         }
     </select>
+
+    <div class="list-data">
+        @for(q of questoes; track q.id) {
+            <div class="row-data">
+                <div class="descr">
+                    <p>{{q.descricao}}</p>
+                </div>
+                <div class="options">
+                    <button class="fa fa-close btn-delete" (click)="openModalDelete(q.id)"></button>
+                    <a class="fa fa-pencil btn-edit" routerLink="edit"></a>
+                </div>
+            </div>
+        }
+        @empty{
+            <p class="italic">Nenhuma questão encontrada</p>
+        }
+    </div>
 </div>
 
 @if(isLoading){
     <app-loader />
+}
+
+@if(modalOpen){
+    <app-modal 
+        [titulo]="'Apagar questao'" 
+        [texto]="'Deseja apagar esta questao?'" 
+        [comBotaoCancelar]="'true'" 
+        [textoBotaoConfirmar]="'Apagar'"
+        (cancelarEvent)="closeModal()"
+        (confirmarEvent)="deleteQuestao()"
+    ></app-modal>
 }

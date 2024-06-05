@@ -1,12 +1,29 @@
 <form action="">
     <div class="input-group">
-        <label for="codigo">Código</label>
-        <input type="text" id="codigo">
-    </div>
-    <div class="input-group">
         <label for="nome">Nome</label>
         <input type="text" id="nome">
     </div>
+
+    <div class="container-respostas">
+        <h3>Alternativas:</h3>
+
+        @for(resposta of questao.respostas; track resposta; let index = $index){
+            <div class="resposta-questao">
+                <div class="input-group">
+                    <label [for]="'resposta_' + (index + 1)">Alternativa {{ index + 1 }}</label>
+                    <input type="text" [id]="'resposta_' + (index + 1)" [name]="'resposta_' + (index + 1)">
+                </div>
+                <div class="radio-group">
+                    <label [for]="'resposta_' + (index + 1)">Certa</label>
+                    <input type="radio" [id]="'resposta_' + (index + 1)" [name]="'resposta_' + (index + 1)">
+                    <label [for]="'resposta_' + (index + 1)">Errada</label>
+                    <input type="radio" [id]="'resposta_' + (index + 1)" [name]="'resposta_' + (index + 1)">
+                </div>
+            </div>
+        }
+    </div>
+
+
     <div class="input-group">
         <button type="submit">Salvar</button>
         <a routerLink="../">Voltar</a>

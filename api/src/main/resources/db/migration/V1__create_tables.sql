@@ -1,7 +1,6 @@
 create table if not exists categoria(
     id serial,
-    nome varchar(50) not null,
-    codigo varchar(20) unique not null,
+    nome varchar(50) not null unique,
     ativo boolean default true,
     primary key(id)
 );
@@ -55,8 +54,3 @@ create table if not exists partida_respostas(
     foreign key(questao_id) references questao(id),
     foreign key(resposta_id) references resposta(id)
 );
-
-insert into usuario values
-        (1,'ADM','adm@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true'),
-        (2,'ADM 2','adm2@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','true','true'),
-        (3,'joão','joao@gmail.com','$2a$11$XilNBGp.QrHQRDgkwj3.1u029gG04CyPT2Zj1aX/EK/F3ZwZrNInS','false','true');

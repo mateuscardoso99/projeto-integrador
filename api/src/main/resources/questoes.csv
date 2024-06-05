@@ -1,179 +1,179 @@
-descricao;cod_categoria;is_questao;is_resposta;is_certa
-Qual é o maior país do mundo em extensão territorial?;001;true;false;
+descricao;categoria;is_questao;is_resposta;is_certa
+Qual é o maior país do mundo em extensão territorial?;Geografia;true;false;
 Canadá;;false;true;false
 China;;false;true;false
 Rússia;;false;true;true
 Brasil;;false;true;false
 Estados Unidos;;false;true;false
-Qual é o rio mais extenso do mundo?;001;true;false;
+Qual é o rio mais extenso do mundo?;Geografia;true;false;
 Nilo;;false;true;false
 Yangtzé;;false;true;false
 Amazonas;;false;true;true
 Mississipi;;false;true;false
 Ganges;;false;true;false
-Qual é o menor continente do mundo?;001;true;false;
+Qual é o menor continente do mundo?;Geografia;true;false;
 América do Sul;;false;true;false
 Europa;;false;true;false
 Oceania;;false;true;true
 África;;false;true;false
 Ásia;;false;true;false
-Qual é o ponto mais alto do planeta?;001;true;false;
+Qual é o ponto mais alto do planeta?;Geografia;true;false;
 Monte Everest;;false;true;true
 Monte Kilimanjaro;;false;true;false
 Monte McKinley;;false;true;false
 Monte Elbrus;;false;true;false
 Monte Aconcágua;;false;true;false
-Qual é a capital da Austrália?;001;true;false;
+Qual é a capital da Austrália?;Geografia;true;false;
 Sydney;;false;true;false
 Melbourne;;false;true;false
 Perth;;false;true;false
 Canberra;;false;true;true
 Brisbane;;false;true;false
-Qual é o país com o maior litoral do mundo?;001;true;false;
+Qual é o país com o maior litoral do mundo?;Geografia;true;false;
 Brasil;;false;true;true
 Rússia;;false;true;false
 Canadá;;false;true;false
 Austrália;;false;true;false
 Estados Unidos;;false;true;false
-Qual é o ponto mais baixo do planeta?;001;true;false;
+Qual é o ponto mais baixo do planeta?;Geografia;true;false;
 Mar Morto;;false;true;true
 Vale da Morte;;false;true;false
 Depressão de Danakil;;false;true;false
 Lago Assal;;false;true;false
 Fossa das Marianas;;false;true;false
-Qual é o maior deserto do mundo?;001;true;false;
+Qual é o maior deserto do mundo?;Geografia;true;false;
 Deserto do Saara;;false;true;true
 Deserto do Atacama;;false;true;false
 Deserto da Arábia;;false;true;false
 Deserto de Gobi;;false;true;false
 Deserto da Patagônia;;false;true;false
-Qual é o principal material que compõe a crosta terrestre?;001;true;false;
+Qual é o principal material que compõe a crosta terrestre?;Geografia;true;false;
 Ferro;;false;true;false
 Silício;;false;true;true
 Ouro;;false;true;false
 Alumínio;;false;true;false
 Cobre;;false;true;false
-Qual é a cidade mais populosa da África?;001;true;false;
+Qual é a cidade mais populosa da África?;Geografia;true;false;
 Cairo;;false;true;true
 Lagos;;false;true;false
 Kinshasa;;false;true;false
 Joanesburgo;;false;true;false
 Argel;;false;true;false
-Qual é o oceano mais extenso do mundo?;001;true;false;
+Qual é o oceano mais extenso do mundo?;Geografia;true;false;
 Oceano Atlântico;;false;true;false
 Oceano Pacífico;;false;true;true
 Oceano Índico;;false;true;false
 Oceano Glacial Ártico;;false;true;false
 Oceano Antártico;;false;true;false
-Qual é o país da Europa que possui o maior número de fronteiras com outros países?;001;true;false;
+Qual é o país da Europa que possui o maior número de fronteiras com outros países?;Geografia;true;false;
 Alemanha;;false;true;false
 Áustria;;false;true;false
 Bélgica;;false;true;false
 Rússia;;false;true;true
 França;;false;true;false
-Qual é a língua oficial mais falada no mundo?;001;true;false;
+Qual é a língua oficial mais falada no mundo?;Geografia;true;false;
 Inglês;;false;true;false
 Chinês;;false;true;true
 Espanhol;;false;true;false
 Hindi;;false;true;false
 Francês;;false;true;false
-Qual é o país que possui mais vulcões ativos no mundo?;001;true;false;
+Qual é o país que possui mais vulcões ativos no mundo?;Geografia;true;false;
 Japão;;false;true;false
 Indonésia;;false;true;true
 México;;false;true;false
 Islândia;;false;true;false
 Itália;;false;true;false
-Qual é o maior arquipélago do mundo?;001;true;false;
+Qual é o maior arquipélago do mundo?;Geografia;true;false;
 Havaí;;false;true;false
 Maldivas;;false;true;false
 Bahamas;;false;true;false
 Filipinas;;false;true;false
 Indonésia;;false;true;true
-Qual é a montanha mais alta do Brasil?;001;true;false;
+Qual é a montanha mais alta do Brasil?;Geografia;true;false;
 Pico da Neblina;;false;true;true
 Pico Paraná;;false;true;false
 Pico da Bandeira;;false;true;false
 Pico das Agulhas Negras;;false;true;false
 Pico Marumbi;;false;true;false
-Qual é o maior mar fechado do mundo?;001;true;false;
+Qual é o maior mar fechado do mundo?;Geografia;true;false;
 Mar Cáspio;;false;true;true
 Mar de Aral;;false;true;false
 Mar Morto;;false;true;false
 Mar Mediterrâneo;;false;true;false
 Mar do Caribe;;false;true;false
-Qual é o principal rio da Índia?;001;true;false;
+Qual é o principal rio da Índia?;Geografia;true;false;
 Rio Ganges;;false;true;true
 Rio Brahmaputra;;false;true;false
 Rio Yamuna;;false;true;false
 Rio Indo;;false;true;false
 Rio Godavari;;false;true;false
-Qual é o ponto mais alto do continente africano?;001;true;false;
+Qual é o ponto mais alto do continente africano?;Geografia;true;false;
 Monte Kilimanjaro;;false;true;true
 Monte Quênia;;false;true;false
 Cape Point;;false;true;false
 Montanha de Fogo;;false;true;false
 Montanha Drakensberg;;false;true;false
-Qual é o maior lago da África?;001;true;false;
+Qual é o maior lago da África?;Geografia;true;false;
 Lago Vitória;;false;true;true
 Lago Tanganica;;false;true;false
 Lago Niassa;;false;true;false
 Lago Chade;;false;true;false
 Lago Malawi;;false;true;false
-Qual é o país europeu que possui mais ilhas?;001;true;false;
+Qual é o país europeu que possui mais ilhas?;Geografia;true;false;
 Espanha;;false;true;false
 Itália;;false;true;false
 Grécia;;false;true;true
 Noruega;;false;true;false
 Reino Unido;;false;true;false
-Qual é a capital do Canadá?;001;true;false;
+Qual é a capital do Canadá?;Geografia;true;false;
 Montreal;;false;true;false
 Toronto;;false;true;false
 Ottawa;;false;true;true
 Vancouver;;false;true;false
 Calgary;;false;true;false
-Qual é o maior país da África em extensão territorial?;001;true;false;
+Qual é o maior país da África em extensão territorial?;Geografia;true;false;
 Congo;;false;true;false
 África do Sul;;false;true;false
 Argélia;;false;true;true
 Sudão;;false;true;false
 Nigéria;;false;true;false
-Qual é o país com maior produção de petróleo do mundo?;001;true;false;
+Qual é o país com maior produção de petróleo do mundo?;Geografia;true;false;
 Arábia Saudita;;false;true;true
 Estados Unidos;;false;true;false
 Rússia;;false;true;false
 China;;false;true;false
 Canadá;;false;true;false
-Qual é o país com o menor IDH (Índice de Desenvolvimento Humano) do mundo?;001;true;false;
+Qual é o país com o menor IDH (Índice de Desenvolvimento Humano) do mundo?;Geografia;true;false;
 Haiti;;false;true;true
 Níger;;false;true;false
 Sudão;;false;true;false
 Síria;;false;true;false
 Afeganistão;;false;true;false
-Qual é a montanha mais alta da América do Sul?;001;true;false;
+Qual é a montanha mais alta da América do Sul?;Geografia;true;false;
 Monte Aconcágua;;false;true;true
 Monte Ojos del Salado;;false;true;false
 Monte Pissis;;false;true;false
 Monte Tupungato;;false;true;false
 Monte Mercedario;;false;true;false
-Em qual país está localizado o monte Kilimanjaro, a montanha mais alta da África?;001;true;false;
+Em qual país está localizado o monte Kilimanjaro, a montanha mais alta da África?;Geografia;true;false;
 África do Sul;;false;true;false
 Tanzânia;;false;true;true
 Quênia;;false;true;false
 Uganda;;false;true;false
 Etiópia;;false;true;false
-Qual é o nome do rio que passa por Nova York, nos Estados Unidos?;001;true;false;
+Qual é o nome do rio que passa por Nova York, nos Estados Unidos?;Geografia;true;false;
 Mississipi;;false;true;false
 Colorado;;false;true;false
 Hudson;;false;true;true
 Columbia;;false;true;false
 Ohio;;false;true;false
-Em qual desses países está localizado o deserto de Kalahari, no sul da África?;001;true;false;
+Em qual desses países está localizado o deserto de Kalahari, no sul da África?;Geografia;true;false;
 Egito;;false;true;false
 Congo;;false;true;true
 Camarões;;false;true;false
 Zâmbia;;false;true;true
 Angola;;false;true;false
-Qual é o país que possui a maior reserva de água doce do mundo?;001;true;false;
+Qual é o país que possui a maior reserva de água doce do mundo?;Geografia;true;false;
 Brasil;;false;true;true
 Canadá;;false;true;false
 Rússia;;false;true;false

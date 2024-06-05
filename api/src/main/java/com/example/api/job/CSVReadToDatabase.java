@@ -1,6 +1,7 @@
 package com.example.api.job;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -58,7 +59,7 @@ public class CSVReadToDatabase{
 
     @PostConstruct //permite então executar alguma ação logo após a inicialização do Spring, pois chamar um repository dentro do construtor dá erro pois ele não foi inicializado ainda.
     public void getCategoriaQuestoes(){
-       //this.categorias = this.categoriaRepository.findAll().stream().collect(Collectors.toMap(Categoria::getCodigo, c -> c));
+       this.categorias = this.categoriaRepository.findAll().stream().collect(Collectors.toMap(Categoria::getNome, c -> c));
     }
 
     @Bean
@@ -98,14 +99,14 @@ public class CSVReadToDatabase{
                     Questao questao = new Questao();
                     questao.setDescricao(item.getDescricao());
 
-                    if(this.categorias.containsKey(item.getCod_categoria())){
-                        questao.setCategoria(categorias.get(item.getCod_categoria()));
-                    }
-                    else{
-                        Categoria c = this.categoriaRepository.findByCodigo(item.getCod_categoria()).get();
-                        questao.setCategoria(c);
-                        categorias.put(item.getCod_categoria(), c);
-                    }
+                    //if(this.categorias.containsKey(item.getCategoria())){
+                        questao.setCategoria(categorias.get(item.getCategoria()));
+                    //}
+                    //else{
+                    //    Categoria c = this.categoriaRepository.findByNome(item.getCategoria()).get();
+                    //    questao.setCategoria(c);
+                    //    categorias.put(item.getCategoria(), c);
+                    //}
 
                     ultimaQuestaoCadastrada = this.questaoRepository.save(questao);
 

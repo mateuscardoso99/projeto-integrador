@@ -15,9 +15,6 @@ public class Categoria {
     private Long id;
 
     @Column
-    private String codigo;
-
-    @Column
     private String nome;
 
     @Column
@@ -33,14 +30,6 @@ public class Categoria {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public String getNome() {
@@ -64,7 +53,6 @@ public class Categoria {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         result = prime * result + ((ativo == null) ? 0 : ativo.hashCode());
         return result;
@@ -83,11 +71,6 @@ public class Categoria {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
-            return false;
-        if (codigo == null) {
-            if (other.codigo != null)
-                return false;
-        } else if (!codigo.equals(other.codigo))
             return false;
         if (nome == null) {
             if (other.nome != null)
