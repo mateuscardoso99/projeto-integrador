@@ -127,5 +127,5 @@ export class SaveQuestao{
 export class SaveResposta{
   descricao: string = '';
   questao: number | null = null;
-  certa: boolean = false;
+  certa: boolean | null = false;
 }

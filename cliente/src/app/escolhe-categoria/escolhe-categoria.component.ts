@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { PartidaService } from '../services/partida.service';
+import { Categoria } from '../services/categoria.service';
 
 @Component({
   selector: 'app-escolhe-categoria',
@@ -7,6 +9,14 @@ import { Component } from '@angular/core';
   templateUrl: './escolhe-categoria.component.html',
   styleUrl: './escolhe-categoria.component.scss'
 })
-export class EscolheCategoriaComponent {
+export class EscolheCategoriaComponent implements OnInit{
+  categorias: Categoria[] = [];
+  partidaService: PartidaService = inject(PartidaService);
+
+  ngOnInit(): void {
+    this.partidaService.getCategorias().then(resp => {
+      this.categorias = resp;
+    })
+  }
 
 }

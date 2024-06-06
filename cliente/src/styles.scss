@@ -69,21 +69,60 @@ body{
         font-weight: bold;
         text-align: center;
     }
-
-    .is-invalid{
-        border: 2px solid #b53e3e;
-    }
-
-    .invalid-feedback{
-        margin-top: 5px;
-        font-size: 1rem;
-        color: #b53e3e;
-    }
 }
 
 .radio-group{
     display: flex;
     align-items: center;
+
+    .radio-input{
+        display: flex;
+        flex: 1;
+
+        input[type=radio]{
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    
+        label{
+            flex: 1;
+            text-align: center;
+            color: #fff;
+            padding: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+    
+        .certa{
+            background: #7fb57f;
+        }
+    
+        .errada{
+            background: #fb7e7e;
+        }
+    
+        input[type=radio]:checked + label{
+            background: #7979c7;
+            text-decoration: blink;
+            animation-name: blinker;
+            animation-duration: 0.7s;
+            animation-iteration-count:infinite;
+            animation-timing-function:ease-in-out;
+            animation-direction: alternate;
+            -webkit-animation-name: blinker;
+            -webkit-animation-duration: 0.7s;
+            -webkit-animation-iteration-count:infinite;
+            -webkit-animation-timing-function:ease-in-out;
+            -webkit-animation-direction: alternate;
+        }
+    }
 }
 
 .list-data{
@@ -159,4 +198,23 @@ select{
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.is-invalid{
+    border: 2px solid #b53e3e;
+}
+
+.invalid-feedback{
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #b53e3e;
+}
+
+@keyframes blinker {
+    from {opacity: 1.0;}
+    to {opacity: 0.6;}
+}
+@-webkit-keyframes blinker {
+    from {opacity: 1.0;}
+    to {opacity: 0.6;}
 }

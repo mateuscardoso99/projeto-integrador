@@ -36,13 +36,15 @@ public class DelegatedAuthenticationEntryPoint implements AuthenticationEntryPoi
             session.invalidate();
         }
 
-        //apaga o cookie com o jwt
-        for (Cookie cookie : request.getCookies()) {
-            cookie.setMaxAge(0);
-            cookie.setValue("");
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+        if(request.getCookies() != null){
+            //apaga o cookie com o jwt
+            for (Cookie cookie : request.getCookies()) {
+                cookie.setMaxAge(0);
+                cookie.setValue("");
+                cookie.setHttpOnly(true);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+            }
         }
         resolver.resolveException(request, response, null, authException);
     }

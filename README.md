@@ -1,3 +1,4 @@
 - https://blog.lsantos.dev/jwt-seguro/
 - login e logout usando cookies httponly
 - @for angular
+- form array radio buttons validation

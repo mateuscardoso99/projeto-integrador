@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.PartidaDTO;
+import com.example.api.dto.CategoriaDTO;
 import com.example.api.request.EncerramentoPartida;
+import com.example.api.service.CategoriaService;
 import com.example.api.service.PartidaService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import jakarta.validation.Valid;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +28,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping(value = "/partida")
 public class PartidaController {
     private final PartidaService partidaService;
+    private final CategoriaService categoriaService;
     private static final Logger LOGGER = Logger.getLogger(PartidaController.class.getName());
 
-    public PartidaController(PartidaService partidaService){
+    public PartidaController(PartidaService partidaService, CategoriaService categoriaService){
         this.partidaService = partidaService;
+        this.categoriaService = categoriaService;
+    }
+
+    @GetMapping("/categorias")
+    public ResponseEntity<Collection<CategoriaDTO>> getCategorias() {
+        return new ResponseEntity<>(this.categoriaService.getAtivos(), HttpStatus.OK);
     }
 
     @PostMapping("/{idCategoria}")

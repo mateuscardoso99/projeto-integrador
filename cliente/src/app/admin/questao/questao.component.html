@@ -1,14 +1,17 @@
 <div class="area-content">
-    <a class="link-add" routerLink="edit">
-        <i class="fa fa-plus"></i>
-        Adicionar Questão
-    </a>
     <select (change)="changeCategoria($event)">
         <option value="" disabled selected>Selecione uma categoria</option>
         @for(cat of categorias; track cat.id){
             <option [value]="cat.id">{{cat.nome}}</option>
         }
     </select>
+
+    @if(categoriaSelecionada){
+        <a class="link-add" routerLink="edit" [queryParams]="{ idCategoria: categoriaSelecionada}">
+            <i class="fa fa-plus"></i>
+            Adicionar Questão
+        </a>
+    }
 
     <div class="list-data">
         @for(q of questoes; track q.id) {
@@ -18,7 +21,7 @@
                 </div>
                 <div class="options">
                     <button class="fa fa-close btn-delete" (click)="openModalDelete(q.id)"></button>
-                    <a class="fa fa-pencil btn-edit" routerLink="edit"></a>
+                    <a class="fa fa-pencil btn-edit" routerLink="edit" [queryParams]="{ idCategoria: categoriaSelecionada, idQuestao: q.id}"></a>
                 </div>
             </div>
         }

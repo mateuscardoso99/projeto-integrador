@@ -1,1 +1,17 @@
-<p>escolhe-categoria works!</p>
+<div class="page-escolher-categorias">
+
+    <h1>Escolha uma categoria</h1>
+
+    <div class="container-categorias">
+    
+        @for(cat of categorias; track cat.id){
+        
+            <div class="categoria">
+                <p>{{cat.nome}}</p>
+            </div>
+        
+        
+        }
+    
+    </div>
+</div>

@@ -1,7 +1,23 @@
-<form action="">
+<form name="questaoForm" #questaoForm="ngForm" (ngSubmit)="questaoForm.form.valid && salvar()" class="form">
     <div class="input-group">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome">
+        <label for="descricao">Descrição</label>
+        <input 
+            type="text" 
+            id="descricao" 
+            name="descricao" 
+            [(ngModel)]="questao.descricao"
+            required 
+            #descricao="ngModel"
+            [ngClass]="{ 'is-invalid': questaoForm.submitted && descricao.errors }"
+        >
+
+        @if (questaoForm.submitted && descricao.errors) {
+            <div class="invalid-feedback">
+                @if (descricao.errors['required']) {
+                    <span>Descrição é obrigatória</span>
+                }
+            </div>
+        }
     </div>
 
     <div class="container-respostas">
@@ -10,15 +26,62 @@
         @for(resposta of questao.respostas; track resposta; let index = $index){
             <div class="resposta-questao">
                 <div class="input-group">
-                    <label [for]="'resposta_' + (index + 1)">Alternativa {{ index + 1 }}</label>
-                    <input type="text" [id]="'resposta_' + (index + 1)" [name]="'resposta_' + (index + 1)">
+                    <label [for]="'questao.respostas[' + index + '].descricao'">Alternativa {{ index + 1 }}</label>
+                    <input 
+                        type="text" 
+                        [id]="'questao.respostas[' + index + '].descricao'" 
+                        [name]="'questao.respostas[' + index + '].descricao'" 
+                        [(ngModel)]="questao.respostas[index].descricao" 
+                        placeholder="Descrição"
+                        required 
+                        #descricaoResposta="ngModel"
+                        [ngClass]="{ 'is-invalid': questaoForm.submitted && descricaoResposta.errors }"
+                    >
+
+                    @if (questaoForm.submitted && descricaoResposta.errors) {
+                        <div class="invalid-feedback">
+                            @if (descricaoResposta.errors['required']) {
+                                <span>Descrição é obrigatória</span>
+                            }
+                        </div>
+                    }
                 </div>
                 <div class="radio-group">
-                    <label [for]="'resposta_' + (index + 1)">Certa</label>
-                    <input type="radio" [id]="'resposta_' + (index + 1)" [name]="'resposta_' + (index + 1)">
-                    <label [for]="'resposta_' + (index + 1)">Errada</label>
-                    <input type="radio" [id]="'resposta_' + (index + 1)" [name]="'resposta_' + (index + 1)">
+                    <div class="radio-input">
+                        <input 
+                            type="radio" 
+                            [id]="'resposta_certa' + index" 
+                            [name]="'questao.respostas[' + index + '].certa'" 
+                            [value]="true" 
+                            [(ngModel)]="questao.respostas[index].certa"
+                            required
+                            #respostaRadio="ngModel"
+                        >
+                        <label [for]="'resposta_certa' + index" class="certa">Certa</label>
+                    </div>
+
+                    <!-- pelo name do input com o índice que a validação funciona pra cada campo -->
+                    
+                    <div class="radio-input">
+                        <input 
+                            type="radio" 
+                            [id]="'resposta_errada' + index" 
+                            [name]="'questao.respostas[' + index + '].certa'" 
+                            [value]="false" 
+                            [(ngModel)]="questao.respostas[index].certa"
+                            required
+                            #respostaRadio="ngModel"
+                        >
+                        <label [for]="'resposta_errada' + index" class="errada">Errada</label>
+                    </div>
                 </div>
+                @if (questaoForm.submitted && respostaRadio.errors) {
+                    <div class="invalid-feedback">
+                        @if (respostaRadio.errors['required']) {
+                            <span>Marque uma alternativa</span>
+                        }
+                    </div>
+                }
             </div>
         }
     </div>
