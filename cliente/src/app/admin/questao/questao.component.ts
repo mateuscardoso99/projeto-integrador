@@ -19,26 +19,39 @@ export class QuestaoComponent implements OnInit{
   questoes: Questao[] = [];
   modalOpen = false;
   questaoToDelete: number | null = null;
-  categoriaSelecionada: number | null = null;
+  categoriaSelecionada: Categoria | null = null;
 
   constructor(private categoriaService: CategoriaService, private questaoService: QuestaoService){}
+
+  /**
+   * behavior subject serve como uma fonte central de dados onde todos os componentes podem acessar e obter o valor atualizado para usar
+   * através do método subject(), pra atualizar um valor usa-se next(), pra obter o valor usa-se value()
+   */
   
   ngOnInit(): void {
     this.isLoading = true;
     this.categoriaService.findAll().then(response => {
       this.categorias = response;
     }).finally(() => this.isLoading = false)
+
+    this.categoriaSelecionada = this.categoriaService.getCategoriaSelecionada().value;
+    this.getQuestoes();
+
+    this.categoriaService.getCategoriaSelecionada().subscribe(cat => {     
+      this.categoriaSelecionada = cat;
+    })
   }
 
   changeCategoria(event: any){
-    this.categoriaSelecionada = event.target.value;
+    const categoria = this.categorias.filter(c => c.id == event.target.value)[0];
+    this.categoriaService.alterarCategoriaSelecionada(categoria);
     this.getQuestoes();
   }
 
-  getQuestoes(){
+  getQuestoes(){   
     if(this.categoriaSelecionada){
       this.isLoading = true;
-      this.questaoService.findByCategoria(this.categoriaSelecionada).then(response => {
+      this.questaoService.findByCategoria(this.categoriaSelecionada.id).then(response => {
         this.questoes = response;
       }).finally(() => this.isLoading = false);
     }    

@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { environment } from '../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService extends BaseService{
   private readonly PATH = `${environment.urlApi}/categoria/`;
+
+  //usado no combobox de categoria
+  private categoriaSelecionada = new BehaviorSubject<Categoria | null>(null);
+
+  alterarCategoriaSelecionada(c: Categoria){
+    this.categoriaSelecionada.next(c);
+  }
+
+  getCategoriaSelecionada(){
+    return this.categoriaSelecionada;
+  }
 
   findAll(): Promise<Categoria[]>{
     return new Promise(resolve => {

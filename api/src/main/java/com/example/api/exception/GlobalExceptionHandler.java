@@ -84,7 +84,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataNotFoundException.class)
     public final ResponseEntity<Map<String, List<String>>> DataNotFoundException(DataNotFoundException ex) {
         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())), new HttpHeaders(), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(Map.of("errors", Arrays.asList(ex.getMessage())), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)

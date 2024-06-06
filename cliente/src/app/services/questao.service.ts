@@ -125,6 +125,7 @@ export class SaveQuestao{
 }
 
 export class SaveResposta{
+  id: number | null = null;
   descricao: string = '';
   idQuestao: number | null = null;
   certa: boolean | null = false;

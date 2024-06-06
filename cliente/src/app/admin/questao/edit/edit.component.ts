@@ -51,6 +51,7 @@ export class EditComponent implements OnInit{
               saveResposta.certa = resposta.certa
               saveResposta.descricao = resposta.descricao
               saveResposta.idQuestao = questao.id
+              saveResposta.id = resposta.id
 
               this.questao.respostas.push(saveResposta)
             })
@@ -62,14 +63,14 @@ export class EditComponent implements OnInit{
 
   salvar(){
     console.log(this.questao);
-    
+    this.questao.respostas[3].id = 200
     //editar
     if(this.idQuestao){
       this.questaoService.update(this.questao, this.idQuestao).then(response => {
         if(response.id){
           Swal.fire({
             title: 'Sucesso',
-            text: "Cadastrado com sucesso",
+            text: "Atualizado com sucesso",
             icon: 'success'
           });
           return;

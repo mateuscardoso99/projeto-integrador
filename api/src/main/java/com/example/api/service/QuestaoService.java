@@ -84,7 +84,7 @@ public class QuestaoService {
     }
 
     //por padrão só faz rollback se for uma exceção de tempo execução, então precisa específicar as excecções que devem tbm gerar rollback
-    @Transactional(rollbackFor = DataNotFoundException.class)
+    @Transactional(rollbackFor = Exception.class)
     public QuestaoDTO update(Long id, CadastroQuestao cadastroQuestao) throws Exception{
         Questao questao = questaoRepository.findById(id).orElseThrow(() -> new DataNotFoundException("questão não encontrada"));
         questao.setCategoria(this.categoriaRepository.findById(cadastroQuestao.idCategoria()).orElseThrow(() -> new DataNotFoundException("categoria não encontrada")));
@@ -93,6 +93,13 @@ public class QuestaoService {
         validateQtdRespostasCertas(cadastroQuestao);
 
         List<Long> idsRespostasEnviadas = cadastroQuestao.respostas().stream().map(CadastroResposta::id).collect(Collectors.toList());
+        List<Long> idsRespostaSalvas = questao.getRespostas().stream().map(Resposta::getId).collect(Collectors.toList());
+
+        Boolean existeRespostaDeOutraQuestao = idsRespostasEnviadas.stream().anyMatch(idEnviado -> !idsRespostaSalvas.contains(idEnviado));
+
+        if(existeRespostaDeOutraQuestao){
+            throw new BadRequestException("Respostas inválidas");
+        }
 
         List<Resposta> respostasExcluidas = questao.getRespostas().stream().filter(resp -> !idsRespostasEnviadas.contains(resp.getId())).collect(Collectors.toList());
 

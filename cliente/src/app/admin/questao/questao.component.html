@@ -2,7 +2,7 @@
     <select (change)="changeCategoria($event)">
         <option value="" disabled selected>Selecione uma categoria</option>
         @for(cat of categorias; track cat.id){
-            <option [value]="cat.id">{{cat.nome}}</option>
+            <option [value]="cat.id" [selected]="categoriaSelecionada != null && cat.id === categoriaSelecionada.id">{{cat.nome}}</option>
         }
     </select>
 
