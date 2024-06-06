@@ -5,6 +5,7 @@ import { Categoria, CategoriaService } from '../../services/categoria.service';
 import { Questao, QuestaoService } from '../../services/questao.service';
 import Swal from 'sweetalert2';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-questao',
@@ -20,6 +21,8 @@ export class QuestaoComponent implements OnInit{
   modalOpen = false;
   questaoToDelete: number | null = null;
   categoriaSelecionada: Categoria | null = null;
+
+  categoriaSubscribe: Subscription | undefined = undefined;
 
   constructor(private categoriaService: CategoriaService, private questaoService: QuestaoService){}
 
@@ -37,9 +40,15 @@ export class QuestaoComponent implements OnInit{
     this.categoriaSelecionada = this.categoriaService.getCategoriaSelecionada().value;
     this.getQuestoes();
 
-    this.categoriaService.getCategoriaSelecionada().subscribe(cat => {     
+    this.categoriaSubscribe = this.categoriaService.getCategoriaSelecionada().subscribe(cat => {     
       this.categoriaSelecionada = cat;
     })
+  }
+
+  ngOnDestroy() {
+    if(this.categoriaSubscribe){
+      this.categoriaSubscribe.unsubscribe();
+    }
   }
 
   changeCategoria(event: any){
