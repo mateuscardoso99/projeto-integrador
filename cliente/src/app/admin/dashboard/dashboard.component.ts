@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class DashboardComponent implements OnInit{
   path: string = '';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private storageService: StorageService, private authService: AuthService){}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, protected authService: AuthService){}
   ngOnInit(): void {
     this.path = this.activatedRoute.snapshot.url[0].path;
     
@@ -22,13 +22,6 @@ export class DashboardComponent implements OnInit{
       if(e instanceof NavigationEnd){
         this.path = e.url        
       }
-    });
-  }
-
-  logout(){
-    this.authService.logout().then(() => {
-      this.storageService.removeItem("user");
-      this.router.navigate(['/login']);
     });
   }
 }

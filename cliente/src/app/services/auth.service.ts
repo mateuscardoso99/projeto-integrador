@@ -1,12 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { BaseService } from './base.service';
+import { Router } from '@angular/router';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService{
   private readonly PATH = `${environment.urlApi}/usuario/`;
+  router: Router = inject(Router)
+  storageService: StorageService = inject(StorageService);
+
 
   login(request: LoginRequest): Promise<any>{
     return new Promise((resolve, reject) => {
@@ -26,7 +31,7 @@ export class AuthService extends BaseService{
     });
   } 
 
-  logout(): Promise<any>{
+  logoutApi(): Promise<any>{
     return new Promise((resolve, reject) => {
       this.http.get(this.PATH + 'logout').subscribe({
         next: response => resolve(response),
@@ -34,6 +39,13 @@ export class AuthService extends BaseService{
       });
     });
   } 
+
+  logout(){
+    this.logoutApi().then(() => {
+      this.storageService.removeItem("user");
+      this.router.navigate(['/login']);
+    });
+  }
 }
 
 export class Usuario{

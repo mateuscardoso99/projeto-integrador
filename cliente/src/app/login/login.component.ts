@@ -28,7 +28,7 @@ export class LoginComponent {
             this.router.navigate(['/admin']);
           }
           else{
-            this.router.navigate(['/escolher-categoria']);
+            this.router.navigate(['/usuario/escolher-categoria']);
           }
         }
         else{

@@ -1,0 +1,27 @@
+.common-layout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh; //sempre ocupará toda a tela
+
+    nav{
+        width: 100%;
+        display: flex;
+        padding: 30px;
+        background: #d3d3d3;
+
+        span{
+            flex: 1;
+            font-size: 1.5rem;
+        }
+
+        button{
+            color: #fff;
+            font-size: 1.3rem;
+            border: none;
+            padding: 5px 30px;
+            cursor: pointer;
+            background: #737373;
+        }
+    }
+}
