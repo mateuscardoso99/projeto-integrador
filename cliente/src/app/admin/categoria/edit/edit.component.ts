@@ -84,7 +84,7 @@ export class EditComponent implements OnInit{
         
         Swal.fire({
           title: 'Erro',
-          text: error.error.errors[0] || "Ocorreu um erro ao salvar",
+          text: error.error.errors ? error.error.errors[0] : "Ocorreu um erro ao realizar o cadastro",
           icon: 'error'
         });
       });

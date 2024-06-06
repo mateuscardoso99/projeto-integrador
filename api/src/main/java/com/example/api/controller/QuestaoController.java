@@ -51,7 +51,7 @@ public class QuestaoController {
         return ResponseEntity.ok(this.questaoService.getByCategoria(idCategoria));
     }
 
-    @PostMapping
+    @PostMapping(value = {"","/"})
     public ResponseEntity<?> cadastro(@RequestBody @Valid CadastroQuestao questao) throws Exception{
         try{
             QuestaoDTO questaoDTO = this.questaoService.save(questao);

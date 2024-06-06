@@ -3,6 +3,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { QuestaoService, SaveQuestao, SaveResposta } from '../../../services/questao.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import ApiErrorMessages from '../../../utils/showErrorValidationApi';
 
 @Component({
   selector: 'app-edit',
@@ -16,6 +18,12 @@ export class EditComponent implements OnInit{
   idCategoria: number | null = null;
   idQuestao: number | null = null;
 
+  errors: any = {
+    idCategoria: null,
+    descricao: null,
+    respostas: null
+  }
+
   constructor(private questaoService: QuestaoService, private route: ActivatedRoute){}
 
   ngOnInit(): void {
@@ -23,7 +31,7 @@ export class EditComponent implements OnInit{
       if(p['params'].idCategoria){
         this.idCategoria = p['params'].idCategoria;
 
-        this.questao.categoria = this.idCategoria
+        this.questao.idCategoria = this.idCategoria
       }
 
       if(p['params'].idQuestao){
@@ -32,7 +40,7 @@ export class EditComponent implements OnInit{
         if(this.idQuestao){
           this.questaoService.findById(this.idQuestao).then(questao => {
             this.questao.ativo = questao.ativo
-            this.questao.categoria = questao.categoria.id
+            this.questao.idCategoria = questao.categoria.id
             this.questao.descricao = questao.descricao
 
             this.questao.respostas = [];
@@ -42,7 +50,7 @@ export class EditComponent implements OnInit{
               const saveResposta: SaveResposta = new SaveResposta();
               saveResposta.certa = resposta.certa
               saveResposta.descricao = resposta.descricao
-              saveResposta.questao = questao.id
+              saveResposta.idQuestao = questao.id
 
               this.questao.respostas.push(saveResposta)
             })
@@ -57,14 +65,62 @@ export class EditComponent implements OnInit{
     
     //editar
     if(this.idQuestao){
-      this.questaoService.update(this.questao, this.idQuestao).then(resp => {
-        console.log(resp);
+      this.questaoService.update(this.questao, this.idQuestao).then(response => {
+        if(response.id){
+          Swal.fire({
+            title: 'Sucesso',
+            text: "Cadastrado com sucesso",
+            icon: 'success'
+          });
+          return;
+        }
+        Swal.fire({
+          title: 'Erro',
+          text: "Ocorreu um erro ao realizar o cadastro",
+          icon: 'error'
+        });
+      }).catch(error => {
+        Swal.fire({
+          title: 'Erro',
+          text: error.error.errors ? error.error.errors[0] : "Ocorreu um erro ao realizar a atualização",
+          icon: 'error'
+        });
       })
     }
     //cadastrar
     else{
-      this.questaoService.save(this.questao).then(resp => {
-        console.log(resp);
+      this.questaoService.save(this.questao).then(response => {
+        if(response.id){
+          Swal.fire({
+            title: 'Sucesso',
+            text: "Cadastrado com sucesso",
+            icon: 'success'
+          });
+          return;
+        }
+        Swal.fire({
+          title: 'Erro',
+          text: "Ocorreu um erro ao realizar o cadastro",
+          icon: 'error'
+        });
+      }).catch(error => {  
+        ApiErrorMessages.buildErrorByInputs(this.errors, error)
+
+        //mensagens de erro da api do array de respostas
+        const errosEnvioRespostas = Object.keys(error.error).filter(e => e.startsWith("respostas["))
+
+        errosEnvioRespostas.forEach(e => {
+          this.errors[e] = error.error[e];
+        });
+
+        console.log(this.errors);
+        
+        
+        Swal.fire({
+          title: 'Erro',
+          text: error.error.errors ? error.error.errors[0] : "Ocorreu um erro ao realizar o cadastro",
+          icon: 'error'
+        });
       })
       
     }

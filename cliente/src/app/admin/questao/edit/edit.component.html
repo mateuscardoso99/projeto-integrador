@@ -1,3 +1,23 @@
+
+<!-- msg de erros da api -->
+@if (errors.idCategoria) {
+    <div class="invalid-feedback">
+        @for(erro of errors.idCategoria; track erro){
+            <span>{{erro}}</span>
+        }
+    </div>
+}
+
+
+<!-- msg de erros da api -->
+@if (errors.respostas) {
+    <div class="invalid-feedback">
+        @for(erro of errors.respostas; track erro){
+            <span>{{erro}}</span>
+        }
+    </div>
+}
+
 <form name="questaoForm" #questaoForm="ngForm" (ngSubmit)="questaoForm.form.valid && salvar()" class="form">
     <div class="input-group">
         <label for="descricao">Descrição</label>
@@ -15,6 +35,15 @@
             <div class="invalid-feedback">
                 @if (descricao.errors['required']) {
                     <span>Descrição é obrigatória</span>
+                }
+            </div>
+        }
+
+        <!-- msg de erros da api -->
+        @if (errors.descricao) {
+            <div class="invalid-feedback">
+                @for(erro of errors.descricao; track erro){
+                    <span>{{erro}}</span>
                 }
             </div>
         }
@@ -79,6 +108,15 @@
                     <div class="invalid-feedback">
                         @if (respostaRadio.errors['required']) {
                             <span>Marque uma alternativa</span>
+                        }
+                    </div>
+                }
+
+                <!-- msg de erros da api -->
+                @if (errors['respostas[' + index + '].descricao']) {
+                    <div class="invalid-feedback">
+                        @for(erro of errors['respostas[' + index + '].descricao']; track erro){
+                            <span>{{erro}}</span>
                         }
                     </div>
                 }

@@ -112,7 +112,7 @@ export class Questao{
 
 export class SaveQuestao{
   descricao: string = '';
-  categoria: number | null = null;
+  idCategoria: number | null = null;
   ativo: boolean = true;
   respostas: SaveResposta[] = [];
 
@@ -126,6 +126,6 @@ export class SaveQuestao{
 
 export class SaveResposta{
   descricao: string = '';
-  questao: number | null = null;
+  idQuestao: number | null = null;
   certa: boolean | null = false;
 }
