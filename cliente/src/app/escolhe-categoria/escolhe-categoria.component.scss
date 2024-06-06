@@ -1,6 +1,7 @@
 .page-escolher-categorias{
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 20px;
 
     h1{
@@ -13,6 +14,8 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
+        width: 100%;
+        max-width: 1024px;
 
         .categoria{
             height: 150px;
