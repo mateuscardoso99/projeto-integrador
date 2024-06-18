@@ -6,3 +6,4 @@
 - behavior subject
 - paginação spring
 - autenticação mvc e rest juntos no mesmo backend
+- infinite scroll com botão

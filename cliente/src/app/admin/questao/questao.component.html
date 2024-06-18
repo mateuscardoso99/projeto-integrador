@@ -29,6 +29,10 @@
             <p class="italic">Nenhuma questão encontrada</p>
         }
     </div>
+
+    @if(categoriaSelecionada && paginaAtual < totalDePaginas - 1){
+        <button type="button" class="link-add" (click)="carregarMais()" style="align-self: center;">CARREGAR MAIS</button>
+    }
 </div>
 
 @if(isLoading){

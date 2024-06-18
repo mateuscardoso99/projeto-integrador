@@ -24,6 +24,10 @@ export class QuestaoComponent implements OnInit{
 
   categoriaSubscribe: Subscription | undefined = undefined;
 
+  paginaAtual = 0;
+  itemsPorPagina = 5;
+  totalDePaginas = 0;
+
   constructor(private categoriaService: CategoriaService, private questaoService: QuestaoService){}
 
   /**
@@ -60,10 +64,25 @@ export class QuestaoComponent implements OnInit{
   getQuestoes(){   
     if(this.categoriaSelecionada){
       this.isLoading = true;
-      this.questaoService.findByCategoria(this.categoriaSelecionada.id).then(response => {
-        this.questoes = response;
+      this.questaoService.findByCategoria(this.categoriaSelecionada.id, this.paginaAtual, this.itemsPorPagina).then(response => {
+        this.totalDePaginas = response.totalPages;
+
+        const novasQuestoes: Questao[] = [];
+
+        response.questoes.forEach((q: any) => {
+          novasQuestoes.push(new Questao(q));
+        })
+
+        this.questoes = [...this.questoes, ...novasQuestoes];
+        
       }).finally(() => this.isLoading = false);
     }    
+  }
+
+  carregarMais(){
+    if(this.paginaAtual == this.totalDePaginas - 1) return;
+    this.paginaAtual++;
+    this.getQuestoes();
   }
 
   closeModal(){
