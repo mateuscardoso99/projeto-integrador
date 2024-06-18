@@ -1,9 +1,17 @@
 package com.example.api.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.QuestaoDTO;
+import com.example.api.models.Questao;
 import com.example.api.request.CadastroQuestao;
 import com.example.api.service.QuestaoService;
 
@@ -47,8 +57,18 @@ public class QuestaoController {
     }
 
     @GetMapping(value = "/categoria/{idCategoria}")
-    public ResponseEntity<List<QuestaoDTO>> findByCategoria(@PathVariable Long idCategoria){
-        return ResponseEntity.ok(this.questaoService.getByCategoria(idCategoria));
+    public ResponseEntity<Map<String, Object>> findByCategoria(
+            @PathVariable Long idCategoria, 
+            @RequestParam(defaultValue= "0", required = false) Integer pageNumber,
+            @RequestParam(defaultValue= "10", required = false) Integer pageSize
+    ){
+        Page<Questao> page = this.questaoService.getByCategoria(idCategoria, PageRequest.of(pageNumber, pageSize, Sort.by("id")));
+        Map<String, Object> response = new HashMap<>();
+        response.put("questoes", page.getContent().stream().map(q -> new QuestaoDTO().convert(q)).collect(Collectors.toList()));
+        response.put("totalPages", page.getTotalPages());
+        response.put("totalQuestoes", page.getTotalElements());
+        response.put("paginaAtual", page.getNumber());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = {"","/"})

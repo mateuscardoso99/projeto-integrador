@@ -13,6 +13,8 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,8 +67,8 @@ public class QuestaoService {
         throw new DataNotFoundException("questão não encontrada");
     }
 
-    public List<QuestaoDTO> getByCategoria(Long idCategoria){
-        return this.questaoRepository.findByCategoria(idCategoria).stream().map(q -> new QuestaoDTO().convert(q)).toList();
+    public Page<Questao> getByCategoria(Long idCategoria, Pageable p){
+        return this.questaoRepository.findByCategoria(idCategoria, p);
     }
 
     public QuestaoDTO save(CadastroQuestao cadastroQuestao) throws Exception{
