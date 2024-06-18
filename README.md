@@ -5,3 +5,4 @@
 - tratamento api error messages
 - behavior subject
 - paginação spring
+- autenticação mvn e rest juntos no mesmo backend

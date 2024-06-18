@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -57,6 +58,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    //@Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.cors(v -> v.configurationSource(corsConfigurationSource()))
             .csrf(CsrfConfigurer::disable)
@@ -77,10 +79,48 @@ public class SecurityConfig {
                             .anyRequest().authenticated();
                 }
             )
+            //.securityMatcher(r -> java.util.stream.Stream.of(r.getCookies()).anyMatch(f -> f.getName().equals("jwt")))
             .addFilterBefore(authenticationJwtTokenFilter(),UsernamePasswordAuthenticationFilter.class)
             .authenticationProvider(getDaoAuthProvider());
         return http.build();
     }
+
+    /*@Bean
+    @Order(1)
+    public SecurityFilterChain apiFilterChain(
+            HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf().disable()
+            .sessionManagement()
+            .sessionCreationPolicy(
+                SessionCreationPolicy.NEVER).and()
+            .authorizeHttpRequests(securedRequests)
+            // checking for "Authorization" header
+            .securityMatcher(request ->
+                request.getHeader("Authorization") != null)
+            .httpBasic(basic ->
+                basic.authenticationEntryPoint(
+                    (request, response, exp)->
+                        response.setStatus(401)))
+            .build();
+    }
+
+    //se a request não tem o header authorization, então usa esse método pra gerenciar a autenticação, se tem usa o decima
+    @Bean
+    public SecurityFilterChain formFilterChain(
+            HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+            .authorizeHttpRequests(securedRequests)
+            .formLogin(form ->
+                form.loginPage("/login")
+                    .failureUrl("/login?error"))
+            .logout(logout ->
+                logout.logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID"))
+            .build();
+    }*/
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
