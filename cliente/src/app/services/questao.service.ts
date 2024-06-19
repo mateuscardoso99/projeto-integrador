@@ -29,9 +29,9 @@ export class QuestaoService extends BaseService{
     });
   }
 
-  findByCategoria(idCategoria: number, pageNumber: number, pageSize: number): Promise<any>{
+  findByCategoria(idCategoria: number, filtro: string, pageNumber: number, pageSize: number): Promise<any>{
     return new Promise(resolve => {
-      this.http.get(`${this.PATH}categoria/${idCategoria}?pageNumber=${pageNumber}&pageSize=${pageSize}`).subscribe((response: any) => resolve(response));
+      this.http.get(`${this.PATH}categoria/${idCategoria}?pageNumber=${pageNumber}&pageSize=${pageSize}&filtro=${filtro}`).subscribe((response: any) => resolve(response));
     });
   }
 

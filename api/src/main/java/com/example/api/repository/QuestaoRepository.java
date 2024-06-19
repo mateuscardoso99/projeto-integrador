@@ -15,6 +15,9 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long>{
     @Query("SELECT q FROM Questao q WHERE q.categoria.id = ?1 AND q.ativo = true")
     Page<Questao> findByCategoria(Long idCategoria, Pageable pageable);
 
+    @Query("SELECT q FROM Questao q WHERE q.categoria.id = ?1 AND LOWER(q.descricao) LIKE LOWER(CONCAT('%',?2,'%')) AND q.ativo = true")
+    Page<Questao> findByCategoriaAndNome(Long idCategoria, String nomeQuestao, Pageable pageable);
+
     @Query("SELECT q FROM Questao q WHERE q.ativo = true")
     Collection<Questao> findAtivos();
 }

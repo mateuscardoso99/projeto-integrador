@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,9 +58,10 @@ public class QuestaoController {
     public ResponseEntity<Map<String, Object>> findByCategoria(
             @PathVariable Long idCategoria, 
             @RequestParam(defaultValue= "0", required = false) Integer pageNumber,
-            @RequestParam(defaultValue= "10", required = false) Integer pageSize
+            @RequestParam(defaultValue= "10", required = false) Integer pageSize,
+            @RequestParam(name = "filtro", required = false) String nomeQuestao
     ){
-        Page<Questao> page = this.questaoService.getByCategoria(idCategoria, PageRequest.of(pageNumber, pageSize, Sort.by("id")));
+        Page<Questao> page = this.questaoService.getByCategoria(idCategoria, nomeQuestao, PageRequest.of(pageNumber, pageSize, Sort.by("id")));
         Map<String, Object> response = new HashMap<>();
         response.put("questoes", page.getContent().stream().map(q -> new QuestaoDTO().convert(q)).collect(Collectors.toList()));
         response.put("totalPages", page.getTotalPages());

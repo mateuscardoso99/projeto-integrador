@@ -11,7 +11,12 @@
             <i class="fa fa-plus"></i>
             Adicionar Questão
         </a>
+
+        <div class="filtro">
+            <input type="text" placeholder="Pesquise uma questão..." [(ngModel)]="filtro" (keyup)="resetPageNumberOnInput()" (ngModelChange)="this.subject.next($event)">
+        </div>
     }
+
 
     <div class="list-data">
         @for(q of questoes; track q.id) {

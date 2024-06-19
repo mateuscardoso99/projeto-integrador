@@ -3,7 +3,8 @@
 - @for angular
 - form array radio buttons validation
 - tratamento api error messages
-- behavior subject
+- behavior subject, subject
 - paginação spring
 - autenticação mvc e rest juntos no mesmo backend
 - infinite scroll com botão
+- filtro com paginação, subject, debounceTime

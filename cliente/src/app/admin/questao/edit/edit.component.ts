@@ -63,7 +63,7 @@ export class EditComponent implements OnInit{
 
   salvar(){
     console.log(this.questao);
-    this.questao.respostas[3].id = 200
+    //this.questao.respostas[3].id = 200
     //editar
     if(this.idQuestao){
       this.questaoService.update(this.questao, this.idQuestao).then(response => {

@@ -67,8 +67,10 @@ public class QuestaoService {
         throw new DataNotFoundException("questão não encontrada");
     }
 
-    public Page<Questao> getByCategoria(Long idCategoria, Pageable p){
-        return this.questaoRepository.findByCategoria(idCategoria, p);
+    public Page<Questao> getByCategoria(Long idCategoria, String nomeQuestao, Pageable p){
+        return (nomeQuestao == null || nomeQuestao.trim().length() == 0)
+            ? this.questaoRepository.findByCategoria(idCategoria, p) 
+            : this.questaoRepository.findByCategoriaAndNome(idCategoria, nomeQuestao, p);
     }
 
     public QuestaoDTO save(CadastroQuestao cadastroQuestao) throws Exception{

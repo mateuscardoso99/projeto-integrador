@@ -5,12 +5,14 @@ import { Categoria, CategoriaService } from '../../services/categoria.service';
 import { Questao, QuestaoService } from '../../services/questao.service';
 import Swal from 'sweetalert2';
 import { ModalComponent } from '../../components/modal/modal.component';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, debounceTime, map } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-questao',
   standalone: true,
-  imports: [RouterModule, LoaderComponent, ModalComponent],
+  imports: [RouterModule, LoaderComponent, ModalComponent, FormsModule],
   templateUrl: './questao.component.html',
   styleUrl: './questao.component.scss'
 })
@@ -27,6 +29,9 @@ export class QuestaoComponent implements OnInit{
   paginaAtual = 0;
   itemsPorPagina = 5;
   totalDePaginas = 0;
+
+  filtro: string = '';
+  subject = new Subject<string>();
 
   constructor(private categoriaService: CategoriaService, private questaoService: QuestaoService){}
 
@@ -46,7 +51,12 @@ export class QuestaoComponent implements OnInit{
 
     this.categoriaSubscribe = this.categoriaService.getCategoriaSelecionada().subscribe(cat => {     
       this.categoriaSelecionada = cat;
-    })
+    });
+
+    this.subject.pipe(
+      debounceTime(1100), 
+      map(() => this.questoes = [])
+    ).subscribe(() => this.getQuestoes());
   }
 
   ngOnDestroy() {
@@ -58,13 +68,16 @@ export class QuestaoComponent implements OnInit{
   changeCategoria(event: any){
     const categoria = this.categorias.filter(c => c.id == event.target.value)[0];
     this.categoriaService.alterarCategoriaSelecionada(categoria);
+    this.questoes = [];
+    this.paginaAtual = 0;
+    this.filtro = '';
     this.getQuestoes();
   }
 
   getQuestoes(){   
     if(this.categoriaSelecionada){
       this.isLoading = true;
-      this.questaoService.findByCategoria(this.categoriaSelecionada.id, this.paginaAtual, this.itemsPorPagina).then(response => {
+      this.questaoService.findByCategoria(this.categoriaSelecionada.id, this.filtro, this.paginaAtual, this.itemsPorPagina).then(response => {
         this.totalDePaginas = response.totalPages;
 
         const novasQuestoes: Questao[] = [];
@@ -83,6 +96,10 @@ export class QuestaoComponent implements OnInit{
     if(this.paginaAtual == this.totalDePaginas - 1) return;
     this.paginaAtual++;
     this.getQuestoes();
+  }
+
+  resetPageNumberOnInput(){
+    this.paginaAtual = 0;
   }
 
   closeModal(){
