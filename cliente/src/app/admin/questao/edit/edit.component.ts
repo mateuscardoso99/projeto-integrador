@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { QuestaoService, SaveQuestao, SaveResposta } from '../../../services/questao.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,7 @@ export class EditComponent implements OnInit{
     respostas: null
   }
 
-  constructor(private questaoService: QuestaoService, private route: ActivatedRoute){}
+  constructor(private questaoService: QuestaoService, private route: ActivatedRoute, private router: Router){}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((p: any) => {
@@ -97,6 +97,7 @@ export class EditComponent implements OnInit{
             text: "Cadastrado com sucesso",
             icon: 'success'
           });
+          this.router.navigate(['/admin/questoes']);
           return;
         }
         Swal.fire({

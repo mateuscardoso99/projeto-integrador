@@ -24,7 +24,7 @@ export class CriarContaComponent {
         console.log(resp.status);
         
         Swal.fire({
-          title: 'Erro',
+          title: 'Conta criada',
           text: "Cadastrado com sucesso",
           icon: 'success'
         })
