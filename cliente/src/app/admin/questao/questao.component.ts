@@ -116,7 +116,8 @@ export class QuestaoComponent implements OnInit{
     if(this.questaoToDelete !== null){
       this.questaoService.delete(this.questaoToDelete).then(() => {
         this.closeModal();
-        this.getQuestoes();
+        this.questoes.splice(this.questoes.map(q => q.id).indexOf(this.questaoToDelete!),1)
+        //this.getQuestoes();
         Swal.fire({
           title: 'Excluído',
           text: "Questão apagada com sucesso",

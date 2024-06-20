@@ -7,7 +7,7 @@
     </select>
 
     @if(categoriaSelecionada){
-        <a class="link-add" routerLink="edit" [queryParams]="{ idCategoria: categoriaSelecionada}">
+        <a class="link-add" routerLink="edit" [queryParams]="{ idCategoria: categoriaSelecionada.id}">
             <i class="fa fa-plus"></i>
             Adicionar Questão
         </a>
@@ -15,25 +15,24 @@
         <div class="filtro">
             <input type="text" placeholder="Pesquise uma questão..." [(ngModel)]="filtro" (keyup)="resetPageNumberOnInput()" (ngModelChange)="this.subject.next($event)">
         </div>
+
+        <div class="list-data">
+            @for(q of questoes; track q.id) {
+                <div class="row-data">
+                    <div class="descr">
+                        <p>{{q.descricao}}</p>
+                    </div>
+                    <div class="options">
+                        <button class="fa fa-close btn-delete" (click)="openModalDelete(q.id)"></button>
+                        <a class="fa fa-pencil btn-edit" routerLink="edit" [queryParams]="{ idCategoria: categoriaSelecionada.id, idQuestao: q.id}"></a>
+                    </div>
+                </div>
+            }
+            @empty{
+                <p class="italic">Nenhuma questão encontrada</p>
+            }
+        </div>
     }
-
-
-    <div class="list-data">
-        @for(q of questoes; track q.id) {
-            <div class="row-data">
-                <div class="descr">
-                    <p>{{q.descricao}}</p>
-                </div>
-                <div class="options">
-                    <button class="fa fa-close btn-delete" (click)="openModalDelete(q.id)"></button>
-                    <a class="fa fa-pencil btn-edit" routerLink="edit" [queryParams]="{ idCategoria: categoriaSelecionada, idQuestao: q.id}"></a>
-                </div>
-            </div>
-        }
-        @empty{
-            <p class="italic">Nenhuma questão encontrada</p>
-        }
-    </div>
 
     @if(categoriaSelecionada && paginaAtual < totalDePaginas - 1){
         <button type="button" class="link-add" (click)="carregarMais()" style="align-self: center;">CARREGAR MAIS</button>
