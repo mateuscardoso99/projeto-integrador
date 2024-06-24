@@ -8,3 +8,4 @@
 - autenticação mvc e rest juntos no mesmo backend
 - infinite scroll com botão
 - filtro com paginação, subject, debounceTime
+- jpa native query

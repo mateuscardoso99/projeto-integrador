@@ -38,7 +38,7 @@ public class PartidaController {
 
     @GetMapping("/categorias")
     public ResponseEntity<Collection<CategoriaDTO>> getCategorias() {
-        return new ResponseEntity<>(this.categoriaService.getAtivos(), HttpStatus.OK);
+        return new ResponseEntity<>(this.categoriaService.findCategoriaMinimoDezQuestoesCadastradas(), HttpStatus.OK);
     }
 
     @PostMapping("/{idCategoria}")

@@ -68,6 +68,7 @@ public class SecurityConfig {
                     request.requestMatchers("/usuario/login").permitAll()
                             .requestMatchers("/usuario/cadastro").permitAll()
                             .requestMatchers("/batch/**").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/partida/categorias").permitAll()
                             .requestMatchers(HttpMethod.POST, "/categoria/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.GET, "/categoria/**").hasAuthority("ADMIN")
                             .requestMatchers(HttpMethod.PUT, "/categoria/**").hasAuthority("ADMIN")

@@ -16,4 +16,10 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
 
     Optional<Categoria> findByNome(String nome);
     
+    @Query(
+        value = "SELECT * FROM Categoria c WHERE EXISTS (SELECT COUNT(*) FROM Questao q WHERE q.categoria_id = c.id HAVING COUNT(*) >= 10)",
+        nativeQuery = true
+    )
+    Collection<Categoria> findCategoriaMinimoDezQuestoesCadastradas();
+    
 }

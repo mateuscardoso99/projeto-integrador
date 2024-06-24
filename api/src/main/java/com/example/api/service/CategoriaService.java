@@ -1,5 +1,6 @@
 package com.example.api.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,5 +67,9 @@ public class CategoriaService {
 
     public Long count(){
         return this.categoriaRepository.count();
+    }
+
+    public Collection<CategoriaDTO> findCategoriaMinimoDezQuestoesCadastradas(){
+        return this.categoriaRepository.findCategoriaMinimoDezQuestoesCadastradas().stream().map(CategoriaDTO::convert).toList();
     }
 }
