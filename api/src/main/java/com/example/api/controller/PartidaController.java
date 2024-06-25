@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.PartidaDTO;
+import com.example.api.dto.ResultadoPartidaDTO;
 import com.example.api.dto.CategoriaDTO;
 import com.example.api.request.EncerramentoPartida;
 import com.example.api.service.CategoriaService;
@@ -63,8 +64,8 @@ public class PartidaController {
     }
     
     @PostMapping("/encerrar")
-    public ResponseEntity<PartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
-        PartidaDTO partidaDTO = this.partidaService.encerrarPartida(encerramentoPartida, request);
+    public ResponseEntity<ResultadoPartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
+        ResultadoPartidaDTO partidaDTO = this.partidaService.encerrarPartida(encerramentoPartida, request);
         return ResponseEntity.ok(partidaDTO);
     }
     

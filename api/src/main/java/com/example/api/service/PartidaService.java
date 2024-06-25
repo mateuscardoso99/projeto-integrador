@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.api.dto.PartidaDTO;
+import com.example.api.dto.ResultadoPartidaDTO;
 import com.example.api.exception.DataNotFoundException;
 import com.example.api.models.Categoria;
 import com.example.api.models.Partida;
@@ -89,7 +90,7 @@ public class PartidaService {
     }
 
     @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class})
-    public PartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws DataNotFoundException, BadRequestException{
+    public ResultadoPartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws DataNotFoundException, BadRequestException{
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(encerramentoPartida.idPartida(), usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
         
@@ -111,6 +112,9 @@ public class PartidaService {
         };
 
         partida = partidaRepository.save(partida);
-        return PartidaDTO.convert(partida);
+        ResultadoPartidaDTO resultado = new ResultadoPartidaDTO();
+        resultado.setTotalAcertos(this.partidaRepository.countAcertosPartida(partida.getId(), usuario.getId()));
+        resultado.setPartidaDTO(PartidaDTO.convert(partida));
+        return resultado;
     }
 }
