@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.api.dto.PartidaDTO;
+import com.example.api.dto.RankingDTO;
 import com.example.api.dto.ResultadoPartidaDTO;
 import com.example.api.exception.DataNotFoundException;
 import com.example.api.models.Categoria;
@@ -116,5 +117,9 @@ public class PartidaService {
         resultado.setTotalAcertos(this.partidaRepository.countAcertosPartida(partida.getId(), usuario.getId()));
         resultado.setPartidaDTO(PartidaDTO.convert(partida));
         return resultado;
+    }
+
+    public Collection<RankingDTO> getRanking(Long idCategoria){
+        return this.partidaRepository.rankingAcertosByCategoriaPorUsuario(idCategoria);
     }
 }

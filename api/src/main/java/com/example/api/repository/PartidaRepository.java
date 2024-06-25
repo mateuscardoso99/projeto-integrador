@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.example.api.dto.RankingDTO;
 import com.example.api.models.Partida;
 
 @Repository
@@ -22,4 +23,10 @@ public interface PartidaRepository extends JpaRepository<Partida, Long>{
         nativeQuery = true
     )
     Long countAcertosPartida(Long idPartida, Long idUsuario);
+
+    @Query(
+        value = "select p.id as partida, c.nome as categoria, sum(case when r.certa = true then 1 ELSE 0 end) as acertos , u.nome as usuario from partida p join usuario u on u.id = p.usuario_id join categoria c on c.id = p.categoria_id join partida_respostas pr on pr.partida_id = p.id join resposta r on r.id = pr.resposta_id where c.id = ?1 group by p.id, c.nome, u.nome",
+        nativeQuery = true
+    )
+    Collection<RankingDTO> rankingAcertosByCategoriaPorUsuario(Long idCategoria);
 }

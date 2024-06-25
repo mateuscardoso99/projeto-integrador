@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.PartidaDTO;
+import com.example.api.dto.RankingDTO;
 import com.example.api.dto.ResultadoPartidaDTO;
 import com.example.api.dto.CategoriaDTO;
 import com.example.api.request.EncerramentoPartida;
@@ -40,6 +41,11 @@ public class PartidaController {
     @GetMapping("/categorias")
     public ResponseEntity<Collection<CategoriaDTO>> getCategorias() {
         return new ResponseEntity<>(this.categoriaService.findCategoriaMinimoDezQuestoesCadastradas(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ranking/{idCategoria}")
+    public ResponseEntity<Collection<RankingDTO>> ranking(@PathVariable Long idCategoria) {
+        return new ResponseEntity<>(this.partidaService.getRanking(idCategoria), HttpStatus.OK);
     }
 
     @PostMapping("/{idCategoria}")
