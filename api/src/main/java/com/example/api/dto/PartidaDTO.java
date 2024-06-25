@@ -2,6 +2,7 @@ package com.example.api.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.LinkedList;
 
 import com.example.api.models.Partida;
 
@@ -9,7 +10,7 @@ public class PartidaDTO {
     private Long id;
     private LocalDateTime horaInicio;
     private CategoriaDTO categoria;
-    private List<PartidaRespostaDTO> respostas;
+    private List<PartidaRespostaDTO> partidaQuestoes = new LinkedList<>();
     
     public Long getId() {
         return id;
@@ -29,11 +30,11 @@ public class PartidaDTO {
     public void setCategoria(CategoriaDTO categoria) {
         this.categoria = categoria;
     }
-    public List<PartidaRespostaDTO> getRespostas() {
-        return respostas;
+    public List<PartidaRespostaDTO> getPartidaQuestoes() {
+        return partidaQuestoes;
     }
-    public void setRespostas(List<PartidaRespostaDTO> respostas) {
-        this.respostas = respostas;
+    public void setPartidaQuestoes(List<PartidaRespostaDTO> partidaQuestoes) {
+        this.partidaQuestoes = partidaQuestoes;
     }
 
     public static PartidaDTO convert(Partida partida){
@@ -41,7 +42,10 @@ public class PartidaDTO {
         partidaDTO.setCategoria(CategoriaDTO.convert(partida.getCategoria()));
         partidaDTO.setHoraInicio(partida.getHoraInicio());
         partidaDTO.setId(partida.getId());
-        partidaDTO.setRespostas(null);
+
+        partida.getPartidaRespostas().forEach(p -> {
+            partidaDTO.getPartidaQuestoes().add(PartidaRespostaDTO.convert(p));
+        });
         return partidaDTO;
     }
 }

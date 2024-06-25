@@ -63,7 +63,7 @@ public class QuestaoController {
     ){
         Page<Questao> page = this.questaoService.getByCategoria(idCategoria, nomeQuestao, PageRequest.of(pageNumber, pageSize, Sort.by("id")));
         Map<String, Object> response = new HashMap<>();
-        response.put("questoes", page.getContent().stream().map(q -> new QuestaoDTO().convert(q)).collect(Collectors.toList()));
+        response.put("questoes", page.getContent().stream().map(q -> new QuestaoDTO().convert(q, true)).collect(Collectors.toList()));
         response.put("totalPages", page.getTotalPages());
         response.put("totalQuestoes", page.getTotalElements());
         response.put("paginaAtual", page.getNumber());

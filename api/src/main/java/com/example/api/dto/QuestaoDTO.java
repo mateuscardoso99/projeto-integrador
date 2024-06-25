@@ -1,6 +1,7 @@
 package com.example.api.dto;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.example.api.models.Questao;
 
@@ -42,11 +43,11 @@ public class QuestaoDTO {
         this.respostas = respostas;
     }
 
-    public QuestaoDTO convert(Questao questao){
+    public QuestaoDTO convert(Questao questao, boolean showRespostas){
         this.ativo = questao.getAtivo();
         this.categoria = CategoriaDTO.convert(questao.getCategoria());
         this.descricao = questao.getDescricao();
-        this.respostas = questao.getRespostas().stream().map(RespostaDTO::convert).toList();
+        this.respostas = showRespostas ? questao.getRespostas().stream().map(RespostaDTO::convert).toList() : new ArrayList<>();
         this.id = questao.getId();
         return this;
     }

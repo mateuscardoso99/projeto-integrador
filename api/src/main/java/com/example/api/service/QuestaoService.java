@@ -51,18 +51,18 @@ public class QuestaoService {
 
     public List<QuestaoDTO> getAll(){
         List<QuestaoDTO> questoes = new ArrayList<>();
-        questoes.addAll(this.questaoRepository.findAll().stream().map(q -> new QuestaoDTO().convert(q)).toList());
+        questoes.addAll(this.questaoRepository.findAll().stream().map(q -> new QuestaoDTO().convert(q, true)).toList());
         return questoes;
     }
 
     public List<QuestaoDTO> getAtivos(){
-        return this.questaoRepository.findAtivos().stream().map(q -> new QuestaoDTO().convert(q)).toList();
+        return this.questaoRepository.findAtivos().stream().map(q -> new QuestaoDTO().convert(q, true)).toList();
     }
 
     public QuestaoDTO find(Long id) throws Exception{
         Optional<Questao> q = this.questaoRepository.findById(id);
         if(q.isPresent()){
-            return new QuestaoDTO().convert(q.get());
+            return new QuestaoDTO().convert(q.get(), true);
         }
         throw new DataNotFoundException("questão não encontrada");
     }
@@ -84,7 +84,7 @@ public class QuestaoService {
 
         questao.setRespostas(respostas);
         questao = this.questaoRepository.save(questao);
-        return new QuestaoDTO().convert(questao);
+        return new QuestaoDTO().convert(questao, true);
     }
 
     //por padrão só faz rollback se for uma exceção de tempo execução, então precisa específicar as excecções que devem tbm gerar rollback
@@ -132,7 +132,7 @@ public class QuestaoService {
 
 
         questaoRepository.save(questao);
-        return new QuestaoDTO().convert(questao);
+        return new QuestaoDTO().convert(questao, true);
     }
 
     public void delete(Long id) throws DataNotFoundException{

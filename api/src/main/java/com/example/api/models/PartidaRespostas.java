@@ -25,8 +25,16 @@ public class PartidaRespostas {
     private Questao questao;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "resposta_id", nullable = false)
+    @JoinColumn(name = "resposta_id", nullable = true)
     private Resposta resposta;
+
+    public PartidaRespostas(){}
+
+    public PartidaRespostas(Partida p, Questao q, Resposta r){
+        this.partida = p;
+        this.questao = q;
+        this.resposta = r;
+    }
 
     public Long getId() {
         return id;

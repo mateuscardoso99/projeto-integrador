@@ -20,4 +20,7 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long>{
 
     @Query("SELECT q FROM Questao q WHERE q.ativo = true")
     Collection<Questao> findAtivos();
+
+    @Query("SELECT q FROM Questao q WHERE q.categoria.id = ?1 ORDER BY RANDOM() LIMIT 10")
+    Collection<Questao> findAleatoriasPartida(Long idCategoria);
 }

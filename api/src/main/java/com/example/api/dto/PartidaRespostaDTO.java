@@ -1,5 +1,7 @@
 package com.example.api.dto;
 
+import com.example.api.models.PartidaRespostas;
+
 public class PartidaRespostaDTO {
     private Long id;
     private QuestaoDTO questao;
@@ -24,5 +26,10 @@ public class PartidaRespostaDTO {
         this.resposta = resposta;
     }
 
-    
+    public static PartidaRespostaDTO convert(PartidaRespostas partidaResposta){
+        PartidaRespostaDTO dto = new PartidaRespostaDTO();
+        dto.id = partidaResposta.getId();
+        dto.questao = new QuestaoDTO().convert(partidaResposta.getQuestao(), false);
+        return dto;
+    }
 }

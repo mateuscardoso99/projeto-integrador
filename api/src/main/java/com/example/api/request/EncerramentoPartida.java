@@ -2,13 +2,17 @@ package com.example.api.request;
 
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public record EncerramentoPartida(
     @Positive
     Long idPartida,
 
-    @NotBlank(message = "respostas são obrigatórias")
-    List<RespostasPartida> respostasPartidas
+    @NotNull(message = "respostas devem ser enviadas")
+    @Size(min = 10, max = 10, message = "devem ser enviadas 10 respostas")
+    @Valid
+    List<RespostasPartida> respostas
 ){}

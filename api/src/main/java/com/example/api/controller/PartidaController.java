@@ -62,8 +62,8 @@ public class PartidaController {
         }
     }
     
-    @PostMapping("/encerrar-partida/{id}")
-    public ResponseEntity<PartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, @PathVariable Long id, HttpServletRequest request) throws Exception{
+    @PostMapping("/encerrar")
+    public ResponseEntity<PartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
         PartidaDTO partidaDTO = this.partidaService.encerrarPartida(encerramentoPartida, request);
         return ResponseEntity.ok(partidaDTO);
     }

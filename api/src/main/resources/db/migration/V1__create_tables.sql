@@ -48,7 +48,7 @@ create table if not exists partida_respostas(
     id serial,
     partida_id bigint not null,
     questao_id bigint not null,
-    resposta_id bigint not null,
+    resposta_id bigint,
     primary key(id),
     foreign key(partida_id) references partida(id),
     foreign key(questao_id) references questao(id),

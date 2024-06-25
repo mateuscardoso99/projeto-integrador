@@ -1,3 +1,5 @@
+# jogo perguntas e respostas
+
 - https://blog.lsantos.dev/jwt-seguro/
 - login e logout usando cookies httponly
 - @for angular
@@ -9,3 +11,4 @@
 - infinite scroll com botão
 - filtro com paginação, subject, debounceTime
 - jpa native query
+- cascadeType JPA explicação

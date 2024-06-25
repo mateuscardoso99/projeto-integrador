@@ -1,15 +1,23 @@
 package com.example.api.service;
 
 import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.Map;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.api.dto.PartidaDTO;
 import com.example.api.exception.DataNotFoundException;
 import com.example.api.models.Categoria;
 import com.example.api.models.Partida;
+import com.example.api.models.Questao;
+import com.example.api.models.Resposta;
 import com.example.api.models.PartidaRespostas;
 import com.example.api.models.Usuario;
 import com.example.api.repository.CategoriaRepository;
@@ -50,31 +58,58 @@ public class PartidaService {
         return PartidaDTO.convert(partida);
     }
 
-    public PartidaDTO iniciarPartida(Long idCategoria, HttpServletRequest request) throws DataNotFoundException{
+    @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class, BadRequestException.class})
+    public PartidaDTO iniciarPartida(Long idCategoria, HttpServletRequest request) throws DataNotFoundException, BadRequestException{
         Categoria categoria = this.categoriaRepository.findById(idCategoria).orElseThrow(() -> new DataNotFoundException("categoria não encontrada"));
+        
+        Collection<Questao> questoes = this.questaoRepository.findAleatoriasPartida(idCategoria);
+
+        if(questoes.size() < 10)
+            throw new BadRequestException("categoria não possui questões suficientes para uma partida");
+
         Partida partida = new Partida();
         partida.setHoraInicio(LocalDateTime.now());
         partida.setUsuario(this.userFromJwt.load(request));
         partida.setCategoria(categoria);
+
+        List<PartidaRespostas> partidaRespostas = new LinkedList<>();
+
+        for(Questao q : questoes){
+            PartidaRespostas p = new PartidaRespostas();
+            p.setPartida(partida);
+            p.setQuestao(q);
+            p.setResposta(null);
+            partidaRespostas.add(p);
+        };
+
+        partida.setPartidaRespostas(partidaRespostas);
+        
         partida = this.partidaRepository.save(partida);
         return PartidaDTO.convert(partida);
     }
 
-    public PartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
+    @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class})
+    public PartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws DataNotFoundException, BadRequestException{
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(encerramentoPartida.idPartida(), usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
         
-        List<PartidaRespostas> respostasDaPartida = new LinkedList<>();
-
-        for(RespostasPartida resp : encerramentoPartida.respostasPartidas()){
-            PartidaRespostas partidaRespostas = new PartidaRespostas();
-            partidaRespostas.setPartida(partida);
-            partidaRespostas.setQuestao(this.questaoRepository.findById(resp.idQuestao()).orElseThrow(() -> new DataNotFoundException("questão não encontrada")));
-            partidaRespostas.setResposta(this.respostaRepository.findById(resp.idResposta()).orElseThrow(() -> new DataNotFoundException("resposta não encontrada")));
-            respostasDaPartida.add(partidaRespostas);
+        Duration duration = Duration.between(partida.getHoraInicio(), LocalDateTime.now());
+        if((duration.getSeconds() / 60) > 500){
+            throw new BadRequestException("Partida expirada, passou de 20 minutos");
         }
 
-        partida.setPartidaRespostas(respostasDaPartida);
+        Map<Long, Long> map = encerramentoPartida.respostas().stream().collect(Collectors.toMap(RespostasPartida::idQuestao, RespostasPartida::idResposta));
+
+        for(PartidaRespostas p : partida.getPartidaRespostas()){
+            Long idRespostaRecebida = map.get(p.getQuestao().getId());
+
+            if(idRespostaRecebida == null)
+                throw new DataNotFoundException("resposta para a questão " + "\"" + p.getQuestao().getDescricao() + "\"" + " não enviada");
+
+            Resposta resposta = this.respostaRepository.findByQuestao(idRespostaRecebida, p.getQuestao().getId()).orElseThrow(() -> new DataNotFoundException("resposta para a questão " + "\"" + p.getQuestao().getDescricao() + "\"" + " não encontrada"));
+            p.setResposta(resposta);
+        };
+
         partida = partidaRepository.save(partida);
         return PartidaDTO.convert(partida);
     }
