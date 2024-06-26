@@ -1,17 +1,12 @@
 package com.example.api.dto;
 
-public class RankingDTO {
+import java.io.Serializable;
+
+public class RankingDTO implements Serializable{
     private Long partida;
     private String categoria;
     private Long acertos;
     private String usuario;
-
-    public RankingDTO(Long partida, String categoria, Long acertos, String usuario) {
-        this.partida = partida;
-        this.categoria = categoria;
-        this.acertos = acertos;
-        this.usuario = usuario;
-    }
 
     public Long getPartida() {
         return partida;

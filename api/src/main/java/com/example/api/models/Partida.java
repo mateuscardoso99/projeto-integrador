@@ -3,8 +3,12 @@ package com.example.api.models;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.example.api.dto.RankingDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +16,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedNativeQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SqlResultSetMapping;
 import jakarta.persistence.Table;
 
 /**
@@ -24,6 +30,16 @@ import jakarta.persistence.Table;
     ALL: Corresponde a todas as operações acima (MERGE, PERSIST, REFRESH e REMOVE).
     DETACH: "A operação de desanexação remove a entidade do contexto persistente. Quando usamos CascaseType.DETACH, a entidade filha também é removida do contexto persistente".
  */
+
+@NamedNativeQuery(name = "Partida.rankingAcertosByCategoriaPorUsuario",
+                  query = "select p.id as partida, c.nome as categoria, sum(case when r.certa = true then 1 ELSE 0 end) as acertos , u.nome as usuario from partida p join usuario u on u.id = p.usuario_id join categoria c on c.id = p.categoria_id join partida_respostas pr on pr.partida_id = p.id join resposta r on r.id = pr.resposta_id where c.id = :categoria_id group by p.id, c.nome, u.nome order by acertos desc",
+                  resultSetMapping = "Mapping.RankingDTO")
+@SqlResultSetMapping(name = "Mapping.RankingDTO",
+                     classes = @ConstructorResult(targetClass = RankingDTO.class,
+                                                  columns = {@ColumnResult(name = "partida", type = Long.class),
+                                                             @ColumnResult(name = "categoria", type = String.class),
+                                                             @ColumnResult(name = "acertos", type = Long.class),
+                                                             @ColumnResult(name = "usuario", type = String.class)}))
 @Entity
 @Table(name = "partida")
 public class Partida {
