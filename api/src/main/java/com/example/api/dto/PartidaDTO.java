@@ -9,6 +9,7 @@ import com.example.api.models.Partida;
 public class PartidaDTO {
     private Long id;
     private LocalDateTime horaInicio;
+    private Boolean encerrado;
     private CategoriaDTO categoria;
     private List<PartidaRespostaDTO> partidaQuestoes = new LinkedList<>();
     
@@ -24,6 +25,12 @@ public class PartidaDTO {
     public void setHoraInicio(LocalDateTime horaInicio) {
         this.horaInicio = horaInicio;
     }
+    public Boolean getEncerrado() {
+        return encerrado;
+    }
+    public void setEncerrado(Boolean encerrado) {
+        this.encerrado = encerrado;
+    }
     public CategoriaDTO getCategoria() {
         return categoria;
     }
@@ -37,14 +44,15 @@ public class PartidaDTO {
         this.partidaQuestoes = partidaQuestoes;
     }
 
-    public static PartidaDTO convert(Partida partida){
+    public static PartidaDTO convert(Partida partida, boolean showRespostas){
         PartidaDTO partidaDTO = new PartidaDTO();
         partidaDTO.setCategoria(CategoriaDTO.convert(partida.getCategoria()));
         partidaDTO.setHoraInicio(partida.getHoraInicio());
+        partidaDTO.setEncerrado(partida.getEncerrado());
         partidaDTO.setId(partida.getId());
 
         partida.getPartidaRespostas().forEach(p -> {
-            partidaDTO.getPartidaQuestoes().add(PartidaRespostaDTO.convert(p));
+            partidaDTO.getPartidaQuestoes().add(PartidaRespostaDTO.convert(p, showRespostas));
         });
         return partidaDTO;
     }

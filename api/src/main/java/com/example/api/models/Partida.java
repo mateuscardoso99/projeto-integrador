@@ -50,6 +50,9 @@ public class Partida {
     @Column(name = "hora_inicio")
     private LocalDateTime horaInicio;
 
+    @Column(name = "encerrado", nullable = false, columnDefinition = "boolean default false")
+    private Boolean encerrado;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Categoria categoria;
 
@@ -74,6 +77,14 @@ public class Partida {
 
     public void setHoraInicio(LocalDateTime horaInicio) {
         this.horaInicio = horaInicio;
+    }
+    
+    public Boolean getEncerrado() {
+        return encerrado;
+    }
+
+    public void setEncerrado(Boolean encerrado) {
+        this.encerrado = encerrado;
     }
 
     public Categoria getCategoria() {
@@ -106,6 +117,7 @@ public class Partida {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((horaInicio == null) ? 0 : horaInicio.hashCode());
+        result = prime * result + ((encerrado == null) ? 0 : encerrado.hashCode());
         result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
         result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
         result = prime * result + ((partidaRespostas == null) ? 0 : partidaRespostas.hashCode());
@@ -131,6 +143,11 @@ public class Partida {
                 return false;
         } else if (!horaInicio.equals(other.horaInicio))
             return false;
+        if (encerrado == null) {
+            if (other.encerrado != null)
+                return false;
+        } else if (!encerrado.equals(other.encerrado))
+            return false;
         if (categoria == null) {
             if (other.categoria != null)
                 return false;
@@ -149,5 +166,6 @@ public class Partida {
         return true;
     }
 
+    
     
 }

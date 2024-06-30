@@ -54,10 +54,10 @@ public class PartidaService {
         this.userFromJwt = userFromJwt;
     }
 
-    public PartidaDTO getPartida(Long id, HttpServletRequest request) throws DataNotFoundException{
+    public PartidaDTO getPartida(Long id, HttpServletRequest request, boolean showRespostas) throws DataNotFoundException{
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(id, usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
-        return PartidaDTO.convert(partida);
+        return PartidaDTO.convert(partida, showRespostas);
     }
 
     @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class, BadRequestException.class})
@@ -87,7 +87,7 @@ public class PartidaService {
         partida.setPartidaRespostas(partidaRespostas);
         
         partida = this.partidaRepository.save(partida);
-        return PartidaDTO.convert(partida);
+        return PartidaDTO.convert(partida, false);
     }
 
     @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class})
@@ -95,6 +95,10 @@ public class PartidaService {
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(encerramentoPartida.idPartida(), usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
         
+        if(partida.getEncerrado()){
+            throw new BadRequestException("Partida já encerrada");
+        }
+
         Duration duration = Duration.between(partida.getHoraInicio(), LocalDateTime.now());
         if((duration.getSeconds() / 60) > 500){
             throw new BadRequestException("Partida expirada, passou de 20 minutos");
@@ -105,21 +109,29 @@ public class PartidaService {
         for(PartidaRespostas p : partida.getPartidaRespostas()){
             Long idRespostaRecebida = map.get(p.getQuestao().getId());
 
-            if(idRespostaRecebida == null)
-                throw new DataNotFoundException("resposta para a questão " + "\"" + p.getQuestao().getDescricao() + "\"" + " não enviada");
+            //if(idRespostaRecebida == null)
+            //    throw new DataNotFoundException("resposta para a questão " + "\"" + p.getQuestao().getDescricao() + "\"" + " não enviada");
 
-            Resposta resposta = this.respostaRepository.findByQuestao(idRespostaRecebida, p.getQuestao().getId()).orElseThrow(() -> new DataNotFoundException("resposta para a questão " + "\"" + p.getQuestao().getDescricao() + "\"" + " não encontrada"));
-            p.setResposta(resposta);
+            //aceitar envio de resposta null, significa que não respondeu 
+            if(idRespostaRecebida != null){
+                Resposta resposta = this.respostaRepository.findByQuestao(idRespostaRecebida, p.getQuestao().getId()).orElseThrow(() -> new DataNotFoundException("resposta para a questão " + "\"" + p.getQuestao().getDescricao() + "\"" + " não encontrada"));
+                p.setResposta(resposta);
+            }
         };
 
         partida = partidaRepository.save(partida);
         ResultadoPartidaDTO resultado = new ResultadoPartidaDTO();
         resultado.setTotalAcertos(this.partidaRepository.countAcertosPartida(partida.getId(), usuario.getId()));
-        resultado.setPartidaDTO(PartidaDTO.convert(partida));
+        resultado.setPartidaDTO(PartidaDTO.convert(partida, false));
         return resultado;
     }
 
     public Collection<RankingDTO> getRanking(Long idCategoria){
         return this.partidaRepository.rankingAcertosByCategoriaPorUsuario(idCategoria);
+    }
+
+    public Long countAcertosPartida(Long idPartida, HttpServletRequest request){
+        Usuario usuario = this.userFromJwt.load(request);
+        return this.partidaRepository.countAcertosPartida(idPartida, usuario.getId());
     }
 }

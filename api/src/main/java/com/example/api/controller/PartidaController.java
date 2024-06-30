@@ -62,7 +62,7 @@ public class PartidaController {
     @GetMapping("/{idPartida}")
     public ResponseEntity<?> getPartida(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
         try{
-            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request);
+            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request, false);
             return ResponseEntity.ok(partidaDTO);
         }catch(Exception ex){
             throw ex;
@@ -75,5 +75,16 @@ public class PartidaController {
         return ResponseEntity.ok(partidaDTO);
     }
     
-    
+    @GetMapping("/resultado/{idPartida}")
+    public ResponseEntity<?> resultadoPartida(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
+        try{
+            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request, true);
+            ResultadoPartidaDTO resultado = new ResultadoPartidaDTO();
+            resultado.setTotalAcertos(this.partidaService.countAcertosPartida(partidaDTO.getId(), request));
+            resultado.setPartidaDTO(partidaDTO);
+            return ResponseEntity.ok(resultado);
+        }catch(Exception ex){
+            throw ex;
+        }
+    }
 }

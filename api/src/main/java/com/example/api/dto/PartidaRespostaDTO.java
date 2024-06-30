@@ -26,10 +26,10 @@ public class PartidaRespostaDTO {
         this.resposta = resposta;
     }
 
-    public static PartidaRespostaDTO convert(PartidaRespostas partidaResposta){
+    public static PartidaRespostaDTO convert(PartidaRespostas partidaResposta, boolean showRespostas){
         PartidaRespostaDTO dto = new PartidaRespostaDTO();
         dto.id = partidaResposta.getId();
-        dto.questao = new QuestaoDTO().convert(partidaResposta.getQuestao(), false);
+        dto.questao = new QuestaoDTO().convert(partidaResposta.getQuestao(), showRespostas);
         return dto;
     }
 }
