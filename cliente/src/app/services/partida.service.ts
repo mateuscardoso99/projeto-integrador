@@ -105,7 +105,7 @@ export class ResultadoPartida{
   partida: Partida;
   constructor(obj: any){
     this.totalAcertos = obj.totalAcertos;
-    this.partida = new Partida(obj);
+    this.partida = new Partida(obj.partida);
   }
 }
 

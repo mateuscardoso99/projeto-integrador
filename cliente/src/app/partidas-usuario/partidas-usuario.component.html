@@ -6,7 +6,7 @@
             </div>
             <div class="options">
                 @if(p.encerrado){
-                    <button class="btn-delete">Ver resultados</button>
+                    <button class="btn-delete" [routerLink]="['/usuario/resultado-partida', p.id]" >Ver resultados</button>
                 }@else{
                     <button class="btn-edit" [routerLink]="['/usuario/partida', p.id]" >Jogar</button>
                 }

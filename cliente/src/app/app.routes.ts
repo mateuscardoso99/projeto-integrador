@@ -13,6 +13,7 @@ import { authGuard } from './guard/auth.guard';
 import { EscolheCategoriaComponent } from './escolhe-categoria/escolhe-categoria.component';
 import { UsuarioLayoutComponent } from './usuario-layout/usuario-layout.component';
 import { PartidasUsuarioComponent } from './partidas-usuario/partidas-usuario.component';
+import { ResultadoPartidaComponent } from './resultado-partida/resultado-partida.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -33,6 +34,7 @@ export const routes: Routes = [
             { path: 'ranking', component: RankingComponent },
             { path: 'minhas-partidas', component: PartidasUsuarioComponent },
             { path: 'partida/:idPartida', component: JogarComponent },
+            { path: 'resultado-partida/:idPartida', component: ResultadoPartidaComponent },
             { path: 'escolher-categoria', component: EscolheCategoriaComponent }
         ],
         canActivate: [authGuard]

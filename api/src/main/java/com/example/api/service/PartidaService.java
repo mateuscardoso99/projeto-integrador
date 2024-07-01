@@ -56,11 +56,11 @@ public class PartidaService {
     }
 
     public PartidaDTO getResultadosPartida(Long id, HttpServletRequest request, boolean showRespostaCerta) throws Exception{
-        PartidaDTO partidaDTO = this.getPartida(id, request, showRespostaCerta);
-        if(!partidaDTO.getEncerrado()){
+        Partida partida = this.findPartida(id, request);
+        if(!partida.getEncerrado()){
             throw new BadRequestException("partida ainda não foi encerrada");
         }
-        return partidaDTO;
+        return PartidaDTO.convert(partida, showRespostaCerta);
     }
 
     public PartidaDTO getPartida(Long id, HttpServletRequest request, boolean showRespostaCerta) throws Exception{

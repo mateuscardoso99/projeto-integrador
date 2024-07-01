@@ -1,0 +1,25 @@
+<div class="area-content">
+    @if(partida){
+        <div class="voltar">
+            <a class="btn-voltar" routerLink="/usuario/minhas-partidas">Voltar</a>
+        </div>
+    
+        <div class="wrapper-questao">
+            @for(resultado of resultado.partida.partidaQuestoes; track resultado.questao.id){
+                <div class="questao">
+                    <div class="titulo">
+                        <h3>{{resultado.questao.descricao}}</h3>
+                    </div>
+                    <div class="respostas">
+                        @for(resposta of resultado.questao.respostas; track resposta.id){
+                            <div class="descricao">
+                                <p>{{resposta.descricao}}</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    
+</div>

@@ -2,7 +2,7 @@ package com.example.api.dto;
 
 public class ResultadoPartidaDTO {
     private Long totalAcertos;
-    private PartidaDTO partidaDTO;
+    private PartidaDTO partida;
 
     public Long getTotalAcertos() {
         return totalAcertos;
@@ -10,10 +10,10 @@ public class ResultadoPartidaDTO {
     public void setTotalAcertos(Long totalAcertos) {
         this.totalAcertos = totalAcertos;
     }
-    public PartidaDTO getPartidaDTO() {
-        return partidaDTO;
+    public PartidaDTO getPartida() {
+        return partida;
     }
     public void setPartidaDTO(PartidaDTO partidaDTO) {
-        this.partidaDTO = partidaDTO;
+        this.partida = partidaDTO;
     }
 }

@@ -5,20 +5,35 @@
         </div>
         <h1 class="cronometro">@if(minutos < 10){0}{{minutos}}:@if(segundos < 10){0}{{segundos}}</h1>
     
-        <div class="questoes">
+        <div class="wrapper-questao">
             @for(partidaQuestao of partida.partidaQuestoes; track partidaQuestao.questao.id){
-                <div class="questao">
-                    <div class="titulo">
-                        <h3>{{partidaQuestao.questao.descricao}}</h3>
+                @if(($index + 1) == questaoAtiva){
+                    <div class="questao">
+                        <div class="titulo">
+                            <p>Pergunta {{$index + 1}}</p>
+                            <h3>{{partidaQuestao.questao.descricao}}</h3>
+                        </div>
+                        <div class="respostas">
+                            @for(partidaResposta of partidaQuestao.questao.respostas; track partidaResposta.id){
+                                <div class="descricao">
+                                    <p>{{partidaResposta.descricao}}</p>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div class="respostas">
-                        @for(partidaResposta of partidaQuestao.questao.respostas; track partidaResposta.id){
-                            <div class="descricao">
-                                <p>{{partidaResposta.descricao}}</p>
-                            </div>
+
+                    <div class="botoes">
+                        @if(questaoAtiva > 1){
+                            <button class="anterior" (click)="voltarQuestao()">ANTERIOR</button>
+                        }
+                        @if(questaoAtiva < 10){
+                            <button (click)="proximaQuestao()">PRÓXIMO</button>
+                        }
+                        @else{
+                            <button (click)="enviarRespostas()">ENVIAR</button>
                         }
                     </div>
-                </div>
+                }
             }
         </div>
     }
