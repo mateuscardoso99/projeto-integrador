@@ -63,7 +63,7 @@ public class PartidaService {
         return PartidaDTO.convert(partida, showRespostaCerta);
     }
 
-    public PartidaDTO getPartida(Long id, HttpServletRequest request, boolean showRespostaCerta) throws Exception{
+    public PartidaDTO getPartidaEmAndamento(Long id, HttpServletRequest request, boolean showRespostaCerta) throws Exception{
         Partida partida = this.findPartida(id, request);
         if(partida.getEncerrado()){
             throw new BadRequestException("partida já foi encerrada");
@@ -157,7 +157,7 @@ public class PartidaService {
 
     private static void verificaPartidaExpirada(Partida partida) throws Exception{
         Duration duration = Duration.between(partida.getHoraInicio(), LocalDateTime.now());
-        if((duration.getSeconds() / 60) > 20){
+        if((duration.getSeconds() / 60) > 21){
             throw new BadRequestException("Partida expirada, passou de 20 minutos");
         }
     }

@@ -45,11 +45,13 @@ public class PartidaController {
         return new ResponseEntity<>(this.categoriaService.findCategoriaMinimoDezQuestoesCadastradas(), HttpStatus.OK);
     }
 
+    //busca todas as partidas do usuário logado
     @GetMapping("/usuario")
     public ResponseEntity<Collection<PartidaDTO>> getPartidasUsuario(HttpServletRequest request) {
         return new ResponseEntity<>(this.partidaService.findPartidasUsuario(request), HttpStatus.OK);
     }
 
+    //retorna um ranking com os 20 melhores pontuações baseado em uma categoria
     @GetMapping("/ranking/{idCategoria}")
     public ResponseEntity<Collection<RankingDTO>> ranking(@PathVariable Long idCategoria) {
         return new ResponseEntity<>(this.partidaService.getRanking(idCategoria), HttpStatus.OK);
@@ -66,10 +68,11 @@ public class PartidaController {
         }
     }
 
+    //busca uma partida que ainda não foi encerrada
     @GetMapping("/{idPartida}")
-    public ResponseEntity<?> getPartida(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
+    public ResponseEntity<?> getPartidaEmAndamento(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
         try{
-            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request, false);
+            PartidaDTO partidaDTO = this.partidaService.getPartidaEmAndamento(idPartida, request, false);
             return ResponseEntity.ok(partidaDTO);
         }catch(Exception ex){
             throw ex;
@@ -82,6 +85,7 @@ public class PartidaController {
         return ResponseEntity.ok(partidaDTO);
     }
     
+    //busca uma partida que já foi encerrada
     @GetMapping("/resultado/{idPartida}")
     public ResponseEntity<?> resultadoPartida(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
         try{
