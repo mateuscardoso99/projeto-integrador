@@ -1,0 +1,24 @@
+<div class="list-data">
+    @for(p of partidas; track p.id) {
+        <div class="row-data">
+            <div class="descr">
+                <p>{{p.horaInicio | date : 'dd/MM/yyyy HH:mm'}} - {{p.categoria.nome}}</p>
+            </div>
+            <div class="options">
+                @if(p.encerrado){
+                    <button class="btn-delete">Ver resultados</button>
+                }@else{
+                    <button class="btn-edit" [routerLink]="['/usuario/partida', p.id]" >Jogar</button>
+                }
+            </div>
+        </div>
+    }
+
+    @empty{
+        <p class="italic">Nenhuma partida encontrada</p>
+    }
+</div>
+
+@if(isLoading){
+    <ngx-skeleton-loader class="h-1" count="10" appearance="line"/>
+}

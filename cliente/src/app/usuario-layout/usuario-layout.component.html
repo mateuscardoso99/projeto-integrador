@@ -1,7 +1,11 @@
 <div class="common-layout">
     <nav>
-        <span>{{usuarioLogado?.nome}}</span>
+        <span routerLink="escolher-categoria">{{usuarioLogado?.nome}}</span>
+        <a routerLink="ranking">Ranking</a>
+        <a routerLink="minhas-partidas">Minhas partidas</a>
         <button type="button" (click)="authService.logout()">Sair</button>
     </nav>
-    <router-outlet></router-outlet>
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
 </div>

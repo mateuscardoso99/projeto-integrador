@@ -16,20 +16,20 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
     return true;
   }
-  else{    
-    if(user.isAdmin){
-      if(!state.url.includes("/admin")){
+  else{
+    if(state.url === '/login' || state.url === '/criar-conta'){
+      if(user.isAdmin){
         router.navigate(['/admin']);
-        return false;
       }
-      return true;
-    }
-    else{
-      if(state.url === '/login' || state.url === '/criar-conta'){
-        router.navigate(['/escolher-categoria']);
-        return false;
+      else{
+        router.navigate(['/usuario/escolher-categoria']);
       }
-      return true;
+      return false;
     }
+    else if(state.url.includes("/admin") && !user.isAdmin){
+      router.navigate(['/usuario/escolher-categoria']);
+      return false;
+    }
+    return true;
   }
 };

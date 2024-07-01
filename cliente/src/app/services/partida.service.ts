@@ -40,8 +40,21 @@ export class PartidaService extends BaseService{
 
   getPartida(idPartida: number): Promise<Partida>{
     return new Promise((resolve, reject) => {
-      this.http.get(this.PATH + idPartida).subscribe((resp: any) => {
-        resolve(new Partida(resp));
+      this.http.get(this.PATH + idPartida).subscribe({
+        next: response => resolve(new Partida(response)),
+        error: err => reject(err)
+      })
+    });
+  }
+
+  findPartidasUsuario(): Promise<Partida[]>{
+    return new Promise((resolve) => {
+      this.http.get(this.PATH + 'usuario').subscribe((resp: any) => {
+        const partidas: Partida[] = [];
+        resp.forEach((p: Partida) => {
+          partidas.push(new Partida(p));
+        })
+        resolve(partidas);
       })
     });
   }
@@ -117,12 +130,10 @@ export class Partida{
 export class PartidaResposta{
   id: number;
   questao: Questao;
-  resposta: Resposta | null;
 
   constructor(obj: any){
     this.id = obj.id;
     this.questao = new Questao(obj.questao);
-    this.resposta = obj.resposta != null ? new Resposta(obj.resposta) : null;
   }
 }
 

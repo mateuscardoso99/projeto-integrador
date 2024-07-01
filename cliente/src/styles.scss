@@ -24,6 +24,18 @@ body{
     justify-content: center;
 }
 
+.content{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    flex: 1;//junto com o min-height: 100vh o flex 1 faz com que ocupe toda a tela e sempre deixe o footer embaixo
+
+    & > div{ //todos os filhos
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .auth-card{
     max-width: 500px;
     margin: auto;
@@ -210,6 +222,22 @@ select{
     margin-top: 5px;
     font-size: 1rem;
     color: #b53e3e;
+}
+
+.voltar{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    .btn-voltar{
+        text-decoration: none;
+        text-align: center;
+        background: black;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
 }
 
 @keyframes blinker {

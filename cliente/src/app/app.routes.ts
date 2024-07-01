@@ -12,6 +12,7 @@ import { EditComponent as EditQuestaoComponent } from './admin/questao/edit/edit
 import { authGuard } from './guard/auth.guard';
 import { EscolheCategoriaComponent } from './escolhe-categoria/escolhe-categoria.component';
 import { UsuarioLayoutComponent } from './usuario-layout/usuario-layout.component';
+import { PartidasUsuarioComponent } from './partidas-usuario/partidas-usuario.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -30,7 +31,8 @@ export const routes: Routes = [
     { path: 'usuario', component: UsuarioLayoutComponent,
         children: [
             { path: 'ranking', component: RankingComponent },
-            { path: 'partida', component: JogarComponent },
+            { path: 'minhas-partidas', component: PartidasUsuarioComponent },
+            { path: 'partida/:idPartida', component: JogarComponent },
             { path: 'escolher-categoria', component: EscolheCategoriaComponent }
         ],
         canActivate: [authGuard]

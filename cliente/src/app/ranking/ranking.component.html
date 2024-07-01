@@ -1,1 +1,24 @@
-<p>ranking works!</p>
+<select (change)="changeCategoria($event)">
+    <option value="" disabled selected>Selecione uma categoria</option>
+    @for(cat of categorias; track cat.id){
+        <option [value]="cat.id">{{cat.nome}}</option>
+    }
+</select>
+
+<div class="list-data">
+    @for(r of ranking; track r.partida) {
+        <div class="row-data">
+            <div class="descr">
+                <p>{{r.usuario}}, ACERTOS: {{r.acertos}}</p>
+            </div>
+        </div>
+    }
+
+    @empty{
+        <p class="italic">Nenhuma ranking encontrado</p>
+    }
+</div>
+
+@if(isLoading){
+    <app-loader></app-loader>
+}

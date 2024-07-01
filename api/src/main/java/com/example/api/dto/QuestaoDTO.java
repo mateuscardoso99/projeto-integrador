@@ -43,11 +43,11 @@ public class QuestaoDTO {
         this.respostas = respostas;
     }
 
-    public QuestaoDTO convert(Questao questao, boolean showRespostas){
+    public QuestaoDTO convert(Questao questao, boolean showRespostaCerta){
         this.ativo = questao.getAtivo();
         this.categoria = CategoriaDTO.convert(questao.getCategoria());
         this.descricao = questao.getDescricao();
-        this.respostas = showRespostas ? questao.getRespostas().stream().map(RespostaDTO::convert).toList() : new ArrayList<>();
+        this.respostas = questao.getRespostas().stream().map(r -> RespostaDTO.convert(r, showRespostaCerta)).toList();
         this.id = questao.getId();
         return this;
     }

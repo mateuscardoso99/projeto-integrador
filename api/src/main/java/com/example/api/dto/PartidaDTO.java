@@ -44,7 +44,7 @@ public class PartidaDTO {
         this.partidaQuestoes = partidaQuestoes;
     }
 
-    public static PartidaDTO convert(Partida partida, boolean showRespostas){
+    public static PartidaDTO convert(Partida partida, boolean showRespostaCerta){
         PartidaDTO partidaDTO = new PartidaDTO();
         partidaDTO.setCategoria(CategoriaDTO.convert(partida.getCategoria()));
         partidaDTO.setHoraInicio(partida.getHoraInicio());
@@ -52,7 +52,7 @@ public class PartidaDTO {
         partidaDTO.setId(partida.getId());
 
         partida.getPartidaRespostas().forEach(p -> {
-            partidaDTO.getPartidaQuestoes().add(PartidaRespostaDTO.convert(p, showRespostas));
+            partidaDTO.getPartidaQuestoes().add(PartidaRespostaDTO.convert(p, showRespostaCerta));
         });
         return partidaDTO;
     }

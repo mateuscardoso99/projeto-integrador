@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Collection;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.Map;
 
@@ -54,10 +55,32 @@ public class PartidaService {
         this.userFromJwt = userFromJwt;
     }
 
-    public PartidaDTO getPartida(Long id, HttpServletRequest request, boolean showRespostas) throws DataNotFoundException{
+    public PartidaDTO getResultadosPartida(Long id, HttpServletRequest request, boolean showRespostaCerta) throws Exception{
+        PartidaDTO partidaDTO = this.getPartida(id, request, showRespostaCerta);
+        if(!partidaDTO.getEncerrado()){
+            throw new BadRequestException("partida ainda não foi encerrada");
+        }
+        return partidaDTO;
+    }
+
+    public PartidaDTO getPartida(Long id, HttpServletRequest request, boolean showRespostaCerta) throws Exception{
+        Partida partida = this.findPartida(id, request);
+        if(partida.getEncerrado()){
+            throw new BadRequestException("partida já foi encerrada");
+        }
+        verificaPartidaExpirada(partida);
+        return PartidaDTO.convert(partida, showRespostaCerta);
+    }
+
+    private Partida findPartida(Long id, HttpServletRequest request) throws Exception{
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(id, usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
-        return PartidaDTO.convert(partida, showRespostas);
+        return partida;
+    }
+
+    public Collection<PartidaDTO> findPartidasUsuario(HttpServletRequest request){
+        Usuario usuario = this.userFromJwt.load(request);
+        return partidaRepository.findPartidasUsuario(usuario.getId()).stream().map(p -> PartidaDTO.convert(p, false)).collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class, BadRequestException.class})
@@ -91,7 +114,7 @@ public class PartidaService {
     }
 
     @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class})
-    public ResultadoPartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws DataNotFoundException, BadRequestException{
+    public ResultadoPartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(encerramentoPartida.idPartida(), usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
         
@@ -99,10 +122,7 @@ public class PartidaService {
             throw new BadRequestException("Partida já encerrada");
         }
 
-        Duration duration = Duration.between(partida.getHoraInicio(), LocalDateTime.now());
-        if((duration.getSeconds() / 60) > 500){
-            throw new BadRequestException("Partida expirada, passou de 20 minutos");
-        }
+        verificaPartidaExpirada(partida);
 
         Map<Long, Long> map = encerramentoPartida.respostas().stream().collect(Collectors.toMap(RespostasPartida::idQuestao, RespostasPartida::idResposta));
 
@@ -133,5 +153,12 @@ public class PartidaService {
     public Long countAcertosPartida(Long idPartida, HttpServletRequest request){
         Usuario usuario = this.userFromJwt.load(request);
         return this.partidaRepository.countAcertosPartida(idPartida, usuario.getId());
+    }
+
+    private static void verificaPartidaExpirada(Partida partida) throws Exception{
+        Duration duration = Duration.between(partida.getHoraInicio(), LocalDateTime.now());
+        if((duration.getSeconds() / 60) > 20){
+            throw new BadRequestException("Partida expirada, passou de 20 minutos");
+        }
     }
 }

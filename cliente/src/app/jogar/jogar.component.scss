@@ -1,0 +1,35 @@
+.cronometro{
+    font-size: 6rem;
+    text-align: center;
+    color: #bb0000;
+}
+
+.questoes{
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+
+    .questao{
+        border: 2px solid #060606;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        
+        .titulo{
+            padding: 20px;
+            background: #ff9c9c;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            h3{
+                font-size: 1.2rem;
+            }
+        }
+        .respostas{
+            padding: 20px;
+            .descricao{
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+}

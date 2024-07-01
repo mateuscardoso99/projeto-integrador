@@ -45,6 +45,11 @@ public class PartidaController {
         return new ResponseEntity<>(this.categoriaService.findCategoriaMinimoDezQuestoesCadastradas(), HttpStatus.OK);
     }
 
+    @GetMapping("/usuario")
+    public ResponseEntity<Collection<PartidaDTO>> getPartidasUsuario(HttpServletRequest request) {
+        return new ResponseEntity<>(this.partidaService.findPartidasUsuario(request), HttpStatus.OK);
+    }
+
     @GetMapping("/ranking/{idCategoria}")
     public ResponseEntity<Collection<RankingDTO>> ranking(@PathVariable Long idCategoria) {
         return new ResponseEntity<>(this.partidaService.getRanking(idCategoria), HttpStatus.OK);
@@ -80,7 +85,7 @@ public class PartidaController {
     @GetMapping("/resultado/{idPartida}")
     public ResponseEntity<?> resultadoPartida(@PathVariable Long idPartida, HttpServletRequest request) throws Exception{
         try{
-            PartidaDTO partidaDTO = this.partidaService.getPartida(idPartida, request, true);
+            PartidaDTO partidaDTO = this.partidaService.getResultadosPartida(idPartida, request, true);
             ResultadoPartidaDTO resultado = new ResultadoPartidaDTO();
             resultado.setTotalAcertos(this.partidaService.countAcertosPartida(partidaDTO.getId(), request));
             resultado.setPartidaDTO(partidaDTO);

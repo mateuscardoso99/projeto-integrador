@@ -27,7 +27,7 @@ export class EscolheCategoriaComponent implements OnInit{
       console.log(resp);
       
       if(resp.id){
-        this.router.navigate(['/usuario/partida'], {queryParams: {idPartida: resp.id}});
+        this.router.navigate([`/usuario/partida/${resp.id}`]);
       }
     }).catch(e => {
       Swal.fire({

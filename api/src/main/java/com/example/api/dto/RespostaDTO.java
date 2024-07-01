@@ -33,9 +33,11 @@ public class RespostaDTO {
         this.ativo = ativo;
     }    
     
-    public static RespostaDTO convert(Resposta resposta){
+    public static RespostaDTO convert(Resposta resposta, boolean showRespostaCerta){
         RespostaDTO respostaDTO = new RespostaDTO();
-        respostaDTO.setCerta(resposta.getCerta());
+        if(showRespostaCerta){
+            respostaDTO.setCerta(resposta.getCerta());
+        }
         respostaDTO.setDescricao(resposta.getDescricao());
         respostaDTO.setId(resposta.getId());
         respostaDTO.setAtivo(resposta.getAtivo());
