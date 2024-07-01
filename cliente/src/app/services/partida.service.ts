@@ -46,10 +46,11 @@ export class PartidaService extends BaseService{
     });
   }
 
-  iniciarPartida(idPartida: number): Promise<any>{
+  iniciarPartida(idCategoria: number): Promise<any>{
     return new Promise((resolve, reject) => {
-      this.http.post(this.PATH + idPartida, {}).subscribe({
-        next: response => resolve(new Partida(response)),
+      this.http.post(this.PATH + 'iniciarpartida', {idCategoria}).subscribe({
+        next: response => {console.log(response);
+         return resolve(new Partida(response))},
         error: err => reject(err)
       });
     });
@@ -116,12 +117,12 @@ export class Partida{
 export class PartidaResposta{
   id: number;
   questao: Questao;
-  resposta: Resposta;
+  resposta: Resposta | null;
 
   constructor(obj: any){
     this.id = obj.id;
     this.questao = new Questao(obj.questao);
-    this.resposta = new Resposta(obj.resposta);
+    this.resposta = obj.resposta != null ? new Resposta(obj.resposta) : null;
   }
 }
 

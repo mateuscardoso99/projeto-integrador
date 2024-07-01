@@ -50,7 +50,7 @@ public class Partida {
     @Column(name = "hora_inicio")
     private LocalDateTime horaInicio;
 
-    @Column(name = "encerrado", nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "encerrado", columnDefinition = "boolean default false")
     private Boolean encerrado;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -62,6 +62,10 @@ public class Partida {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "partida", fetch = FetchType.LAZY)
     private Collection<PartidaRespostas> partidaRespostas;
+
+    public Partida(){
+        this.encerrado = false;
+    }
 
     public Long getId() {
         return id;

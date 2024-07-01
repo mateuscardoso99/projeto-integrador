@@ -5,7 +5,7 @@
     <div class="container-categorias">
     
         @for(cat of categorias; track cat.id){
-            <div class="categoria">
+            <div class="categoria" (click)="iniciarPartida(cat.id)">
                 <p>{{cat.nome}}</p>
             </div>
         }

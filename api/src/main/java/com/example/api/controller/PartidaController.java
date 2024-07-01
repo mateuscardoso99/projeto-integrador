@@ -1,6 +1,7 @@
 package com.example.api.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.PartidaDTO;
@@ -17,6 +18,7 @@ import jakarta.validation.Valid;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,10 +50,10 @@ public class PartidaController {
         return new ResponseEntity<>(this.partidaService.getRanking(idCategoria), HttpStatus.OK);
     }
 
-    @PostMapping("/{idCategoria}")
-    public ResponseEntity<?> iniciarPartida(@PathVariable Long idCategoria, HttpServletRequest request) throws Exception{
+    @PostMapping("/iniciarpartida")
+    public ResponseEntity<?> iniciarPartida(@RequestBody Map<String, String> params, HttpServletRequest request) throws Exception{
         try{
-            PartidaDTO partidaDTO = this.partidaService.iniciarPartida(idCategoria, request);       
+            PartidaDTO partidaDTO = this.partidaService.iniciarPartida(Long.parseLong(params.get("idCategoria")), request);       
             return new ResponseEntity<>(partidaDTO, HttpStatus.CREATED);
         }catch(Exception ex){
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);

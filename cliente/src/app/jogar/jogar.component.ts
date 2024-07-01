@@ -10,8 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './jogar.component.scss'
 })
 export class JogarComponent implements OnInit{
-  minutos: number = 19;
-  segundos: number = 59;
+  minutos: number = 20;
+  segundos: number = 0;
+  milisegundos: number = 999;
   partida: Partida | null = null;
 
   constructor(private route: ActivatedRoute, private partidaService: PartidaService){
@@ -23,22 +24,20 @@ export class JogarComponent implements OnInit{
       if(p['params'].idPartida){
         this.partidaService.getPartida(p['params'].idPartida).then(resp => {
           this.partida = resp;
-          this.cronometro();
+          setTimeout(() => this.cronometro(), 1000);
         })
       }
     });
+    
   }
 
   cronometro(){
-    if(this.segundos = 0){
+    if(this.segundos == 0){
       this.minutos--;
       this.segundos = 59;
     }
-    else{
-      this.segundos--;
-    }
-
-    setTimeout(this.cronometro, 1000);
+    this.segundos--;
+    setTimeout(() => this.cronometro(), 1000);
   }
 
 }
