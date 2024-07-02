@@ -83,59 +83,6 @@ body{
     }
 }
 
-.radio-group{
-    display: flex;
-    align-items: center;
-
-    .radio-input{
-        display: flex;
-        flex: 1;
-
-        input[type=radio]{
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-    
-        label{
-            flex: 1;
-            text-align: center;
-            color: #fff;
-            padding: 10px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-    
-        .certa{
-            background: #7fb57f;
-        }
-    
-        .errada{
-            background: #fb7e7e;
-        }
-    
-        input[type=radio]:checked + label{
-            background: #7979c7;
-            text-decoration: blink;
-            animation-name: blinker;
-            animation-duration: 0.7s;
-            animation-iteration-count:infinite;
-            animation-timing-function:ease-in-out;
-            animation-direction: alternate;
-            -webkit-animation-name: blinker;
-            -webkit-animation-duration: 0.7s;
-            -webkit-animation-iteration-count:infinite;
-            -webkit-animation-timing-function:ease-in-out;
-            -webkit-animation-direction: alternate;
-        }
-    }
-}
 
 .list-data{
     width: 100%;
@@ -237,6 +184,69 @@ select{
         font-weight: bold;
         padding: 10px 20px;
         border-radius: 10px;
+    }
+}
+
+input[type=radio]{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.wrapper-questao{
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+
+    .questao{
+        border: 2px solid #060606;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        
+        .titulo{
+            padding: 20px;
+            background: #ff9c9c;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+
+            p{
+                font-style: italic;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            h3{
+                font-size: 1.2rem;
+            }
+        }
+        .respostas{
+            padding: 20px;
+            .descricao{
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .botoes{
+        display: flex;
+        justify-content: space-between;
+        button{
+            cursor: pointer;
+            padding: 10px 20px;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            background-color: #ff9c9c;
+        }
+        .anterior{
+            background-color: #b7b7b7;
+        }
     }
 }
 

@@ -139,6 +139,7 @@ public class PartidaService {
             }
         };
 
+        partida.setEncerrado(true);
         partida = partidaRepository.save(partida);
         ResultadoPartidaDTO resultado = new ResultadoPartidaDTO();
         resultado.setTotalAcertos(this.partidaRepository.countAcertosPartida(partida.getId(), usuario.getId()));

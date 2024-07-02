@@ -12,3 +12,5 @@
 - filtro com paginação, subject, debounceTime
 - jpa native query
 - cascadeType JPA explicação
+- animation ngIf
+- cronometro js

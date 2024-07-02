@@ -1,8 +1,10 @@
 <div class="area-content">
-    @if(partida){
+    @if(resultado){
         <div class="voltar">
             <a class="btn-voltar" routerLink="/usuario/minhas-partidas">Voltar</a>
         </div>
+
+        <h1 class="acertos">Total de acertos: {{resultado.totalAcertos}}</h1>
     
         <div class="wrapper-questao">
             @for(resultado of resultado.partida.partidaQuestoes; track resultado.questao.id){
