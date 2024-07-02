@@ -113,8 +113,8 @@ public class PartidaService {
         return PartidaDTO.convert(partida, false);
     }
 
-    @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class})
-    public ResultadoPartidaDTO encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
+    @Transactional(rollbackFor = {Exception.class, DataNotFoundException.class, BadRequestException.class})
+    public void encerrarPartida(EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
         Usuario usuario = this.userFromJwt.load(request);
         Partida partida = this.partidaRepository.findPartida(encerramentoPartida.idPartida(), usuario.getId()).orElseThrow(() -> new DataNotFoundException("partida não encontrada"));
         
@@ -123,8 +123,9 @@ public class PartidaService {
         }
 
         verificaPartidaExpirada(partida);
+        verificaQuestoesEnviadas(encerramentoPartida);
 
-        Map<Long, Long> map = encerramentoPartida.respostas().stream().collect(Collectors.toMap(RespostasPartida::idQuestao, RespostasPartida::idResposta));
+        Map<Long, Long> map = encerramentoPartida.respostas().stream().filter(e -> e.idResposta() != null).collect(Collectors.toMap(RespostasPartida::idQuestao, RespostasPartida::idResposta));
 
         for(PartidaRespostas p : partida.getPartidaRespostas()){
             Long idRespostaRecebida = map.get(p.getQuestao().getId());
@@ -140,11 +141,7 @@ public class PartidaService {
         };
 
         partida.setEncerrado(true);
-        partida = partidaRepository.save(partida);
-        ResultadoPartidaDTO resultado = new ResultadoPartidaDTO();
-        resultado.setTotalAcertos(this.partidaRepository.countAcertosPartida(partida.getId(), usuario.getId()));
-        resultado.setPartidaDTO(PartidaDTO.convert(partida, false));
-        return resultado;
+        partidaRepository.save(partida);
     }
 
     public Collection<RankingDTO> getRanking(Long idCategoria){
@@ -160,6 +157,13 @@ public class PartidaService {
         Duration duration = Duration.between(partida.getHoraInicio(), LocalDateTime.now());
         if((duration.getSeconds() / 60) > 21){
             throw new BadRequestException("Partida expirada, passou de 20 minutos");
+        }
+    }
+
+    private static void verificaQuestoesEnviadas(EncerramentoPartida e) throws BadRequestException{
+        boolean existeQuestaoNull = e.respostas().stream().anyMatch(r -> r.idQuestao() == null);
+        if(existeQuestaoNull){
+            throw new BadRequestException("dados inválidos");
         }
     }
 }

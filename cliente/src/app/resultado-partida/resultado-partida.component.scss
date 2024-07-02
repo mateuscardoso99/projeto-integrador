@@ -2,3 +2,32 @@
     font-size: 3rem;
     color: #cc0000;
 }
+
+.titulo{
+    background-color: #d9d9d9 !important;
+}
+
+.bg-resposta-enviada{
+    background-color: #b14343;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.bg-resposta-certa{
+    background-color: #64a105;
+    padding: 20px;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 65px;
+}
+
+.nao-respondida{
+    font-size: 1.3rem !important;
+}

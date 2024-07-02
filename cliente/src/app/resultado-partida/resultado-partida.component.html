@@ -4,19 +4,28 @@
             <a class="btn-voltar" routerLink="/usuario/minhas-partidas">Voltar</a>
         </div>
 
-        <h1 class="acertos">Total de acertos: {{resultado.totalAcertos}}</h1>
+        <h1 class="acertos">Total de acertos: {{resultado.totalAcertos}} / {{resultado.partida.partidaQuestoes.length}}</h1>
     
         <div class="wrapper-questao">
             @for(resultado of resultado.partida.partidaQuestoes; track resultado.questao.id){
                 <div class="questao">
                     <div class="titulo">
+                        @if(resultado.respostaEnviada === null){
+                            <p class="nao-respondida">Não enviada</p>
+                        }
                         <h3>{{resultado.questao.descricao}}</h3>
                     </div>
                     <div class="respostas">
                         @for(resposta of resultado.questao.respostas; track resposta.id){
-                            <div class="descricao">
+                            <div class="descricao" [ngClass]="{'bg-resposta-enviada': resposta.id === resultado.respostaEnviada?.id , 'bg-resposta-certa': resposta.certa === true}">
                                 <p>{{resposta.descricao}}</p>
                             </div>
+                        }
+                        @if(resultado.respostaEnviada?.certa === true){
+                            <img class="icon" src="../../assets/success.png" alt="">
+                        }
+                        @else{
+                            <img class="icon" src="../../assets/error.png" alt="">
                         }
                     </div>
                 </div>

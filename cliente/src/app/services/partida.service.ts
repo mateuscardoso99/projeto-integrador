@@ -72,7 +72,7 @@ export class PartidaService extends BaseService{
   encerrarPartida(request: EncerrarPartida): Promise<any>{
     return new Promise((resolve, reject) => {
       this.http.post(this.PATH + 'encerrar', request).subscribe({
-        next: response => resolve(new ResultadoPartida(response)),
+        next: response => resolve(response),
         error: err => reject(err)
       });
     });
@@ -130,10 +130,12 @@ export class Partida{
 export class PartidaResposta{
   id: number;
   questao: Questao;
+  respostaEnviada: Resposta | null;
 
   constructor(obj: any){
     this.id = obj.id;
     this.questao = new Questao(obj.questao);
+    this.respostaEnviada = obj.respostaEnviada != null ? new Resposta(obj.respostaEnviada) : null;
   }
 }
 

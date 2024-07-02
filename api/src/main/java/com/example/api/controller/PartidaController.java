@@ -80,9 +80,9 @@ public class PartidaController {
     }
     
     @PostMapping("/encerrar")
-    public ResponseEntity<ResultadoPartidaDTO> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
-        ResultadoPartidaDTO partidaDTO = this.partidaService.encerrarPartida(encerramentoPartida, request);
-        return ResponseEntity.ok(partidaDTO);
+    public ResponseEntity<?> encerrarPartida(@RequestBody @Valid EncerramentoPartida encerramentoPartida, HttpServletRequest request) throws Exception{
+        this.partidaService.encerrarPartida(encerramentoPartida, request);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     //busca uma partida que já foi encerrada

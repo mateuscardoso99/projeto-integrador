@@ -107,9 +107,8 @@ export class JogarComponent implements OnInit{
       this.dadosEnviar.idPartida = this.partida.id;
       console.log('dadosEnviar',this.dadosEnviar);
 
-      this.partidaService.encerrarPartida(this.dadosEnviar).then(resp => {
-        console.log(resp);
-        
+      this.partidaService.encerrarPartida(this.dadosEnviar).then(() => {
+        this.router.navigate(['/usuario/resultado-partida/', this.partida?.id]);
       }).catch(error => {
         Swal.fire({
           title: 'Erro',
