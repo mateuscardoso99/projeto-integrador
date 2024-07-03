@@ -8,10 +8,10 @@
     
         <div class="wrapper-questao">
             @for(resultado of resultado.partida.partidaQuestoes; track resultado.questao.id){
-                <div class="questao">
+                <div class="questao" [ngClass]="{'disabled': resultado.respostaEnviada === null}">
                     <div class="titulo">
                         @if(resultado.respostaEnviada === null){
-                            <p class="nao-respondida">Não enviada</p>
+                            <p class="nao-respondida">Não respondida</p>
                         }
                         <h3>{{resultado.questao.descricao}}</h3>
                     </div>

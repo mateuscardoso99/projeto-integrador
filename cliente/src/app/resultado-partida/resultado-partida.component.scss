@@ -8,15 +8,15 @@
 }
 
 .bg-resposta-enviada{
-    background-color: #b14343;
+    background-color: #ffa5a5;
     color: #fff;
     padding: 5px;
     border-radius: 10px;
 }
 
 .bg-resposta-certa{
-    background-color: #64a105;
-    padding: 20px;
+    background-color: #68a558;
+    padding: 15px;
     color: #fff;
     border-radius: 10px;
 }
@@ -24,10 +24,23 @@
 .icon{
     position: absolute;
     right: 0;
-    top: 0;
-    width: 65px;
+    top: -20px;
+    width: 100px;
 }
 
 .nao-respondida{
-    font-size: 1.3rem !important;
+    font-size: 4.3rem !important;
+    position: absolute;
+    z-index: 9999;
+    top: 25%;
+    color: red;
+    font-weight: bold;
+
+    @media screen and (min-width: 1024px) {
+        font-size: 9rem !important;
+    }
+}
+
+.disabled{
+    opacity: 0.3;
 }

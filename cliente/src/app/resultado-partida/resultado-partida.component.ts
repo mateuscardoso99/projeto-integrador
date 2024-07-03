@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Partida, PartidaService, ResultadoPartida } from '../services/partida.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-resultado-partida',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './resultado-partida.component.html',
   styleUrl: './resultado-partida.component.scss'
 })
