@@ -7,10 +7,9 @@
 
 <div class="list-data">
     @for(r of ranking; track r.partida) {
-        <div class="row-data">
-            <div class="descr">
-                <p>{{r.usuario}}, ACERTOS: {{r.acertos}}</p>
-            </div>
+        <div class="row-ranking">
+            <span>{{r.usuario}}</span>
+            <span>ACERTOS: {{r.acertos}}</span>
         </div>
     }
 

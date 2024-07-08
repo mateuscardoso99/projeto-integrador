@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+
 /* You can add global styles to this file, and also import other style files */
 *{
     margin: 0;
@@ -11,7 +14,7 @@ html{
 body{
     width: 100%;
     height: 100vh;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Ubuntu, Geneva, Tahoma, sans-serif;
 }
 
 .container{
@@ -206,9 +209,10 @@ input[type=radio]{
 
     .questao{
         position: relative;
-        border: 2px solid #060606;
         margin-bottom: 20px;
         border-radius: 10px;
+        box-shadow: 4px 5px 8px 5px #d1d1d1;
+        margin-top: 25px;
         
         .titulo{
             padding: 20px;

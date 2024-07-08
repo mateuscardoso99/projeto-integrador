@@ -32,7 +32,7 @@ import jakarta.persistence.Table;
  */
 
 @NamedNativeQuery(name = "Partida.rankingAcertosByCategoriaPorUsuario",
-                  query = "select p.id as partida, c.nome as categoria, sum(case when r.certa = true then 1 ELSE 0 end) as acertos , u.nome as usuario from partida p join usuario u on u.id = p.usuario_id join categoria c on c.id = p.categoria_id join partida_respostas pr on pr.partida_id = p.id join resposta r on r.id = pr.resposta_id where c.id = :categoria_id group by p.id, c.nome, u.nome order by acertos desc limit 20",
+                  query = "select p.id as partida, c.nome as categoria, sum(case when r.certa = true then 1 ELSE 0 end) as acertos , u.nome as usuario from partida p join usuario u on u.id = p.usuario_id join categoria c on c.id = p.categoria_id left join partida_respostas pr on pr.partida_id = p.id left join resposta r on r.id = pr.resposta_id where c.id = :categoria_id group by p.id, c.nome, u.nome order by acertos desc limit 20",
                   resultSetMapping = "Mapping.RankingDTO")
 @SqlResultSetMapping(name = "Mapping.RankingDTO",
                      classes = @ConstructorResult(targetClass = RankingDTO.class,

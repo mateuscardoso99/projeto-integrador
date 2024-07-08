@@ -27,4 +27,10 @@ public interface PartidaRepository extends JpaRepository<Partida, Long>{
 
     @Query(nativeQuery = true)
     Collection<RankingDTO> rankingAcertosByCategoriaPorUsuario(@Param("categoria_id") Long idCategoria);
+
+    @Query(
+        value = "select * from partida where extract(epoch from now() - partida.hora_inicio) / 60 > 22 and partida.encerrado = false",
+        nativeQuery = true
+    )
+    Collection<Partida> findPartidasExpiradas();
 }

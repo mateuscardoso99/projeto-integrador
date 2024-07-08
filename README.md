@@ -14,3 +14,4 @@
 - cascadeType JPA explicação
 - animation ngIf
 - cronometro js
+- schedule tasks spring

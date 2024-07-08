@@ -6,9 +6,15 @@
             </div>
             <div class="options">
                 @if(p.encerrado){
-                    <button class="btn-delete" [routerLink]="['/usuario/resultado-partida', p.id]" >Ver resultados</button>
+                    <button class="btn-delete" [routerLink]="['/usuario/resultado-partida', p.id]">
+                        Resultados
+                        <i class="fa fa-eye"></i>
+                    </button>
                 }@else{
-                    <button class="btn-edit" [routerLink]="['/usuario/partida', p.id]" >Jogar</button>
+                    <button class="btn-edit" [routerLink]="['/usuario/partida', p.id]" >
+                        Jogar
+                        <i class="fa fa-gamepad"></i>
+                    </button>
                 }
             </div>
         </div>
