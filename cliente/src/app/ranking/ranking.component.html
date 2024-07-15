@@ -7,9 +7,9 @@
 
 <div class="list-data">
     @for(r of ranking; track r.partida) {
-        <div class="row-ranking">
-            <span>{{r.usuario}}</span>
-            <span>ACERTOS: {{r.acertos}}</span>
+        <div class="row-ranking" [ngClass]="{'user': r.idusuario === usuario?.id}">
+            <span>{{r.nomeusuario}} @if(r.idusuario === usuario?.id) { (Você) }</span>
+            <span>ACERTOS: {{r.acertos}} / 10</span>
         </div>
     }
 

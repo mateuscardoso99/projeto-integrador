@@ -91,12 +91,14 @@ export class Ranking{
   partida: string;
   categoria: string;
   acertos: number;
-  usuario: string;
+  idusuario: number;
+  nomeusuario: string;
   constructor(obj: any){
     this.partida = obj.partida;
     this.categoria = obj.categoria;
     this.acertos = obj.acertos;
-    this.usuario = obj.usuario;
+    this.idusuario = obj.idusuario;
+    this.nomeusuario = obj.nomeusuario;
   }
 }
 

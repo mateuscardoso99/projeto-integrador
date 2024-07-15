@@ -35,6 +35,9 @@ public class UsuarioService {
         this.usuarioRepository.findByEmail(cadastroUsuario.email()).ifPresent(u -> {
             throw new ErrorRuntimeException("email inválido");
         });
+        this.usuarioRepository.findByNome(cadastroUsuario.nome()).ifPresent(u -> {
+            throw new ErrorRuntimeException("nome de usuário já usado");
+        });
         Usuario u = new Usuario();
         u.setNome(cadastroUsuario.nome());
         u.setEmail(cadastroUsuario.email());

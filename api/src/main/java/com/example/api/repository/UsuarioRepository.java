@@ -12,4 +12,5 @@ import com.example.api.models.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     @Query("SELECT u FROM Usuario u WHERE u.email = ?1 AND u.ativo = true")
     Optional<Usuario> findByEmail(String email);
+    Optional<Usuario> findByNome(String nome);
 }

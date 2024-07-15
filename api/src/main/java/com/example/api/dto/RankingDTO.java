@@ -6,7 +6,8 @@ public class RankingDTO implements Serializable{
     private Long partida;
     private String categoria;
     private Long acertos;
-    private String usuario;
+    private Long idusuario;
+    private String nomeusuario;
 
     public Long getPartida() {
         return partida;
@@ -26,10 +27,16 @@ public class RankingDTO implements Serializable{
     public void setAcertos(Long acertos) {
         this.acertos = acertos;
     }
-    public String getUsuario() {
-        return usuario;
+    public Long getIdusuario() {
+        return idusuario;
     }
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setIdusuario(Long idusuario) {
+        this.idusuario = idusuario;
+    }
+    public String getNomeusuario() {
+        return nomeusuario;
+    }
+    public void setUsuario(String nomeusuario) {
+        this.nomeusuario = nomeusuario;
     } 
 }
